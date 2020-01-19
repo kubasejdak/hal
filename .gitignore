@@ -1,0 +1,13 @@
+# Object and executable files.
+build/
+bin/
+cmake-build-*/
+
+# Project files.
+CMakeLists.txt.user
+.vscode/
+.idea/
+version.hpp
+
+# macOS files.
+.DS_Store
