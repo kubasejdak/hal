@@ -1,1 +1,1 @@
-add_subdirectory(${PLATFORM})
+add_subdirectory(${HAL_PLATFORM})

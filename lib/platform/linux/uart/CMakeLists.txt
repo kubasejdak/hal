@@ -7,6 +7,6 @@ target_include_directories(uart
 )
 
 target_link_libraries(uart
-    PUBLIC hal_public
+    PUBLIC hal-public
     PRIVATE stdc++fs
 )

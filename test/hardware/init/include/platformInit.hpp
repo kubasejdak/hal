@@ -32,24 +32,4 @@
 
 #pragma once
 
-#include "hal/Device.hpp"
-#include "hal/Error.hpp"
-#include "hal/gpio/types.hpp"
-
-#include <system_error>
-
-namespace hal::gpio {
-
-template <typename WidthType>
-class IPortInput : public Device {
-    static_assert(isValidWidthType<WidthType>, "IPortInput can be parametrized only with unsigned arithmetic types");
-
-public:
-    explicit IPortInput(SharingPolicy sharingPolicy)
-        : Device(sharingPolicy)
-    {}
-
-    virtual std::error_code read(WidthType& value) = 0;
-};
-
-} // namespace hal::gpio
+bool platformInit();

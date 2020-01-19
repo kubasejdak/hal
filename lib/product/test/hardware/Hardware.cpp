@@ -4,7 +4,7 @@
 /// @author Kuba Sejdak
 /// @copyright BSD 2-Clause License
 ///
-/// Copyright (c) 2019, Kuba Sejdak <kuba.sejdak@gmail.com>
+/// Copyright (c) 2019-2020, Kuba Sejdak <kuba.sejdak@gmail.com>
 /// All rights reserved.
 ///
 /// Redistribution and use in source and binary forms, with or without
@@ -30,19 +30,15 @@
 ///
 /////////////////////////////////////////////////////////////////////////////////////
 
-#pragma once
+#include "hal/Hardware.hpp"
 
-#include "hal/ISimpleBoard.hpp"
-#include "raspberrypi3bplus/DeviceId.hpp"
+#include "hardware/Board.hpp"
 
 namespace hal {
 
-class RaspberryPi3BPlus : public ISimpleBoard<device_id::RaspberryPi3BPlusId> {
-public:
-    static RaspberryPi3BPlus& instance();
-
-private:
-    std::error_code initImpl() override;
-};
+void Hardware::createBoards()
+{
+    m_boards.insert({Type::eBase, RaspberryPi3BPlus::instance()});
+}
 
 } // namespace hal

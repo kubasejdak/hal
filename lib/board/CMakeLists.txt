@@ -1,13 +1,13 @@
-add_library(board_public INTERFACE)
-add_library(board_private INTERFACE)
+add_library(board-public INTERFACE)
+add_library(board-private INTERFACE)
 
-foreach (BOARD IN LISTS BOARDS)
+foreach (BOARD IN LISTS HAL_BOARDS)
     add_subdirectory(${BOARD})
 
-    target_link_libraries(board_public
-        INTERFACE ${BOARD}_public
+    target_link_libraries(board-public
+        INTERFACE ${BOARD}-public
     )
-    target_link_libraries(board_private
-        INTERFACE ${BOARD}_private
+    target_link_libraries(board-private
+        INTERFACE ${BOARD}-private
     )
 endforeach ()

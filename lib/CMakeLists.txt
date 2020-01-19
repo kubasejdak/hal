@@ -1,6 +1,7 @@
-if (NOT DEFINED PRODUCT)
-    message(FATAL_ERROR "'PRODUCT' is not defined!")
-endif ()
+cmake_minimum_required(VERSION 3.15)
+
+# Project-wide compilation options.
+add_compile_options(-Wall -Wextra -Wpedantic -Werror $<$<COMPILE_LANGUAGE:CXX>:-std=c++17>)
 
 add_library(hal EXCLUDE_FROM_ALL
     Hardware.cpp
@@ -16,15 +17,15 @@ add_subdirectory(public)
 
 target_link_libraries(hal
     INTERFACE product
-    PUBLIC hal_public
-    PRIVATE hal_private
+    PUBLIC hal-public
+    PRIVATE hal-private
 )
 
 # Print HAL configuration.
-utils_log("-------------------------------------------")
-utils_log("HAL configuration:")
-utils_log("  product  : ${PRODUCT}")
-utils_log("  platform : ${PLATFORM}")
-string(REPLACE ";" " " BOARDS_STR "${BOARDS}")
-utils_log("  boards   : ${BOARDS_STR}")
-utils_log("-------------------------------------------")
+message(STATUS "-------------------------------------------")
+message(STATUS "HAL configuration:")
+message(STATUS "  product  : ${HAL_PRODUCT}")
+message(STATUS "  platform : ${HAL_PLATFORM}")
+string(REPLACE ";" " " BOARDS_STR "${HAL_BOARDS}")
+message(STATUS "  boards   : ${BOARDS_STR}")
+message(STATUS "-------------------------------------------")

@@ -4,7 +4,7 @@
 /// @author Kuba Sejdak
 /// @copyright BSD 2-Clause License
 ///
-/// Copyright (c) 2019, Kuba Sejdak <kuba.sejdak@gmail.com>
+/// Copyright (c) 2019-2020, Kuba Sejdak <kuba.sejdak@gmail.com>
 /// All rights reserved.
 ///
 /// Redistribution and use in source and binary forms, with or without
@@ -30,6 +30,9 @@
 ///
 /////////////////////////////////////////////////////////////////////////////////////
 
-#pragma once
+#include "platformInit.hpp"
 
-#include "raspberrypi3bplus/DeviceId.hpp"
+bool platformInit()
+{
+    return true;
+}

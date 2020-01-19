@@ -4,7 +4,7 @@
 /// @author Kuba Sejdak
 /// @copyright BSD 2-Clause License
 ///
-/// Copyright (c) 2019, Kuba Sejdak <kuba.sejdak@gmail.com>
+/// Copyright (c) 2019-2020, Kuba Sejdak <kuba.sejdak@gmail.com>
 /// All rights reserved.
 ///
 /// Redistribution and use in source and binary forms, with or without
@@ -57,7 +57,7 @@ enum class Baudrate {
 };
 
 /// @enum Mode
-/// Represents possible UART configurations in traditional form (<data bits><partiry><stop bits>).
+/// Represents possible UART configurations in traditional form (<data bits><parity><stop bits>).
 enum class Mode { e8n1 };
 
 /// @enum FlowControl
@@ -116,7 +116,7 @@ public:
     /// @return Error code of the operation.
     std::error_code setBaudrate(Baudrate baudrate);
 
-    /// Sets the mode (data bits, partity, stop bits) to be used in the UART transmission.
+    /// Sets the mode (data bits, parity, stop bits) to be used in the UART transmission.
     /// @param mode                 Mode to be used.
     /// @return Error code of the operation.
     std::error_code setMode(Mode mode);
@@ -137,7 +137,7 @@ public:
     /// @param bytes                Memory block of raw bytes to be transmitted.
     /// @param size                 Size of the memory block to be transmitted.
     /// @return Error code of the operation.
-    /// @note This method will block until all data has been transfered to the driver.
+    /// @note This method will block until all data has been transferred to the driver.
     ///       It is up to the driver to decide if the data will be buffered (queued) or transmitted immediately.
     std::error_code write(const std::uint8_t* bytes, std::size_t size);
 
@@ -176,7 +176,7 @@ private:
     /// @return Error code of the operation.
     virtual std::error_code drvSetBaudrate(Baudrate baudrate) = 0;
 
-    /// Device specific implementation of setting the transmission mode (data bits, partity, stop bits).
+    /// Device specific implementation of setting the transmission mode (data bits, parity, stop bits).
     /// @param mode                 Mode to be used.
     /// @return Error code of the operation.
     virtual std::error_code drvSetMode(Mode mode) = 0;
@@ -199,8 +199,7 @@ private:
     /// @param actualReadSize       Actual number of received bytes.
     /// @return Error code of the operation.
     virtual std::error_code
-    drvRead(std::uint8_t* bytes, std::size_t size, std::uint32_t timeoutMs, std::size_t& actualReadSize)
-        = 0;
+    drvRead(std::uint8_t* bytes, std::size_t size, std::uint32_t timeoutMs, std::size_t& actualReadSize) = 0;
 
 private:
     bool m_opened{};

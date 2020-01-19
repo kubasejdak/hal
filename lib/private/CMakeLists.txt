@@ -1,9 +1,11 @@
-add_library(hal_private INTERFACE)
+add_library(hal-private INTERFACE)
 
-target_include_directories(hal_private
-    INTERFACE include/
+target_include_directories(hal-private
+    INTERFACE include
 )
 
-target_link_libraries(hal_private
-    INTERFACE hal_public Boost::boost
+find_package(Boost REQUIRED)
+
+target_link_libraries(hal-private
+    INTERFACE hal-public Boost::Boost
 )

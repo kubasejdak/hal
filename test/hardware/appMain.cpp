@@ -4,7 +4,7 @@
 /// @author Kuba Sejdak
 /// @copyright BSD 2-Clause License
 ///
-/// Copyright (c) 2019, Kuba Sejdak <kuba.sejdak@gmail.com>
+/// Copyright (c) 2019-2020, Kuba Sejdak <kuba.sejdak@gmail.com>
 /// All rights reserved.
 ///
 /// Redistribution and use in source and binary forms, with or without
@@ -30,25 +30,30 @@
 ///
 /////////////////////////////////////////////////////////////////////////////////////
 
-#include "SysFsGpio.hpp"
-#include "hal/Error.hpp"
-#include "hal/gpio/PinOutput.hpp"
-#include "raspberrypi3bplus/Board.hpp"
+#define CATCH_CONFIG_RUNNER
+#define CATCH_CONFIG_DEFAULT_REPORTER "junit" // NOLINT
 
-#include <cstdint>
-#include <memory>
+#include "platformInit.hpp"
 
-namespace hal {
+#include <catch2/catch.hpp>
 
-std::error_code RaspberryPi3BPlus::initImpl()
+#include <cstdlib>
+
+// NOLINTNEXTLINE
+int appMain(int argc, char* argv[])
 {
-    // clang-format off
-    auto gpio0 = std::make_shared<gpio::SysFsGpio<std::uint64_t>>("gpiochip0");
+    if (!platformInit())
+        return EXIT_FAILURE;
 
-    m_devices[device_id::eRaspberryPi3BPlusLed] = std::make_shared<gpio::PinOutput<std::uint64_t, gpio::Access::eReadWrite>>(gpio0, gpio::Pin::eBit21);
-    // clang-format on
+#ifdef TEST_TAGS
+    (void) argc;
 
-    return Error::eOk;
+    std::array<char*, 2> argvTags{};
+    argvTags[0] = argv[0];
+    argvTags[1] = const_cast<char*>(TEST_TAGS);
+
+    return Catch::Session().run(argvTags.size(), argvTags.data());
+#else
+    return Catch::Session().run(argc, argv);
+#endif
 }
-
-} // namespace hal

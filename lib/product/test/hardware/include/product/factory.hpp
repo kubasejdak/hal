@@ -4,7 +4,7 @@
 /// @author Kuba Sejdak
 /// @copyright BSD 2-Clause License
 ///
-/// Copyright (c) 2019, Kuba Sejdak <kuba.sejdak@gmail.com>
+/// Copyright (c) 2019-2020, Kuba Sejdak <kuba.sejdak@gmail.com>
 /// All rights reserved.
 ///
 /// Redistribution and use in source and binary forms, with or without
@@ -30,22 +30,6 @@
 ///
 /////////////////////////////////////////////////////////////////////////////////////
 
-#include "raspberrypi3bplus/Board.hpp"
+#pragma once
 
-namespace hal {
-namespace detail {
-
-std::shared_ptr<Device> GetDeviceImpl(device_id::RaspberryPi3BPlusId id)
-{
-    return RaspberryPi3BPlus::instance().getDevice(id);
-}
-
-} // namespace detail
-
-RaspberryPi3BPlus& RaspberryPi3BPlus::instance()
-{
-    static RaspberryPi3BPlus object;
-    return object;
-}
-
-} // namespace hal
+#include "hardware/DeviceId.hpp"

@@ -5,5 +5,5 @@ target_include_directories(gpio
 )
 
 target_link_libraries(gpio
-    INTERFACE hal_public hal_private stdc++fs
+    INTERFACE hal-public hal-private stdc++fs
 )
