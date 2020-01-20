@@ -76,7 +76,7 @@ private:
         return m_devices[deviceId];
     }
 
-    std::error_code returnDeviceImpl(std::shared_ptr<Device>& /*device*/) override { return Error::eOk; }
+    std::error_code returnDeviceImpl(std::shared_ptr<Device>& /*unused*/) override { return Error::eOk; }
 
     virtual std::error_code initImpl() = 0;
 

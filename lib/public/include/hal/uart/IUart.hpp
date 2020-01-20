@@ -43,22 +43,22 @@ namespace hal::uart {
 /// @enum BaudRate
 /// Represents the baud rate (speed) used in the UART transmission.
 enum class Baudrate {
-    e1200 = 1200,
-    e2400 = 2400,
-    e4800 = 4800,
-    e9600 = 9600,
-    e19200 = 19200,
-    e38400 = 38400,
-    e57600 = 57600,
-    e115200 = 115200,
-    e230400 = 230400,
-    e460800 = 460800,
-    e921600 = 921600
+    e1200 = 1200,     // NOLINT
+    e2400 = 2400,     // NOLINT
+    e4800 = 4800,     // NOLINT
+    e9600 = 9600,     // NOLINT
+    e19200 = 19200,   // NOLINT
+    e38400 = 38400,   // NOLINT
+    e57600 = 57600,   // NOLINT
+    e115200 = 115200, // NOLINT
+    e230400 = 230400, // NOLINT
+    e460800 = 460800, // NOLINT
+    e921600 = 921600  // NOLINT
 };
 
 /// @enum Mode
 /// Represents possible UART configurations in traditional form (<data bits><parity><stop bits>).
-enum class Mode { e8n1 };
+enum class Mode { e8n1 }; // NOLINT
 
 /// @enum FlowControl
 /// Represents the flow control selected to be used in the UART transmission.
@@ -199,7 +199,8 @@ private:
     /// @param actualReadSize       Actual number of received bytes.
     /// @return Error code of the operation.
     virtual std::error_code
-    drvRead(std::uint8_t* bytes, std::size_t size, std::uint32_t timeoutMs, std::size_t& actualReadSize) = 0;
+    drvRead(std::uint8_t* bytes, std::size_t size, std::uint32_t timeoutMs, std::size_t& actualReadSize)
+        = 0;
 
 private:
     bool m_opened{};

@@ -35,7 +35,7 @@
 namespace hal {
 namespace detail {
 
-std::shared_ptr<Device> GetDeviceImpl(device_id::RaspberryPi3BPlusId id)
+std::shared_ptr<Device> getDeviceImpl(device_id::RaspberryPi3BPlusId id)
 {
     return RaspberryPi3BPlus::instance().getDevice(id);
 }

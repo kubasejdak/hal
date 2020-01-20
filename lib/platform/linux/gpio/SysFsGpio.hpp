@@ -129,7 +129,7 @@ private:
     }
 
     /// @see IGpioPort::drvSetPinMode().
-    std::error_code drvSetPinMode(Pin, unsigned int) override { return Error::eNotSupported; }
+    std::error_code drvSetPinMode(Pin /*unused*/, unsigned int /*unused*/) override { return Error::eNotSupported; }
 
     /// @see IGpioPort::drvSetDirection().
     std::error_code drvSetDirection(WidthType direction, WidthType mask) override
