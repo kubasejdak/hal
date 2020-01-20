@@ -68,7 +68,7 @@ public:
             return;
         }
 
-        m_validPins = (1 << maxPin) - 1;
+        m_validPins = (1U << maxPin) - 1;
     }
 
 private:

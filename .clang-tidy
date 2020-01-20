@@ -4,6 +4,7 @@ Checks:              '*,
                       -fuchsia-default-arguments-declarations,
                       -fuchsia-statically-constructed-objects,
                       -google-runtime-references,
+                      -hicpp-no-array-decay,
                       -llvm-header-guard,
                       -modernize-use-trailing-return-type'
 WarningsAsErrors:    '*'
