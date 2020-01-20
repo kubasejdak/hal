@@ -594,6 +594,8 @@ CheckOptions:
     value:           '1'
   - key:             readability-inconsistent-declaration-parameter-name.Strict
     value:           '0'
+  - key:             readability-magic-numbers.IgnorePowersOf2IntegerValues
+    value:           'true'
   - key:             readability-simplify-boolean-expr.ChainedConditionalAssignment
     value:           '0'
   - key:             readability-simplify-boolean-expr.ChainedConditionalReturn
