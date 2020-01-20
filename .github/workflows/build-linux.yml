@@ -1,0 +1,46 @@
+name: Build Linux
+
+on: [push, pull_request]
+
+jobs:
+  linux-gcc:
+    runs-on: ubuntu-latest
+    container:
+      image: kubasejdak/gcc:${{ matrix.gcc }}
+    strategy:
+      matrix:
+        app: [hardware]
+        gcc: [9]
+        mode: [debug, release]
+
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Build application
+        run: |
+          mkdir build
+          cd build
+
+          ../tools/build/${{ matrix.app }}-linux-gcc-${{ matrix.gcc }}-${{ matrix.mode }}.sh
+          make
+
+  linux-clang:
+    runs-on: ubuntu-latest
+    container:
+      image: kubasejdak/clang:${{ matrix.clang }}
+    strategy:
+      matrix:
+        app: [hardware]
+        clang: [9]
+        mode: [debug, release]
+
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Build application
+        run: |
+          mkdir build
+          cd build
+
+          ../tools/build/${{ matrix.app }}-linux-clang-${{ matrix.clang }}-${{ matrix.mode }}.sh
+          make
