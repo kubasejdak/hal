@@ -2,6 +2,7 @@
 Checks:              '*,
                       -fuchsia-default-arguments-calls,
                       -fuchsia-default-arguments-declarations,
+                      -google-runtime-references,
                       -llvm-header-guard,
                       -modernize-use-trailing-return-type'
 WarningsAsErrors:    '*'

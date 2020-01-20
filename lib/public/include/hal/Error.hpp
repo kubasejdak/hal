@@ -53,6 +53,7 @@ enum class Error {
     eFilesystemError
 };
 
+// NOLINTNEXTLINE(readability-identifier-naming)
 std::error_code make_error_code(Error);
 
 } // namespace hal

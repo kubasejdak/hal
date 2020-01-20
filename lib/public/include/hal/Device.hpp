@@ -47,9 +47,14 @@ class Device {
 
 public:
     explicit Device(SharingPolicy sharingPolicy);
-    [[nodiscard]] std::size_t ownersCount() const { return m_ownersCount; }
-
+    Device(const Device&) = delete;
+    Device(Device&&) noexcept = default;
     virtual ~Device() = default;
+
+    Device& operator=(const Device&) = delete;
+    Device& operator=(Device&&) = delete;
+
+    [[nodiscard]] std::size_t ownersCount() const { return m_ownersCount; }
 
 private:
     std::error_code take();

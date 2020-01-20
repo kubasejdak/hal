@@ -76,11 +76,12 @@ private:
         return m_devices[deviceId];
     }
 
-    std::error_code returnDeviceImpl(std::shared_ptr<Device>&) override { return Error::eOk; }
+    std::error_code returnDeviceImpl(std::shared_ptr<Device>& /*device*/) override { return Error::eOk; }
 
     virtual std::error_code initImpl() = 0;
 
 protected:
+    // NOLINTNEXTLINE(cppcoreguidelines-non-private-member-variables-in-classes,misc-non-private-member-variables-in-classes)
     std::map<IdType, std::shared_ptr<Device>> m_devices;
 };
 
