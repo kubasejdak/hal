@@ -50,7 +50,7 @@ private:
         if (auto error = initImpl())
             return error;
 
-        for (const auto& [id, device] : m_devices)
+        for (auto& [id, device] : m_devices)
             setBoard(device);
 
         return Error::eOk;
