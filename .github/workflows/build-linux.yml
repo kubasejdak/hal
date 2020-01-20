@@ -9,9 +9,9 @@ jobs:
       image: kubasejdak/gcc:${{ matrix.gcc }}
     strategy:
       matrix:
+        app: [hardware]
         gcc: [9]
         mode: [debug, release]
-        app: [hardware]
 
     steps:
       - uses: actions/checkout@v1
@@ -30,6 +30,7 @@ jobs:
       image: kubasejdak/clang:${{ matrix.clang }}
     strategy:
       matrix:
+        app: [hardware]
         clang: [9]
         mode: [debug, release]
 
