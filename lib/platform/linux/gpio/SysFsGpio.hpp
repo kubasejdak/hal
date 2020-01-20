@@ -132,7 +132,7 @@ private:
     std::error_code drvSetPinMode(Pin, unsigned int) override { return Error::eNotSupported; }
 
     /// @see IGpioPort::drvSetDirection().
-    std::error_code drvSetDirection(WidthType direction, WidthType mask)
+    std::error_code drvSetDirection(WidthType direction, WidthType mask) override
     {
         PinMask<WidthType> directionMask = direction;
         PinMask<WidthType> affectedMask = mask;

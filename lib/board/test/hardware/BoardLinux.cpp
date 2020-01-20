@@ -33,7 +33,7 @@
 #include "SysFsGpio.hpp"
 #include "hal/Error.hpp"
 #include "hal/gpio/PinOutput.hpp"
-#include "raspberrypi3bplus/Board.hpp"
+#include "hardware/Board.hpp"
 
 #include <cstdint>
 #include <memory>
