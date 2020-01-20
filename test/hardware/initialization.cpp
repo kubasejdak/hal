@@ -30,13 +30,15 @@
 ///
 /////////////////////////////////////////////////////////////////////////////////////
 
-#include <hal/factory.hpp>
 #include <hal/Hardware.hpp>
+#include <hal/factory.hpp>
 
 #include <catch2/catch.hpp>
 
 TEST_CASE("Init", "[unit][hardware]")
 {
     hal::Hardware::init();
+    hal::Hardware::attach();
+    hal::Hardware::detach();
     REQUIRE(true);
 }

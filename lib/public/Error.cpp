@@ -66,11 +66,12 @@ std::string ErrorCategory::message(int value) const
     }
 }
 
-const ErrorCategory errorCategory{};
+static const ErrorCategory cErrorCategory{};
 
+// NOLINTNEXTLINE(readability-identifier-naming)
 std::error_code make_error_code(Error error)
 {
-    return {static_cast<int>(error), errorCategory};
+    return {static_cast<int>(error), cErrorCategory};
 }
 
 } // namespace hal
