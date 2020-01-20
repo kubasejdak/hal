@@ -49,30 +49,30 @@ namespace detail {
 
 /// @typedef IsReadOnly
 /// @tparam access          Demanded GPIO access type.
-/// Metafunction that checks, if the demanded type is Access::eReadOnly.
+/// Meta-function that checks, if the demanded type is Access::eReadOnly.
 template <Access access>
 using IsReadOnly = std::is_same<std::integral_constant<Access, access>, std::integral_constant<Access, Access::eReadOnly>>;
 
 /// @typedef IsReadOnly
 /// @tparam access          Demanded GPIO access type.
-/// Metafunction that checks, if the demanded type is Access::eWriteOnly.
+/// Meta-function that checks, if the demanded type is Access::eWriteOnly.
 template <Access access>
 using IsWriteOnly = std::is_same<std::integral_constant<Access, access>, std::integral_constant<Access, Access::eWriteOnly>>;
 
 /// @typedef IsReadOnly
 /// @tparam access          Demanded GPIO access type.
-/// Metafunction that checks, if the demanded type is Access::eReadWrite.
+/// Meta-function that checks, if the demanded type is Access::eReadWrite.
 template <Access access>
 using IsReadWrite = std::is_same<std::integral_constant<Access, access>, std::integral_constant<Access, Access::eReadWrite>>;
 
 /// @typedef IfReadable
-/// Metafunction used to conditionally add/remove "read" capability to the GPIO class via SFIANE expression.
+/// Meta-function used to conditionally add/remove "read" capability to the GPIO class via SFINAE expression.
 /// @tparam access          Demanded GPIO access type.
 template<Access access>
 using IfReadable = std::enable_if_t<std::disjunction<IsReadOnly<access>, IsReadWrite<access>>::value, int>;
 
 /// @typedef IfWriteable
-/// Metafunction used to conditionally add/remove "write" capability to the GPIO class via SFIANE expression.
+/// Meta-function used to conditionally add/remove "write" capability to the GPIO class via SFINAE expression.
 /// @tparam AccessType      Demanded GPIO class access type.
 template<Access access>
 using IfWriteable = std::enable_if_t<std::disjunction<IsWriteOnly<access>, IsReadWrite<access>>::value, int>;
@@ -89,8 +89,25 @@ class IGpioPort {
     static_assert(isValidWidthType<WidthType>, "IGpioPort can be parametrized only with unsigned arithmetic types");
 
 public:
+    /// Default constructor.
+    IGpioPort() = default;
+
+    /// Copy constructor.
+    /// @note This constructor is deleted, because IGpioPort is not meant for copying.
+    IGpioPort(const IGpioPort&) = delete;
+
+    /// Move constructor.
+    IGpioPort(IGpioPort&&) noexcept = default;
+
     /// Virtual destructor.
     virtual ~IGpioPort() = default;
+
+    /// Copy assignment operator.
+    /// @note This operator is deleted, because IGpioPort is not meant for copying.
+    IGpioPort& operator=(const IGpioPort&) = delete;
+
+    /// Move assignment operator.
+    IGpioPort& operator=(IGpioPort&&) noexcept = default;
 
     /// Initializes the given pin.
     /// @param pin          Pin to be initialized.
@@ -140,11 +157,11 @@ public:
 private:
     /// Driver specific implementation of GPIO pin initialization.
     /// @return Error code of the operation.
-    virtual std::error_code drvInitPin(Pin) { return Error::eOk; }
+    virtual std::error_code drvInitPin(Pin /*unused*/) { return Error::eOk; }
 
     /// Driver specific implementation of GPIO pin deinitialization.
     /// @return Error code of the operation.
-    virtual std::error_code drvDeinitPin(Pin) { return Error::eOk; }
+    virtual std::error_code drvDeinitPin(Pin /*unused*/) { return Error::eOk; }
 
     /// Driver specific implementation of setting the GPIO pin mode.
     /// @return Error code of the operation.
@@ -156,11 +173,11 @@ private:
 
     /// Driver specific implementation of GPIO port reading.
     /// @return Error code of the operation.
-    virtual std::error_code drvRead(WidthType&, WidthType) { return Error::eNotSupported; }
+    virtual std::error_code drvRead(WidthType& /*unused*/, WidthType /*unused*/) { return Error::eNotSupported; }
 
     /// Driver specific implementation of GPIO port writing.
     /// @return Error code of the operation.
-    virtual std::error_code drvWrite(WidthType, WidthType) { return Error::eNotSupported; }
+    virtual std::error_code drvWrite(WidthType /*unused*/, WidthType /*unused*/) { return Error::eNotSupported; }
 };
 
 } // namespace hal::gpio
