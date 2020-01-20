@@ -123,7 +123,7 @@ constexpr Pin maxPin()
         case 1: return Pin::eBit7;
         case 2: return Pin::eBit15;
         case 4: return Pin::eBit31;
-        case 8: return Pin::eBit63;
+        case 8: return Pin::eBit63; // NOLINT
         default: assert(false);
     }
 }
