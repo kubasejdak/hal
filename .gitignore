@@ -1,5 +1,4 @@
 # Object and executable files.
-build/
 bin/
 cmake-build-*/
 
