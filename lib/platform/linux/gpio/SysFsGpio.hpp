@@ -62,7 +62,7 @@ public:
             return;
         }
 
-        int maxPin{};
+        unsigned int maxPin{};
         if (maxHandledPin(chipInstance, maxPin)) {
             assert(false);
             return;
@@ -221,7 +221,7 @@ private:
     /// @param chipInstance         GPIO chip instance name.
     /// @param maxPin               Output argument where the value will be stored.
     /// @return Error code of the operation.
-    std::error_code maxHandledPin(const std::string& chipInstance, int& maxPin)
+    std::error_code maxHandledPin(const std::string& chipInstance, unsigned int& maxPin)
     {
         auto ngpioPath = detail::cSysFsGpioPath / chipInstance / "ngpio";
         if (!std::filesystem::exists(ngpioPath))

@@ -45,8 +45,8 @@ namespace hal::gpio {
 template <typename WidthType, typename WidthTypeUnderlying, Access access>
 class PortOutput : public IPortOutput<WidthType> {
     // clang-format off
-    static_assert(isValidWidthType<WidthType>, "PortOutput can be parametrized only with unsigned arithmetic types");
-    static_assert(isValidWidthType<WidthTypeUnderlying>, "PortOutput can be parametrized only with unsigned arithmetic types");
+    static_assert(cIsValidWidthType<WidthType>, "PortOutput can be parametrized only with unsigned arithmetic types");
+    static_assert(cIsValidWidthType<WidthTypeUnderlying>, "PortOutput can be parametrized only with unsigned arithmetic types");
     static_assert(std::negation<detail::IsReadOnly<access>>::value, "Cannot use PortOutput with eReadOnly port");
     // clang-format on
 

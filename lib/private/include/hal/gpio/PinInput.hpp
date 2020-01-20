@@ -52,7 +52,7 @@ namespace hal::gpio {
 /// @tparam access              Demanded GPIO access type.
 template <typename WidthType, Access access>
 class PinInput : public IPinInput {
-    static_assert(isValidWidthType<WidthType>, "PinInput can be parametrized only with unsigned arithmetic types");
+    static_assert(cIsValidWidthType<WidthType>, "PinInput can be parametrized only with unsigned arithmetic types");
     static_assert(std::negation<detail::IsWriteOnly<access>>::value, "Cannot use PinInput with eWriteOnly port");
 
 public:

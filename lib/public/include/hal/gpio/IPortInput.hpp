@@ -42,7 +42,7 @@ namespace hal::gpio {
 
 template <typename WidthType>
 class IPortInput : public Device {
-    static_assert(isValidWidthType<WidthType>, "IPortInput can be parametrized only with unsigned arithmetic types");
+    static_assert(cIsValidWidthType<WidthType>, "IPortInput can be parametrized only with unsigned arithmetic types");
 
 public:
     explicit IPortInput(SharingPolicy sharingPolicy)

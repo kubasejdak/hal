@@ -40,6 +40,7 @@
 
 #include <cassert>
 #include <memory>
+#include <utility>
 
 namespace hal::gpio {
 
@@ -50,7 +51,7 @@ namespace hal::gpio {
 /// @tparam access              Demanded register access type.
 template <typename WidthType, Access access>
 class PinOutput : public IPinOutput {
-    static_assert(isValidWidthType<WidthType>, "PinOutput can be parametrized only with unsigned arithmetic types");
+    static_assert(cIsValidWidthType<WidthType>, "PinOutput can be parametrized only with unsigned arithmetic types");
     static_assert(std::negation<detail::IsReadOnly<access>>::value, "Cannot use PinOutput with eReadOnly port");
 
 public:
@@ -64,7 +65,7 @@ public:
               bool negated = false,
               SharingPolicy sharingPolicy = SharingPolicy::eSingle)
         : IPinOutput(sharingPolicy)
-        , m_port(port)
+        , m_port(std::move(port))
         , m_mask((WidthType{1} << static_cast<WidthType>(pin)))
         , m_negated(negated)
     {

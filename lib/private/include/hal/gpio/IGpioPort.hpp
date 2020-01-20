@@ -86,7 +86,7 @@ using IfWriteable = std::enable_if_t<std::disjunction<IsWriteOnly<access>, IsRea
 /// Represents the GPIO port with the defined width and access type.
 template <typename WidthType, Access access>
 class IGpioPort {
-    static_assert(isValidWidthType<WidthType>, "IGpioPort can be parametrized only with unsigned arithmetic types");
+    static_assert(cIsValidWidthType<WidthType>, "IGpioPort can be parametrized only with unsigned arithmetic types");
 
 public:
     /// Default constructor.
