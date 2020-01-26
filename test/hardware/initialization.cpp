@@ -32,6 +32,7 @@
 
 #include <hal/Hardware.hpp>
 #include <hal/factory.hpp>
+#include <hal/gpio/IPinOutput.hpp>
 
 #include <catch2/catch.hpp>
 
@@ -39,6 +40,10 @@ TEST_CASE("Init", "[unit][hardware]")
 {
     hal::Hardware::init();
     hal::Hardware::attach();
+
+    auto pin = hal::getDevice<hal::gpio::IPinOutput>(hal::device_id::eHardwareTestLed);
+    REQUIRE(pin);
+
     hal::Hardware::detach();
     REQUIRE(true);
 }

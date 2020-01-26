@@ -32,8 +32,8 @@
 
 #include "hal/Hardware.hpp"
 
-#include "hal/factory.hpp"
 #include "hal/Board.hpp"
+#include "hal/factory.hpp"
 
 namespace hal {
 
