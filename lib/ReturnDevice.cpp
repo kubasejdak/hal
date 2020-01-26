@@ -36,7 +36,7 @@
 
 namespace hal {
 
-std::error_code returnDevice(std::shared_ptr<Device>& device)
+std::error_code returnDevice(std::shared_ptr<Device>&& device)
 {
     if (!device)
         return Error::eInvalidArgument;

@@ -44,6 +44,8 @@ TEST_CASE("Init", "[unit][hardware]")
     auto pin = hal::getDevice<hal::gpio::IPinOutput>(hal::device_id::eHardwareTestLed);
     REQUIRE(pin);
 
+    hal::returnDevice(pin);
+
     hal::Hardware::detach();
     REQUIRE(true);
 }

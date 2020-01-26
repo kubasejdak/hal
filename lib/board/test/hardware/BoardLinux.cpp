@@ -40,6 +40,14 @@
 #include <memory>
 
 namespace hal {
+namespace detail {
+
+std::shared_ptr<Device> getDeviceImpl(device_id::HardwareTestId id)
+{
+    return Board<device_id::HardwareTestId>::instance().getDevice(id);
+}
+
+} // namespace detail
 
 template <>
 std::error_code Board<device_id::HardwareTestId>::initImpl()

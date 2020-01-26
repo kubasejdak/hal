@@ -68,6 +68,6 @@ private:
     std::size_t m_ownersCount{};
 };
 
-std::error_code returnDevice(std::shared_ptr<Device>& device);
+std::error_code returnDevice(std::shared_ptr<Device>&& device);
 
 } // namespace hal
