@@ -68,6 +68,13 @@ private:
     std::size_t m_ownersCount{};
 };
 
+namespace detail {
+
+template <typename IdType>
+std::shared_ptr<Device> getDeviceImpl(IdType id);
+
+} // namespace detail
+
 std::error_code returnDevice(std::shared_ptr<Device>&& device);
 
 } // namespace hal

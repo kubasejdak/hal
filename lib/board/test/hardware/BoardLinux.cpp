@@ -42,7 +42,8 @@
 namespace hal {
 namespace detail {
 
-std::shared_ptr<Device> getDeviceImpl(device_id::HardwareTestId id)
+template <>
+std::shared_ptr<Device> getDeviceImpl<device_id::HardwareTestId>(device_id::HardwareTestId id)
 {
     return Board<device_id::HardwareTestId>::instance().getDevice(id);
 }
