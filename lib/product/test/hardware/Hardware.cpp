@@ -38,7 +38,7 @@ namespace hal {
 
 void Hardware::createBoards()
 {
-    m_boards.insert({Type::eBase, RaspberryPi3BPlus::instance()});
+    m_boards.insert({Type::eBase, HardwareTest::instance()});
 }
 
 } // namespace hal

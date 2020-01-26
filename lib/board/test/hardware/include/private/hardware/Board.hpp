@@ -37,9 +37,9 @@
 
 namespace hal {
 
-class RaspberryPi3BPlus : public ISimpleBoard<device_id::RaspberryPi3BPlusId> {
+class HardwareTest : public ISimpleBoard<device_id::HardwareTestId> {
 public:
-    static RaspberryPi3BPlus& instance();
+    static HardwareTest& instance();
 
 private:
     std::error_code initImpl() override;

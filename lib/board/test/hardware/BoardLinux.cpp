@@ -40,12 +40,12 @@
 
 namespace hal {
 
-std::error_code RaspberryPi3BPlus::initImpl()
+std::error_code HardwareTest::initImpl()
 {
     // clang-format off
     auto gpio0 = std::make_shared<gpio::SysFsGpio<std::uint64_t>>("gpiochip0");
 
-    m_devices[device_id::eRaspberryPi3BPlusLed] = std::make_shared<gpio::PinOutput<std::uint64_t, gpio::Access::eReadWrite>>(gpio0, gpio::Pin::eBit21);
+    m_devices[device_id::eHardwareTestLed] = std::make_shared<gpio::PinOutput<std::uint64_t, gpio::Access::eReadWrite>>(gpio0, gpio::Pin::eBit21);
     // clang-format on
 
     return Error::eOk;

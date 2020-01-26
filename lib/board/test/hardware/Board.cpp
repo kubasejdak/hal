@@ -35,16 +35,16 @@
 namespace hal {
 namespace detail {
 
-std::shared_ptr<Device> getDeviceImpl(device_id::RaspberryPi3BPlusId id)
+std::shared_ptr<Device> getDeviceImpl(device_id::HardwareTestId id)
 {
-    return RaspberryPi3BPlus::instance().getDevice(id);
+    return HardwareTest::instance().getDevice(id);
 }
 
 } // namespace detail
 
-RaspberryPi3BPlus& RaspberryPi3BPlus::instance()
+HardwareTest& HardwareTest::instance()
 {
-    static RaspberryPi3BPlus object;
+    static HardwareTest object;
     return object;
 }
 

@@ -39,18 +39,18 @@
 namespace hal {
 namespace device_id {
 
-enum RaspberryPi3BPlusId { eRaspberryPi3BPlusLed };
+enum HardwareTestId { eHardwareTestLed };
 
 } // namespace device_id
 
 namespace detail {
 
-std::shared_ptr<Device> getDeviceImpl(device_id::RaspberryPi3BPlusId id);
+std::shared_ptr<Device> getDeviceImpl(device_id::HardwareTestId id);
 
 } // namespace detail
 
 template <typename T>
-std::shared_ptr<T> getDevice(device_id::RaspberryPi3BPlusId id)
+std::shared_ptr<T> getDevice(device_id::HardwareTestId id)
 {
     return std::dynamic_pointer_cast<T>(detail::getDeviceImpl(id));
 }

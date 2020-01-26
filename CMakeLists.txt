@@ -8,7 +8,7 @@ if (NOT DEFINED PLATFORM)
     message(FATAL_ERROR "'PLATFORM' is not defined!")
 endif ()
 
-# Define application name and settings.
+# Define application settings.
 include(test/${APP}/${APP}.cmake)
 
 # Setup platform toolchain file.
@@ -30,8 +30,8 @@ endif ()
 # Project-wide compilation options.
 add_compile_options(-Wall -Wextra -Wpedantic -Werror)
 
-add_subdirectory(${platform_SOURCE_DIR}/app)
-add_subdirectory(${osal_SOURCE_DIR}/lib)
+add_subdirectory(${platform_SOURCE_DIR}/app ${platform_BINARY_DIR})
+add_subdirectory(${osal_SOURCE_DIR}/lib ${osal_BINARY_DIR})
 add_subdirectory(lib)
 add_subdirectory(test/${APP})
 
