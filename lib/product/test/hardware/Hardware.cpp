@@ -32,13 +32,14 @@
 
 #include "hal/Hardware.hpp"
 
-#include "hardware/Board.hpp"
+#include "hal/factory.hpp"
+#include "hal/Board.hpp"
 
 namespace hal {
 
 void Hardware::createBoards()
 {
-    m_boards.insert({Type::eBase, HardwareTest::instance()});
+    m_boards.insert({Type::eBase, Board<device_id::HardwareTestId>::instance()});
 }
 
 } // namespace hal

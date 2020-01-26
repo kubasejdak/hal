@@ -30,22 +30,33 @@
 ///
 /////////////////////////////////////////////////////////////////////////////////////
 
-#include "hardware/Board.hpp"
+#pragma once
+
+#include "hal/Device.hpp"
+
+#include <memory>
 
 namespace hal {
+namespace device_id {
+
+// clang-format off
+enum HardwareTestId {
+    eHardwareTestLed
+};
+// clang-format on
+
+} // namespace device_id
+
 namespace detail {
 
-std::shared_ptr<Device> getDeviceImpl(device_id::HardwareTestId id)
-{
-    return HardwareTest::instance().getDevice(id);
-}
+std::shared_ptr<Device> getDeviceImpl(device_id::HardwareTestId id);
 
 } // namespace detail
 
-HardwareTest& HardwareTest::instance()
+template <typename T>
+std::shared_ptr<T> getDevice(device_id::HardwareTestId id)
 {
-    static HardwareTest object;
-    return object;
+    return std::dynamic_pointer_cast<T>(detail::getDeviceImpl(id));
 }
 
 } // namespace hal

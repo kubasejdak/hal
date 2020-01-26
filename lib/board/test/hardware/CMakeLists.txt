@@ -1,18 +1,14 @@
 add_library(hardware-public INTERFACE)
-
-list(APPEND SOURCES Board.cpp)
+add_library(hardware-private EXCLUDE_FROM_ALL)
 
 if (${PLATFORM} STREQUAL linux)
-    list(APPEND SOURCES BoardLinux.cpp)
+    target_sources(hardware-private
+        PRIVATE BoardLinux.cpp
+    )
 endif ()
 
-add_library(hardware-private EXCLUDE_FROM_ALL ${SOURCES})
-
 target_include_directories(hardware-public
-    INTERFACE include/public
-)
-target_include_directories(hardware-private
-    PUBLIC include/private
+    INTERFACE include
 )
 
 if (${PLATFORM} STREQUAL linux)

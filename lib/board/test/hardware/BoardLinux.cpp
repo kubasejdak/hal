@@ -31,16 +31,18 @@
 /////////////////////////////////////////////////////////////////////////////////////
 
 #include "SysFsGpio.hpp"
+#include "hal/Board.hpp"
 #include "hal/Error.hpp"
 #include "hal/gpio/PinOutput.hpp"
-#include "hardware/Board.hpp"
+#include "hardware/DeviceId.hpp"
 
 #include <cstdint>
 #include <memory>
 
 namespace hal {
 
-std::error_code HardwareTest::initImpl()
+template <>
+std::error_code Board<device_id::HardwareTestId>::initImpl()
 {
     // clang-format off
     auto gpio0 = std::make_shared<gpio::SysFsGpio<std::uint64_t>>("gpiochip0");

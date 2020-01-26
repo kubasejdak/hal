@@ -39,11 +39,21 @@
 #include <map>
 #include <memory>
 #include <system_error>
+#include <type_traits>
 
 namespace hal {
 
 template <typename IdType>
-class ISimpleBoard : public IBoard {
+class Board : public IBoard {
+    static_assert(std::is_enum_v<IdType>, "Board can be instantiated only with enum types");
+
+public:
+    static Board<IdType>& instance()
+    {
+        static Board<IdType> object;
+        return object;
+    }
+
 private:
     std::error_code init() override
     {
@@ -78,10 +88,9 @@ private:
 
     std::error_code returnDeviceImpl(std::shared_ptr<Device>& /*unused*/) override { return Error::eOk; }
 
-    virtual std::error_code initImpl() = 0;
+    std::error_code initImpl();
 
-protected:
-    // NOLINTNEXTLINE(cppcoreguidelines-non-private-member-variables-in-classes,misc-non-private-member-variables-in-classes)
+private:
     std::map<IdType, std::shared_ptr<Device>> m_devices;
 };
 
