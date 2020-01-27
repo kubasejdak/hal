@@ -1,8 +1,7 @@
 include(FetchContent)
-FetchContent_Declare(
-    osal
+FetchContent_Declare(osal
     GIT_REPOSITORY  https://github.com/kubasejdak/osal.git
-    GIT_TAG         master
+    GIT_TAG         origin/master
 )
 
 FetchContent_GetProperties(osal)
