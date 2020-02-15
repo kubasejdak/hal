@@ -41,7 +41,7 @@ endif ()
 add_subdirectory(${platform_SOURCE_DIR}/app ${platform_BINARY_DIR})
 add_subdirectory(${osal_SOURCE_DIR}/lib ${osal_BINARY_DIR})
 add_subdirectory(lib)
-add_subdirectory(test/${APP})
+add_subdirectory(test)
 
 # Generate documentation.
 doxygen_addTarget(${CMAKE_CURRENT_SOURCE_DIR}/lib README.md)

@@ -5,7 +5,7 @@ add_compile_options(-Wall -Wextra -Wpedantic -Werror $<$<COMPILE_LANGUAGE:CXX>:-
 
 add_library(hal EXCLUDE_FROM_ALL
     Hardware.cpp
-    ReturnDevice.cpp
+    returnDevice.cpp
 )
 
 # Product has to be added first, because it configures the required boards and platform implementation.

@@ -1,6 +1,6 @@
 include(FetchContent)
 FetchContent_Declare(osal
-    GIT_REPOSITORY  https://github.com/kubasejdak/osal.git
+    GIT_REPOSITORY  https://gitlab.com/kubasejdak-core/osal.git
     GIT_TAG         origin/master
 )
 

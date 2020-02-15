@@ -1,0 +1,35 @@
+codecov.io:
+  stage: deploy
+  only:
+    - master
+  image: kubasejdak/gcc:latest
+  tags:
+    - linux
+    - shared
+  dependencies:
+    - Coverage_Total
+  script:
+    - cd Coverage_Total
+    - bash -c "bash <(curl -s https://codecov.io/bash) -t ${CODECOV_TOKEN}"
+
+pages:
+  stage: deploy
+  only:
+    - master
+  image: kubasejdak/gcc:latest
+  tags:
+    - linux
+    - shared
+  dependencies: []
+  artifacts:
+    paths:
+      - public
+  script:
+    - mkdir public
+    - mkdir ${CI_JOB_NAME}
+    - cd ${CI_JOB_NAME}
+
+    # Generate documentation.
+    - ../tools/build/hardware-linux-gcc-9-debug.sh
+    - make doxygen
+    - mv docs/* ../public

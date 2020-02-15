@@ -1,0 +1,17 @@
+variables:
+  GIT_SUBMODULE_STRATEGY: recursive
+
+stages:
+  - build-GCC
+  - build-Clang
+  - test
+  - coverage
+  - quality
+  - deploy
+
+include:
+  - ".gitlab/ci/build-tests-linux.yml"
+  - ".gitlab/ci/coverage-linux.yml"
+  - ".gitlab/ci/deploy.yml"
+  - ".gitlab/ci/quality.yml"
+  - ".gitlab/ci/run-tests-linux.yml"

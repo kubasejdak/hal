@@ -31,21 +31,16 @@
 /////////////////////////////////////////////////////////////////////////////////////
 
 #include <hal/Hardware.hpp>
-#include <hal/factory.hpp>
-#include <hal/gpio/IPinOutput.hpp>
 
 #include <catch2/catch.hpp>
 
-TEST_CASE("Init", "[unit][hardware]")
+TEST_CASE("Sunny day init", "[unit][hardware]")
 {
-    hal::Hardware::init();
-    hal::Hardware::attach();
+    auto result = hal::Hardware::init();
+    REQUIRE(!result);
+    result = hal::Hardware::attach();
+    REQUIRE(!result);
 
-    auto pin = hal::getDevice<hal::gpio::IPinOutput>(hal::device_id::eHardwareTestLed);
-    REQUIRE(pin);
-
-    hal::returnDevice(pin);
-
-    hal::Hardware::detach();
-    REQUIRE(true);
+    result = hal::Hardware::detach();
+    REQUIRE(!result);
 }

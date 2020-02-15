@@ -1,0 +1,38 @@
+.Run_Test:
+  stage: test
+  variables:
+    GIT_STRATEGY: none
+  script:
+    - cd ${AppArtifact}/bin
+    - ./${App} ${TestTags}
+
+.Run_Test_Linux:
+  extends: .Run_Test
+  stage: test
+  tags:
+    - linux
+    - shared
+  image: kubasejdak/gcc:latest
+
+#.Run_Test_Linux_ARM:
+#  extends: .Run_Test
+#  stage: test
+#  tags:
+#    - raspberrypi
+
+#Hardware_Linux_ARM_UT:
+#  extends: .Run_Test_Linux_ARM
+#  dependencies:
+#    - Hardware_Linux_ARM_GCC_Debug_Build
+#  variables:
+#    AppArtifact: "Hardware_Linux_ARM_GCC_Debug_Build"
+#    App: "hardware"
+
+Hardware_Linux_UT:
+  extends: .Run_Test_Linux
+  dependencies:
+    - Hardware_Linux_GCC_Debug_Build
+  variables:
+    AppArtifact: "Hardware_Linux_GCC_Debug_Build"
+    App: "hardware"
+

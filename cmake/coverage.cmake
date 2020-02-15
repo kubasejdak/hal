@@ -29,6 +29,10 @@ function(add_lcov_coverage)
         COMMAND ${CMAKE_COMMAND} -E make_directory ${COVERAGE_OUTPUT_PATH}
         COMMAND ${LCOV_BIN} -c -d . -o ${COVERAGE_OUTPUT_PATH}/coverage.info
         COMMAND ${LCOV_BIN} -r ${COVERAGE_OUTPUT_PATH}/coverage.info ${COVERAGE_IGNORE} -o ${COVERAGE_OUTPUT_PATH}/coverage.info
+    )
+
+    add_custom_target(coverage-report
         COMMAND genhtml ${COVERAGE_OUTPUT_PATH}/coverage.info --output-directory ${COVERAGE_OUTPUT_PATH}/html
+        DEPENDS coverage
     )
 endfunction()
