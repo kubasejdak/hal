@@ -30,13 +30,10 @@
 ///
 /////////////////////////////////////////////////////////////////////////////////////
 
-#include "SysFsGpio.hpp"
 #include "hal/Board.hpp"
 #include "hal/Error.hpp"
-#include "hal/gpio/PinOutput.hpp"
 #include "hardware/DeviceId.hpp"
 
-#include <cstdint>
 #include <memory>
 
 namespace hal {
@@ -54,9 +51,9 @@ template <>
 std::error_code Board<device_id::HardwareTestId>::initImpl()
 {
     // clang-format off
-    auto gpio0 = std::make_shared<gpio::SysFsGpio<std::uint64_t>>("gpiochip0");
+//    auto gpio0 = std::make_shared<gpio::SysFsGpio<std::uint64_t>>("gpiochip0");
 
-    m_devices[device_id::eHardwareTestLed] = std::make_shared<gpio::PinOutput<std::uint64_t, gpio::Access::eReadWrite>>(gpio0, gpio::Pin::eBit21);
+//    m_devices[device_id::eHardwareTestLed] = std::make_shared<gpio::PinOutput<std::uint64_t, gpio::Access::eReadWrite>>(gpio0, gpio::Pin::eBit21);
     // clang-format on
 
     return Error::eOk;

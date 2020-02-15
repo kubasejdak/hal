@@ -30,61 +30,9 @@
 ///
 /////////////////////////////////////////////////////////////////////////////////////
 
-#include "hal/Hardware.hpp"
+#include "platformInit.hpp"
 
-#include "hal/Error.hpp"
-#include "hal/IBoard.hpp"
-
-namespace hal {
-
-std::error_code Hardware::init()
+bool platformInit()
 {
-    if (m_state != State::eUninitialized)
-        return Error::eWrongState;
-
-    createBoards();
-
-    auto baseRange = m_boards.equal_range(Type::eBase);
-    for (auto i = baseRange.first; i != baseRange.second; ++i) {
-        auto& board = i->second;
-        if (auto error = board.init())
-            return error;
-    }
-
-    m_state = State::eDetached;
-    return Error::eOk;
+    return true;
 }
-
-std::error_code Hardware::attach()
-{
-    if (m_state != State::eDetached)
-        return Error::eWrongState;
-
-    auto removableRange = m_boards.equal_range(Type::eRemovable);
-    for (auto i = removableRange.first; i != removableRange.second; ++i) {
-        auto& board = i->second;
-        if (auto error = board.init())
-            return error;
-    }
-
-    m_state = State::eAttached;
-    return Error::eOk;
-}
-
-std::error_code Hardware::detach()
-{
-    if (m_state != State::eAttached)
-        return Error::eWrongState;
-
-    auto removableRange = m_boards.equal_range(Type::eRemovable);
-    for (auto i = removableRange.first; i != removableRange.second; ++i) {
-        auto& board = i->second;
-        if (auto error = board.deinit())
-            return error;
-    }
-
-    m_state = State::eDetached;
-    return Error::eOk;
-}
-
-} // namespace hal

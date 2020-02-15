@@ -1,5 +1,3 @@
-add_subdirectory(init/${PLATFORM})
-
 # Object library type is used to prevent compiler from removing unit test functions from the binary.
 add_library(apphardware OBJECT EXCLUDE_FROM_ALL
     appMain.cpp
