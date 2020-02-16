@@ -20,8 +20,8 @@
     - bin/${App} [unit]
     - make coverage
 
-Hardware_Coverage:
+Middleware_Coverage:
   extends: .Linux_Coverage
   variables:
-    Script: "hardware-linux-gcc-9-debug"
-    App: "hardware"
+    Script: "middleware-linux-gcc-9-debug"
+    App: "middleware"

@@ -36,11 +36,11 @@ Clang_Format:
     - ../tools/build/${Script}.sh
     - ../tools/check-clang-tidy.sh
 
-Hardware_Linux_Clang_Tidy:
+Middleware_Linux_Clang_Tidy:
   extends: .Clang_Tidy
   image: kubasejdak/clang:latest
   variables:
-    Script: "hardware-linux-clang-9-debug"
+    Script: "middleware-linux-clang-9-debug"
 
 Coverage_Total:
   stage: quality
@@ -49,7 +49,7 @@ Coverage_Total:
     - linux
     - shared
   dependencies:
-    - Hardware_Coverage
+    - Middleware_Coverage
   artifacts:
     name: "${CI_JOB_NAME}_${CI_JOB_ID}"
     expire_in: 2 weeks
@@ -60,6 +60,6 @@ Coverage_Total:
     - cd ${CI_JOB_NAME}
 
     - |
-      lcov -a ../Hardware_Coverage/coverage/coverage.info \
+      lcov -a ../Middleware_Coverage/coverage/coverage.info \
            -o coverage.info
     - genhtml coverage.info -o html
