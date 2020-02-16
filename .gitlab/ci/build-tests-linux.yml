@@ -36,42 +36,42 @@
   stage: build-Clang
   image: kubasejdak/arm-linux-gnueabihf-clang:latest
 
-Hardware_Linux_ARM_Clang_Debug_Build:
+Middleware_Linux_ARM_Clang_Debug_Build:
   extends: .Build_Test_Linux_ARM_Clang
   variables:
-    Script: "hardware-linux-arm-clang-9-debug"
+    Script: "middleware-linux-arm-clang-9-debug"
 
-Hardware_Linux_ARM_Clang_Release_Build:
+Middleware_Linux_ARM_Clang_Release_Build:
   extends: .Build_Test_Linux_ARM_Clang
   variables:
-    Script: "hardware-linux-arm-clang-9-release"
+    Script: "middleware-linux-arm-clang-9-release"
 
-Hardware_Linux_ARM_GCC_Debug_Build:
+Middleware_Linux_ARM_GCC_Debug_Build:
   extends: .Build_Test_Linux_ARM_GCC
   variables:
-    Script: "hardware-linux-arm-gcc-9-debug"
+    Script: "middleware-linux-arm-gcc-9-debug"
 
-Hardware_Linux_ARM_GCC_Release_Build:
+Middleware_Linux_ARM_GCC_Release_Build:
   extends: .Build_Test_Linux_ARM_GCC
   variables:
-    Script: "hardware-linux-arm-gcc-9-release"
+    Script: "middleware-linux-arm-gcc-9-release"
 
-Hardware_Linux_Clang_Debug_Build:
+Middleware_Linux_Clang_Debug_Build:
   extends: .Build_Test_Linux_Clang
   variables:
-    Script: "hardware-linux-clang-9-debug"
+    Script: "middleware-linux-clang-9-debug"
 
-Hardware_Linux_Clang_Release_Build:
+Middleware_Linux_Clang_Release_Build:
   extends: .Build_Test_Linux_Clang
   variables:
-    Script: "hardware-linux-clang-9-release"
+    Script: "middleware-linux-clang-9-release"
 
-Hardware_Linux_GCC_Debug_Build:
+Middleware_Linux_GCC_Debug_Build:
   extends: .Build_Test_Linux_GCC
   variables:
-    Script: "hardware-linux-gcc-9-debug"
+    Script: "middleware-linux-gcc-9-debug"
 
-Hardware_Linux_GCC_Release_Build:
+Middleware_Linux_GCC_Release_Build:
   extends: .Build_Test_Linux_GCC
   variables:
-    Script: "hardware-linux-gcc-9-release"
+    Script: "middleware-linux-gcc-9-release"

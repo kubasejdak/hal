@@ -50,12 +50,6 @@ std::shared_ptr<Device> getDeviceImpl<device_id::HardwareTestId>(device_id::Hard
 template <>
 std::error_code Board<device_id::HardwareTestId>::initImpl()
 {
-    // clang-format off
-//    auto gpio0 = std::make_shared<gpio::SysFsGpio<std::uint64_t>>("gpiochip0");
-
-//    m_devices[device_id::eHardwareTestLed] = std::make_shared<gpio::PinOutput<std::uint64_t, gpio::Access::eReadWrite>>(gpio0, gpio::Pin::eBit21);
-    // clang-format on
-
     return Error::eOk;
 }
 

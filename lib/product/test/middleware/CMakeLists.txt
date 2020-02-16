@@ -3,5 +3,5 @@ if (PLATFORM STREQUAL "linux" OR PLATFORM STREQUAL "linux-arm")
 endif ()
 
 set(HAL_BOARDS
-    test/hardware
+    test/middleware
 PARENT_SCOPE)

@@ -1,14 +1,14 @@
 # Object library type is used to prevent compiler from removing unit test functions from the binary.
-add_library(apphardware OBJECT EXCLUDE_FROM_ALL
+add_library(appmiddleware OBJECT EXCLUDE_FROM_ALL
     appMain.cpp
     initialization.cpp
 )
 
-target_include_directories(apphardware
+target_include_directories(appmiddleware
     PRIVATE .
 )
 
-target_compile_features(apphardware
+target_compile_features(appmiddleware
     PRIVATE cxx_std_17
 )
 
@@ -19,14 +19,14 @@ if (PLATFORM STREQUAL "freertos-arm")
     target_compile_definitions(Catch2::Catch2 INTERFACE CATCH_CONFIG_NO_POSIX_SIGNALS CATCH_CONFIG_DISABLE_EXCEPTIONS)
 endif ()
 
-target_link_libraries(apphardware
+target_link_libraries(appmiddleware
     PUBLIC platform-init
     PRIVATE Catch2::Catch2 hal
 )
 
 # This is required to selectively run Catch2 tests using tags on platforms, where cmd line arguments are not available.
 if (DEFINED TEST_TAGS)
-    target_compile_definitions(apphardware
+    target_compile_definitions(appmiddleware
         PRIVATE TEST_TAGS="${TEST_TAGS}"
     )
 endif ()

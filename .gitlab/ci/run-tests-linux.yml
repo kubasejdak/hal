@@ -20,19 +20,19 @@
 #  tags:
 #    - raspberrypi
 
-#Hardware_Linux_ARM_UT:
+#Middleware_Linux_ARM_UT:
 #  extends: .Run_Test_Linux_ARM
 #  dependencies:
-#    - Hardware_Linux_ARM_GCC_Debug_Build
+#    - Middleware_Linux_ARM_GCC_Debug_Build
 #  variables:
-#    AppArtifact: "Hardware_Linux_ARM_GCC_Debug_Build"
-#    App: "hardware"
+#    AppArtifact: "Middleware_Linux_ARM_GCC_Debug_Build"
+#    App: "middleware"
 
-Hardware_Linux_UT:
+Middleware_Linux_UT:
   extends: .Run_Test_Linux
   dependencies:
-    - Hardware_Linux_GCC_Debug_Build
+    - Middleware_Linux_GCC_Debug_Build
   variables:
-    AppArtifact: "Hardware_Linux_GCC_Debug_Build"
-    App: "hardware"
+    AppArtifact: "Middleware_Linux_GCC_Debug_Build"
+    App: "middleware"
 
