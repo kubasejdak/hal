@@ -12,6 +12,7 @@ target_compile_features(appmiddleware
     PRIVATE cxx_std_17
 )
 
+conan_get(Catch2/2.11.1@catchorg/stable)
 find_package(Catch2 REQUIRED)
 
 if (PLATFORM STREQUAL "freertos-arm")
@@ -21,7 +22,7 @@ endif ()
 
 target_link_libraries(appmiddleware
     PUBLIC platform-init
-    PRIVATE Catch2::Catch2 hal
+    PRIVATE Catch2::Catch2 osal::cpp hal
 )
 
 # This is required to selectively run Catch2 tests using tags on platforms, where cmd line arguments are not available.
