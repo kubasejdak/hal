@@ -1,3 +1,5 @@
+option(COVERAGE "Generate coverage report" OFF)
+
 function(add_lcov_coverage)
     include(FindPackageHandleStandardArgs)
     # Find lcov.
