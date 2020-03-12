@@ -113,8 +113,8 @@ constexpr int toInt(Pin pin)
 }
 
 template <typename WidthType>
-inline constexpr bool cIsValidWidthType
-    = (std::is_unsigned<WidthType>::value && !std::is_same<WidthType, bool>::value && sizeof(WidthType) <= 8);
+constexpr inline bool cIsValidWidthType
+    = (std::is_unsigned_v<WidthType> && !std::is_same_v<WidthType, bool> && sizeof(WidthType) <= 8);
 
 template <typename WidthType>
 constexpr Pin maxPin()

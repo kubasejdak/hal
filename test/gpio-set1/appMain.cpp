@@ -30,25 +30,35 @@
 ///
 /////////////////////////////////////////////////////////////////////////////////////
 
-#include "hal/Board.hpp"
-#include "hal/Error.hpp"
-#include "middleware/DeviceId.hpp"
+#define CATCH_CONFIG_RUNNER
+#define CATCH_CONFIG_DEFAULT_REPORTER "junit" // NOLINT
 
-namespace hal {
-namespace detail {
+#include "platformInit.hpp"
 
-template <>
-std::shared_ptr<Device> getDeviceImpl<device_id::MiddlewareId>(device_id::MiddlewareId id)
+#include <osal/init.hpp>
+
+#include <catch2/catch.hpp>
+
+#include <cstdlib>
+
+// NOLINTNEXTLINE
+int appMain(int argc, char* argv[])
 {
-    return Board<device_id::MiddlewareId>::instance().getDevice(id);
+    if (!platformInit())
+        return EXIT_FAILURE;
+
+    if (!osal::init())
+        return EXIT_FAILURE;
+
+#ifdef TEST_TAGS
+    (void) argc;
+
+    std::array<char*, 2> argvTags{};
+    argvTags[0] = argv[0];
+    argvTags[1] = const_cast<char*>(TEST_TAGS);
+
+    return Catch::Session().run(argvTags.size(), argvTags.data());
+#else
+    return Catch::Session().run(argc, argv);
+#endif
 }
-
-} // namespace detail
-
-template <>
-std::error_code Board<device_id::MiddlewareId>::initImpl()
-{
-    return Error::eOk;
-}
-
-} // namespace hal

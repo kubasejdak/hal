@@ -14,19 +14,27 @@
     - shared
   image: kubasejdak/gcc:latest
 
-#.Run_Test_Linux_ARM:
-#  extends: .Run_Test
-#  stage: test
-#  tags:
-#    - raspberrypi
+.Run_Test_Linux_ARM:
+  extends: .Run_Test
+  stage: test
+  tags:
+    - raspberrypi
 
-#Middleware_Linux_ARM_UT:
-#  extends: .Run_Test_Linux_ARM
-#  dependencies:
-#    - Middleware_Linux_ARM_GCC_Debug_Build
-#  variables:
-#    AppArtifact: "Middleware_Linux_ARM_GCC_Debug_Build"
-#    App: "middleware"
+GpioSet1_Linux_ARM_UT:
+  extends: .Run_Test_Linux_ARM
+  dependencies:
+    - GpioSet1_Linux_ARM_GCC_Debug_Build
+  variables:
+    AppArtifact: "GpioSet1_Linux_ARM_GCC_Debug_Build"
+    App: "gpio-set1"
+
+Middleware_Linux_ARM_UT:
+  extends: .Run_Test_Linux_ARM
+  dependencies:
+    - Middleware_Linux_ARM_GCC_Debug_Build
+  variables:
+    AppArtifact: "Middleware_Linux_ARM_GCC_Debug_Build"
+    App: "middleware"
 
 Middleware_Linux_UT:
   extends: .Run_Test_Linux

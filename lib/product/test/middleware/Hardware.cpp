@@ -39,7 +39,7 @@ namespace hal {
 
 void Hardware::createBoards()
 {
-    m_boards.insert({Type::eBase, Board<device_id::HardwareTestId>::instance()});
+    m_boards.insert({Type::eBase, Board<device_id::MiddlewareId>::instance()});
 }
 
 } // namespace hal

@@ -1,16 +1,16 @@
-codecov.io:
-  stage: deploy
-  only:
-    - master
-  image: kubasejdak/gcc:latest
-  tags:
-    - linux
-    - shared
-  dependencies:
-    - Coverage_Total
-  script:
-    - cd Coverage_Total
-    - bash -c "bash <(curl -s https://codecov.io/bash) -t ${CODECOV_TOKEN}"
+#codecov.io:
+#  stage: deploy
+#  only:
+#    - master
+#  image: kubasejdak/gcc:latest
+#  tags:
+#    - linux
+#    - shared
+#  dependencies:
+#    - Coverage_Total
+#  script:
+#    - cd Coverage_Total
+#    - bash -c "bash <(curl -s https://codecov.io/bash) -t ${CODECOV_TOKEN}"
 
 pages:
   stage: deploy

@@ -4,7 +4,7 @@
 /// @author Kuba Sejdak
 /// @copyright BSD 2-Clause License
 ///
-/// Copyright (c) 2019-2020, Kuba Sejdak <kuba.sejdak@gmail.com>
+/// Copyright (c) 2020-2020, Kuba Sejdak <kuba.sejdak@gmail.com>
 /// All rights reserved.
 ///
 /// Redistribution and use in source and binary forms, with or without
@@ -30,25 +30,6 @@
 ///
 /////////////////////////////////////////////////////////////////////////////////////
 
-#include "hal/Board.hpp"
-#include "hal/Error.hpp"
-#include "middleware/DeviceId.hpp"
+#pragma once
 
-namespace hal {
-namespace detail {
-
-template <>
-std::shared_ptr<Device> getDeviceImpl<device_id::MiddlewareId>(device_id::MiddlewareId id)
-{
-    return Board<device_id::MiddlewareId>::instance().getDevice(id);
-}
-
-} // namespace detail
-
-template <>
-std::error_code Board<device_id::MiddlewareId>::initImpl()
-{
-    return Error::eOk;
-}
-
-} // namespace hal
+#include "gpio-set1/DeviceId.hpp"

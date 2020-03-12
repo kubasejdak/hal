@@ -38,22 +38,18 @@
 
 #include <functional>
 #include <memory>
-#include <type_traits>
 
 namespace hal::gpio {
 
-template <typename WidthType, typename WidthTypeUnderlying, Access access>
+template <typename WidthType, typename WidthTypeUnderlying>
 class PortOutput : public IPortOutput<WidthType> {
-    // clang-format off
-    static_assert(cIsValidWidthType<WidthType>, "PortOutput can be parametrized only with unsigned arithmetic types");
-    static_assert(cIsValidWidthType<WidthTypeUnderlying>, "PortOutput can be parametrized only with unsigned arithmetic types");
-    static_assert(std::negation<detail::IsReadOnly<access>>::value, "Cannot use PortOutput with eReadOnly port");
-    // clang-format on
+    static_assert(cIsValidWidthType<WidthType>);
+    static_assert(cIsValidWidthType<WidthTypeUnderlying>);
 
 public:
     using ModifierCallback = std::function<WidthTypeUnderlying(WidthType, WidthTypeUnderlying)>;
 
-    PortOutput(std::shared_ptr<IGpioPort<WidthTypeUnderlying, access>> port,
+    PortOutput(std::shared_ptr<IGpioPort<WidthTypeUnderlying>> port,
                WidthTypeUnderlying mask,
                ModifierCallback modifier = nullptr,
                SharingPolicy sharingPolicy = SharingPolicy::eSingle)
@@ -63,20 +59,15 @@ public:
         , m_modifier(modifier)
     {}
 
+    /// @see IPortOutput::write
     std::error_code write(WidthType value) override
     {
-        WidthTypeUnderlying modifiedValue{};
-
-        if (m_modifier)
-            modifiedValue = m_modifier(value, m_mask);
-        else
-            modifiedValue = value;
-
+        WidthTypeUnderlying modifiedValue = m_modifier ? m_modifier(value, m_mask) : value;
         return m_port->write(modifiedValue, m_mask);
     }
 
 private:
-    std::shared_ptr<IGpioPort<WidthTypeUnderlying, access>> m_port;
+    std::shared_ptr<IGpioPort<WidthTypeUnderlying>> m_port;
     WidthTypeUnderlying m_mask;
     ModifierCallback m_modifier;
 };

@@ -30,25 +30,45 @@
 ///
 /////////////////////////////////////////////////////////////////////////////////////
 
-#include "hal/Board.hpp"
-#include "hal/Error.hpp"
-#include "middleware/DeviceId.hpp"
+#pragma once
+
+#include "hal/Device.hpp"
+
+#include <memory>
 
 namespace hal {
-namespace detail {
+namespace device_id {
 
-template <>
-std::shared_ptr<Device> getDeviceImpl<device_id::MiddlewareId>(device_id::MiddlewareId id)
+// clang-format off
+enum GpioSet1Id {
+    // Port A.
+    ePortAPin0,
+    ePortAPin1,
+    ePortAPin2,
+    ePortAPin3,
+    ePortAPin4,
+    ePortAPin5,
+    ePortAPin6,
+    ePortAPin7,
+
+    // Port B.
+    ePortBPin0,
+    ePortBPin1,
+    ePortBPin2,
+    ePortBPin3,
+    ePortBPin4,
+    ePortBPin5,
+    ePortBPin6,
+    ePortBPin7
+};
+// clang-format on
+
+} // namespace device_id
+
+template <typename T>
+std::shared_ptr<T> getDevice(device_id::GpioSet1Id id)
 {
-    return Board<device_id::MiddlewareId>::instance().getDevice(id);
-}
-
-} // namespace detail
-
-template <>
-std::error_code Board<device_id::MiddlewareId>::initImpl()
-{
-    return Error::eOk;
+    return std::dynamic_pointer_cast<T>(detail::getDeviceImpl<decltype(id)>(id));
 }
 
 } // namespace hal

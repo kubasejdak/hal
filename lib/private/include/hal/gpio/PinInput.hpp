@@ -41,19 +41,17 @@
 
 #include <cassert>
 #include <memory>
-#include <type_traits>
+#include <utility>
 
 namespace hal::gpio {
 
 /// @class PinInput
 /// Represents a single pin input device.
-/// This class isolates a single bit input from the whole digital port.
+/// This class isolates a single pin input from the whole GPIO port.
 /// @tparam WidthType           Type representing the bit-width of the port.
-/// @tparam access              Demanded GPIO access type.
-template <typename WidthType, Access access>
+template <typename WidthType>
 class PinInput : public IPinInput {
-    static_assert(cIsValidWidthType<WidthType>, "PinInput can be parametrized only with unsigned arithmetic types");
-    static_assert(std::negation<detail::IsWriteOnly<access>>::value, "Cannot use PinInput with eWriteOnly port");
+    static_assert(cIsValidWidthType<WidthType>);
 
 public:
     /// Constructor.
@@ -61,36 +59,34 @@ public:
     /// @param pin              Pin id of the GPIO port used by this bit input instance.
     /// @param negated          Flag indicating if all operations on this pin input instance should be inverted.
     /// @param sharingPolicy    Flag indicating sharing policy of this pin input instance.
-    PinInput(std::shared_ptr<IGpioPort<WidthType, access>> port,
+    PinInput(std::shared_ptr<IGpioPort<WidthType>> port,
              Pin pin,
              bool negated = false,
              SharingPolicy sharingPolicy = SharingPolicy::eSingle)
         : IPinInput(sharingPolicy)
-        , m_port(port)
+        , m_port(std::move(port))
         , m_mask(WidthType{1} << static_cast<WidthType>(pin))
         , m_negated(negated)
     {
-        assert(pin <= maxPin<WidthType>() && "Requested pin exceeds the width of the underlying port");
+        assert(pin <= maxPin<WidthType>());
 
-        m_port->initPin(pin);
         m_port->setDirection(~WidthType{0}, m_mask);
     }
 
 private:
-    /// Gets the boolean value of the current pin input.
-    /// @param value            Output argument where the read value will be saved.
-    /// @return Error code of the operation.
+    /// @see IPinInput::get
     std::error_code get(bool& value) override
     {
-        WidthType data;
-        auto result = m_port->read(&data, m_mask);
+        WidthType data{};
+        if (auto error = m_port->read(data, m_mask))
+            return error;
 
-        value = (data == 0 == m_negated);
-        return result;
+        value = ((data == 0) == m_negated);
+        return Error::eOk;
     }
 
 private:
-    std::shared_ptr<IGpioPort<WidthType, access>> m_port;
+    std::shared_ptr<IGpioPort<WidthType>> m_port;
     WidthType m_mask;
     bool m_negated;
 };

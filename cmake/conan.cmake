@@ -1,9 +1,4 @@
-if (NOT EXISTS "${CMAKE_BINARY_DIR}/conan.cmake")
-    message(STATUS "Downloading conan.cmake from https://github.com/conan-io/cmake-conan")
-    file(DOWNLOAD "https://github.com/conan-io/cmake-conan/raw/v0.15/conan.cmake" "${CMAKE_BINARY_DIR}/conan.cmake")
-endif ()
-
-include(${CMAKE_BINARY_DIR}/conan.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/conan-wrapper.cmake)
 
 macro(conan_get)
     set(CMAKE_SYSTEM_NAME_TMP   ${CMAKE_SYSTEM_NAME})

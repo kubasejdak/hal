@@ -30,25 +30,14 @@
 ///
 /////////////////////////////////////////////////////////////////////////////////////
 
-#include "hal/Board.hpp"
-#include "hal/Error.hpp"
-#include "middleware/DeviceId.hpp"
+#include <hal/Hardware.hpp>
 
-namespace hal {
-namespace detail {
+#include <catch2/catch.hpp>
 
-template <>
-std::shared_ptr<Device> getDeviceImpl<device_id::MiddlewareId>(device_id::MiddlewareId id)
+TEST_CASE("Sunny day init", "[unit][gpio]")
 {
-    return Board<device_id::MiddlewareId>::instance().getDevice(id);
+    hal::Hardware::init();
+    hal::Hardware::attach();
+
+    hal::Hardware::detach();
 }
-
-} // namespace detail
-
-template <>
-std::error_code Board<device_id::MiddlewareId>::initImpl()
-{
-    return Error::eOk;
-}
-
-} // namespace hal

@@ -44,8 +44,8 @@ public:
         : Device(sharingPolicy)
     {}
 
-    virtual std::error_code on() = 0;
-    virtual std::error_code off() = 0;
+    std::error_code on() { return set(true); }
+    std::error_code off() { return set(false); }
     virtual std::error_code set(bool value) = 0;
 };
 
