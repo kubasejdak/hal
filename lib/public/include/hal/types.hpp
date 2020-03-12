@@ -33,14 +33,10 @@
 #pragma once
 
 #include <cstdint>
-#include <limits>
 #include <vector>
 
 namespace hal {
 
 using BytesVector = std::vector<std::uint8_t>;
-
-constexpr auto cTimeoutNone = std::numeric_limits<std::uint32_t>::min();
-constexpr auto cTimeoutInfinite = std::numeric_limits<std::uint32_t>::max();
 
 } // namespace hal

@@ -46,13 +46,11 @@ namespace hal::gpio {
 
 /// @class PinOutput
 /// Represents a single pin output device.
-/// This class isolates a single bit output from the whole GPIO port.
+/// This class isolates a single pin output from the whole GPIO port.
 /// @tparam WidthType           Type representing the bit-width of the port.
-/// @tparam access              Demanded register access type.
-template <typename WidthType, Access access>
+template <typename WidthType>
 class PinOutput : public IPinOutput {
-    static_assert(cIsValidWidthType<WidthType>, "PinOutput can be parametrized only with unsigned arithmetic types");
-    static_assert(std::negation<detail::IsReadOnly<access>>::value, "Cannot use PinOutput with eReadOnly port");
+    static_assert(cIsValidWidthType<WidthType>);
 
 public:
     /// Constructor.
@@ -60,7 +58,7 @@ public:
     /// @param pin              Pin id of the GPIO port used by this bit output instance.
     /// @param negated          Flag indicating if all operations on this pin output instance should be inverted.
     /// @param sharingPolicy    Flag indicating sharing policy of this pin output instance.
-    PinOutput(std::shared_ptr<IGpioPort<WidthType, access>> port,
+    PinOutput(std::shared_ptr<IGpioPort<WidthType>> port,
               Pin pin,
               bool negated = false,
               SharingPolicy sharingPolicy = SharingPolicy::eSingle)
@@ -69,27 +67,22 @@ public:
         , m_mask((WidthType{1} << static_cast<WidthType>(pin)))
         , m_negated(negated)
     {
-        assert(pin <= maxPin<WidthType>() && "Requested pin exceeds the width of the underlying port");
+        assert(pin <= maxPin<WidthType>());
 
-        m_port->initPin(pin);
         m_port->setDirection(WidthType{0}, m_mask);
     }
 
-    /// Switches on the bit device.
-    /// @return Error code of the operation.
-    std::error_code on() override { return m_port->write(m_negated ? 0 : (~WidthType{}), m_mask); }
+    /// @see IPinOutput::set
+    std::error_code set(bool value) override
+    {
+        if (value)
+            return m_port->write(m_negated ? 0 : (~WidthType{}), m_mask);
 
-    /// Switch off pin device.
-    /// @return Error code of the operation.
-    std::error_code off() override { return m_port->write(m_negated ? (~WidthType{}) : 0, m_mask); }
-
-    /// Sets the bit value in of the device.
-    /// @param value            Value to be set.
-    /// @return Error code of the operation.
-    std::error_code set(bool value) override { return value ? on() : off(); }
+        return m_port->write(m_negated ? (~WidthType{}) : 0, m_mask);
+    }
 
 private:
-    std::shared_ptr<IGpioPort<WidthType, access>> m_port;
+    std::shared_ptr<IGpioPort<WidthType>> m_port;
     WidthType m_mask;
     bool m_negated;
 };

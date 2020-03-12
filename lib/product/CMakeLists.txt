@@ -12,7 +12,7 @@ target_include_directories(product
 
 target_link_libraries(product
     PUBLIC board-public
-    PRIVATE hal-public board-private
+    PRIVATE hal-public hal-private board-private
 )
 
 add_subdirectory(${HAL_PRODUCT})

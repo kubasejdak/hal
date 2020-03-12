@@ -30,25 +30,16 @@
 ///
 /////////////////////////////////////////////////////////////////////////////////////
 
+#include "hal/Hardware.hpp"
+
 #include "hal/Board.hpp"
-#include "hal/Error.hpp"
-#include "middleware/DeviceId.hpp"
+#include "hal/factory.hpp"
 
 namespace hal {
-namespace detail {
 
-template <>
-std::shared_ptr<Device> getDeviceImpl<device_id::MiddlewareId>(device_id::MiddlewareId id)
+void Hardware::createBoards()
 {
-    return Board<device_id::MiddlewareId>::instance().getDevice(id);
-}
-
-} // namespace detail
-
-template <>
-std::error_code Board<device_id::MiddlewareId>::initImpl()
-{
-    return Error::eOk;
+    m_boards.insert({Type::eBase, Board<device_id::GpioSet1Id>::instance()});
 }
 
 } // namespace hal

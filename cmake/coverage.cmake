@@ -18,7 +18,7 @@ function(add_lcov_coverage)
 
     set(COVERAGE_FLAGS              --coverage)
     set(COVERAGE_OUTPUT_PATH        ${PROJECT_BINARY_DIR}/coverage)
-    set(COVERAGE_IGNORE             '/usr/*' '*/.conan/*' '/Library/Developer/CommandLineTools/*')
+    set(COVERAGE_IGNORE             '/usr/*' '*/.conan/*' '/Library/Developer/CommandLineTools/*' '*/_deps/*')
     foreach(IGNORE_PATH IN LISTS ARGN)
         list(APPEND COVERAGE_IGNORE '${IGNORE_PATH}')
     endforeach()

@@ -62,15 +62,15 @@ std::string ErrorCategory::message(int value) const
         case Error::ePathExists: return "path already exists";
         case Error::ePathDoesNotExist: return "path does not exist";
         case Error::eFilesystemError: return "filesystem error";
+        case Error::eHardwareError: return "hardware error";
         default: return "(unrecognized error)";
     }
 }
 
-static const ErrorCategory cErrorCategory{};
-
 // NOLINTNEXTLINE(readability-identifier-naming)
 std::error_code make_error_code(Error error)
 {
+    static const ErrorCategory cErrorCategory{};
     return {static_cast<int>(error), cErrorCategory};
 }
 

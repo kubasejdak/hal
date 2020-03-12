@@ -40,7 +40,7 @@ namespace hal {
 namespace device_id {
 
 // clang-format off
-enum HardwareTestId {
+enum MiddlewareId {
     eHardwareTestLed
 };
 // clang-format on
@@ -48,7 +48,7 @@ enum HardwareTestId {
 } // namespace device_id
 
 template <typename T>
-std::shared_ptr<T> getDevice(device_id::HardwareTestId id)
+std::shared_ptr<T> getDevice(device_id::MiddlewareId id)
 {
     return std::dynamic_pointer_cast<T>(detail::getDeviceImpl<decltype(id)>(id));
 }

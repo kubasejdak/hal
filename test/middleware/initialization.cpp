@@ -34,7 +34,7 @@
 
 #include <catch2/catch.hpp>
 
-TEST_CASE("Sunny day init", "[unit][hardware]")
+TEST_CASE("Sunny day init", "[unit][middleware]")
 {
     auto result = hal::Hardware::init();
     REQUIRE(!result);

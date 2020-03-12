@@ -4,7 +4,7 @@
 /// @author Kuba Sejdak
 /// @copyright BSD 2-Clause License
 ///
-/// Copyright (c) 2019-2020, Kuba Sejdak <kuba.sejdak@gmail.com>
+/// Copyright (c) 2020-2020, Kuba Sejdak <kuba.sejdak@gmail.com>
 /// All rights reserved.
 ///
 /// Redistribution and use in source and binary forms, with or without
@@ -30,25 +30,59 @@
 ///
 /////////////////////////////////////////////////////////////////////////////////////
 
-#include "hal/Board.hpp"
+#pragma once
+
 #include "hal/Error.hpp"
-#include "middleware/DeviceId.hpp"
+#include "hal/gpio/IGpioPort.hpp"
 
-namespace hal {
-namespace detail {
+#include <utils/GlobalRegistry.hpp>
 
-template <>
-std::shared_ptr<Device> getDeviceImpl<device_id::MiddlewareId>(device_id::MiddlewareId id)
-{
-    return Board<device_id::MiddlewareId>::instance().getDevice(id);
-}
+#include <climits>
+#include <cstdint>
+#include <map>
+#include <string>
+#include <string_view>
+#include <vector>
 
-} // namespace detail
+struct gpiod_chip;
+struct gpiod_line;
 
-template <>
-std::error_code Board<device_id::MiddlewareId>::initImpl()
-{
-    return Error::eOk;
-}
+namespace hal::gpio {
 
-} // namespace hal
+class LinuxGpio
+    : public IGpioPort<std::uint32_t>
+    , public utils::Registrable<std::string_view> {
+public:
+    LinuxGpio(std::string_view name,
+              std::string_view gpiochipName,
+              const std::vector<int>& offsets,
+              const std::vector<int>& directions);
+    LinuxGpio(const LinuxGpio&) = delete;
+    LinuxGpio(LinuxGpio&& other) noexcept;
+    ~LinuxGpio() override;
+
+    LinuxGpio& operator=(const LinuxGpio&) = delete;
+    LinuxGpio& operator=(LinuxGpio&&) = delete;
+
+    /// @see IGpioPort::drvSetDirection
+    std::error_code drvSetDirection(std::uint32_t /*direction*/, std::uint32_t /*mask*/) override { return Error::eOk; }
+
+    /// @see IGpioPort::drvRead
+    std::error_code drvRead(std::uint32_t& value, std::uint32_t mask) override;
+
+    /// @see IGpioPort::drvWrite
+    std::error_code drvWrite(std::uint32_t value, std::uint32_t mask) override;
+
+private:
+    static constexpr std::size_t m_cPortBits{sizeof(std::uint32_t) * CHAR_BIT};
+    static constexpr int m_cGpioInput{1};
+    static constexpr int m_cGpioOutput{0};
+
+    gpiod_chip* m_chip;
+    std::map<int, gpiod_line*> m_lines;
+    std::map<int, int> m_directions;
+};
+
+using LinuxGpioDriver = utils::GlobalRegistry<LinuxGpio>;
+
+} // namespace hal::gpio

@@ -50,7 +50,8 @@ enum class Error {
     eNotSupported,
     ePathExists,
     ePathDoesNotExist,
-    eFilesystemError
+    eFilesystemError,
+    eHardwareError
 };
 
 // NOLINTNEXTLINE(readability-identifier-naming)

@@ -36,57 +36,15 @@
 #include "hal/gpio/types.hpp"
 
 #include <system_error>
-#include <type_traits>
 
 namespace hal::gpio {
 
-/// @enum Access
-/// Represents the GPIO access type.
-enum class Access { eReadOnly, eWriteOnly, eReadWrite };
-
-namespace detail {
-// clang-format off
-
-/// @typedef IsReadOnly
-/// @tparam access          Demanded GPIO access type.
-/// Meta-function that checks, if the demanded type is Access::eReadOnly.
-template <Access access>
-using IsReadOnly = std::is_same<std::integral_constant<Access, access>, std::integral_constant<Access, Access::eReadOnly>>;
-
-/// @typedef IsReadOnly
-/// @tparam access          Demanded GPIO access type.
-/// Meta-function that checks, if the demanded type is Access::eWriteOnly.
-template <Access access>
-using IsWriteOnly = std::is_same<std::integral_constant<Access, access>, std::integral_constant<Access, Access::eWriteOnly>>;
-
-/// @typedef IsReadOnly
-/// @tparam access          Demanded GPIO access type.
-/// Meta-function that checks, if the demanded type is Access::eReadWrite.
-template <Access access>
-using IsReadWrite = std::is_same<std::integral_constant<Access, access>, std::integral_constant<Access, Access::eReadWrite>>;
-
-/// @typedef IfReadable
-/// Meta-function used to conditionally add/remove "read" capability to the GPIO class via SFINAE expression.
-/// @tparam access          Demanded GPIO access type.
-template<Access access>
-using IfReadable = std::enable_if_t<std::disjunction<IsReadOnly<access>, IsReadWrite<access>>::value, int>;
-
-/// @typedef IfWriteable
-/// Meta-function used to conditionally add/remove "write" capability to the GPIO class via SFINAE expression.
-/// @tparam AccessType      Demanded GPIO class access type.
-template<Access access>
-using IfWriteable = std::enable_if_t<std::disjunction<IsWriteOnly<access>, IsReadWrite<access>>::value, int>;
-
-// clang-format on
-} // namespace detail
-
 /// @class IGpioPort
 /// @tparam WidthType       Type representing the bit-width of the port (e.g. std::uint32_t means that port is 32-bit).
-/// @tparam access          Demanded access type. This parameter will enable/disable the read/write capabilities.
 /// Represents the GPIO port with the defined width and access type.
-template <typename WidthType, Access access>
+template <typename WidthType>
 class IGpioPort {
-    static_assert(cIsValidWidthType<WidthType>, "IGpioPort can be parametrized only with unsigned arithmetic types");
+    static_assert(cIsValidWidthType<WidthType>);
 
 public:
     /// Default constructor.
@@ -109,23 +67,6 @@ public:
     /// Move assignment operator.
     IGpioPort& operator=(IGpioPort&&) noexcept = default;
 
-    /// Initializes the given pin.
-    /// @param pin          Pin to be initialized.
-    /// @return Error code of the operation.
-    std::error_code initPin(Pin pin) { return drvInitPin(pin); }
-
-    /// Deinitializes the given pin.
-    /// @param pin          Pin to be deinitialized.
-    /// @return Error code of the operation.
-    std::error_code deinitPin(Pin pin) { return drvDeinitPin(pin); }
-
-    /// Sets the demanded mode to the given pin.
-    /// @param pin          Pin to be affected.
-    /// @param mode         Mode to be set.
-    /// @return Error code of the operation.
-    /// @note Mode is platform dependant.
-    std::error_code setPinMode(Pin pin, unsigned int mode) { return drvSetPinMode(pin, mode); }
-
     /// Sets the direction of each pin in the GPIO port.
     /// @param direction    Direction mask to be set.
     /// @param mask         Mask indicating which pins should be affected.
@@ -133,51 +74,33 @@ public:
     std::error_code setDirection(WidthType direction, WidthType mask) { return drvSetDirection(direction, mask); }
 
     /// Reads the demanded set of GPIO port bits defined by the mask.
-    /// @tparam accessType  Demanded access type.
-    /// @param data         Output argument where the read value will be stored.
+    /// @param value        Output argument where the read value will be stored.
     /// @param mask         Mask defining which port bits should be read.
     /// @return Error code of the operation.
-    template <Access accessType = access, typename = detail::IfReadable<accessType>>
-    std::error_code read(WidthType& data, WidthType mask)
-    {
-        return drvRead(data, mask);
-    }
+    std::error_code read(WidthType& value, WidthType mask) { return drvRead(value, mask); }
 
     /// Writes the demanded set of GPIO port bits defined by the mask.
-    /// @tparam accessType  Demanded access type.
     /// @param value        Value to be written to the GPIO port.
     /// @param mask         Mask defining which port bits should be written.
     /// @return Error code of the operation.
-    template <Access accessType = access, typename = detail::IfWriteable<accessType>>
-    std::error_code write(WidthType value, WidthType mask)
-    {
-        return drvWrite(value, mask);
-    }
+    std::error_code write(WidthType value, WidthType mask) { return drvWrite(value, mask); }
 
 private:
-    /// Driver specific implementation of GPIO pin initialization.
-    /// @return Error code of the operation.
-    virtual std::error_code drvInitPin(Pin /*unused*/) { return Error::eOk; }
-
-    /// Driver specific implementation of GPIO pin deinitialization.
-    /// @return Error code of the operation.
-    virtual std::error_code drvDeinitPin(Pin /*unused*/) { return Error::eOk; }
-
-    /// Driver specific implementation of setting the GPIO pin mode.
-    /// @return Error code of the operation.
-    virtual std::error_code drvSetPinMode(Pin, unsigned int) = 0;
-
     /// Driver specific implementation of setting the GPIO port direction.
     /// @return Error code of the operation.
     virtual std::error_code drvSetDirection(WidthType, WidthType) = 0;
 
     /// Driver specific implementation of GPIO port reading.
+    /// @param value        Output argument where the read value will be stored.
+    /// @param mask         Mask defining which port bits should be read.
     /// @return Error code of the operation.
-    virtual std::error_code drvRead(WidthType& /*unused*/, WidthType /*unused*/) { return Error::eNotSupported; }
+    virtual std::error_code drvRead(WidthType& value, WidthType mask) = 0;
 
     /// Driver specific implementation of GPIO port writing.
+    /// @param value        Value to be written to the GPIO port.
+    /// @param mask         Mask defining which port bits should be written.
     /// @return Error code of the operation.
-    virtual std::error_code drvWrite(WidthType /*unused*/, WidthType /*unused*/) { return Error::eNotSupported; }
+    virtual std::error_code drvWrite(WidthType value, WidthType mask) = 0;
 };
 
 } // namespace hal::gpio
