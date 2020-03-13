@@ -1,6 +1,7 @@
 /////////////////////////////////////////////////////////////////////////////////////
 ///
 /// @file
+/// @author Grzegorz Heldt
 /// @author Kuba Sejdak
 /// @copyright BSD 2-Clause License
 ///
@@ -38,12 +39,21 @@
 
 namespace hal::gpio {
 
+/// @class IPinInput
+/// Represents a single input pin abstraction.
+/// @note Pins are always part of a bigger GPIO port abstraction.
 class IPinInput : public Device {
 public:
+    /// Constructor.
+    /// @param sharingPolicy        Sharing policy of this device.
     explicit IPinInput(SharingPolicy sharingPolicy)
         : Device(sharingPolicy)
     {}
 
+    /// Reads value of the given input pin and returns it as a boolean flag.
+    /// @param value                Output parameter representing
+    /// @return Error code of the operation.
+    /// @note If this method returns any error, then value flag is not valid.
     virtual std::error_code get(bool& value) = 0;
 };
 

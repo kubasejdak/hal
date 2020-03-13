@@ -1,6 +1,7 @@
 /////////////////////////////////////////////////////////////////////////////////////
 ///
 /// @file
+/// @author Grzegorz Heldt
 /// @author Kuba Sejdak
 /// @copyright BSD 2-Clause License
 ///
@@ -40,15 +41,24 @@
 
 namespace hal::gpio {
 
+/// @class IPortOutput
+/// Represents an abstraction for the set of the GPIO output pins, which are part of the same GPIO port.
+/// This set can represent any combination of the pins and is defined by the board configuration.
+/// @tparam WidthType               Unsigned type representing bitness of the given port (e.g. std::uint32_t is 32bit).
 template <typename WidthType>
 class IPortOutput : public Device {
     static_assert(cIsValidWidthType<WidthType>, "IPortOutput can be parametrized only with unsigned arithmetic types");
 
 public:
+    /// Constructor.
+    /// @param sharingPolicy        Sharing policy of this device.
     explicit IPortOutput(SharingPolicy sharingPolicy)
         : Device(sharingPolicy)
     {}
 
+    /// Writes given value to this GPIO pin set.
+    /// @param value                Bit values of each pin from this port.
+    /// @return Error code of the operation.
     virtual std::error_code write(WidthType value) = 0;
 };
 

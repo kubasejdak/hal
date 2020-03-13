@@ -1,6 +1,7 @@
 /////////////////////////////////////////////////////////////////////////////////////
 ///
 /// @file
+/// @author Grzegorz Heldt
 /// @author Kuba Sejdak
 /// @copyright BSD 2-Clause License
 ///
@@ -57,8 +58,8 @@ public:
     /// Constructor.
     /// @param port             Underlying GPIO port, that contains the given pin.
     /// @param pin              Pin id of the GPIO port used by this bit input instance.
-    /// @param negated          Flag indicating if all operations on this pin input instance should be inverted.
-    /// @param sharingPolicy    Flag indicating sharing policy of this pin input instance.
+    /// @param negated          Flag indicating if all operations on this input pin instance should be inverted.
+    /// @param sharingPolicy    Flag indicating sharing policy of this input pin instance.
     PinInput(std::shared_ptr<IGpioPort<WidthType>> port,
              Pin pin,
              bool negated = false,
