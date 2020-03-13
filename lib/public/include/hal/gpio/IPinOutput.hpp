@@ -1,6 +1,7 @@
 /////////////////////////////////////////////////////////////////////////////////////
 ///
 /// @file
+/// @author Grzegorz Heldt
 /// @author Kuba Sejdak
 /// @copyright BSD 2-Clause License
 ///
@@ -38,14 +39,34 @@
 
 namespace hal::gpio {
 
+/// @class IPinOutput
+/// Represents a single output pin abstraction.
+/// @note Pins are always part of a bigger GPIO port abstraction.
 class IPinOutput : public Device {
 public:
+    /// Constructor.
+    /// @param sharingPolicy        Sharing policy of this device.
     explicit IPinOutput(SharingPolicy sharingPolicy)
         : Device(sharingPolicy)
     {}
 
+    /// Changes the value of this pin to the logical high.
+    /// @return Error code of the operation.
+    /// @note The physical value may be negated - it depends on the settings of the underlying GPIO pin/port
+    ///       settings and/or implementation.
     std::error_code on() { return set(true); }
+
+    /// Changes the value of this pin to the logical low.
+    /// @return Error code of the operation.
+    /// @note The physical value may be negated - it depends on the settings of the underlying GPIO pin/port
+    ///       settings and/or implementation.
     std::error_code off() { return set(false); }
+
+    /// Sets the given logical value on this pin.
+    /// @param value                Value to be set on this pin.
+    /// @return Error code of the operation.
+    /// @note The physical value may be negated - it depends on the settings of the underlying GPIO pin/port
+    ///       settings and/or implementation.
     virtual std::error_code set(bool value) = 0;
 };
 

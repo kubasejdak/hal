@@ -1,6 +1,7 @@
 /////////////////////////////////////////////////////////////////////////////////////
 ///
 /// @file
+/// @author Grzegorz Heldt
 /// @author Kuba Sejdak
 /// @copyright BSD 2-Clause License
 ///
@@ -41,14 +42,28 @@
 
 namespace hal::gpio {
 
-template <typename WidthType, typename WidthTypeUnderlying>
+/// @class PortInput
+/// Concrete implementation of the GPIO input pins set, which are part of the same GPIO port.
+/// This set can represent any combination of the pins and is defined by the board configuration.
+/// @tparam WidthType                   Client-side type representing the bit-width of the port (e.g. std::uint32_t
+///                                     means that port is 32-bit).
+/// @tparam WidthTypeUnderlying         Hardware-side type representing the bit-with of the port (e.g. std::uint32_t
+///                                     means that port is 32-bit).
+template <typename WidthType, typename WidthTypeUnderlying = WidthType>
 class PortInput : public IPortInput<WidthType> {
     static_assert(cIsValidWidthType<WidthType>);
     static_assert(cIsValidWidthType<WidthTypeUnderlying>);
 
 public:
+    /// @typedef ModifierCallback
+    /// Helper type defining function, that will be called on the input data before sending it to the client.
     using ModifierCallback = std::function<WidthType(WidthTypeUnderlying, WidthTypeUnderlying)>;
 
+    /// Constructor.
+    /// @param port             Underlying GPIO port, that contains the given pin set.
+    /// @param mask             Pin mask representing bits which are part of this pin set (1 - is part of the set).
+    /// @param modifier         Modifier function to be used on the input data.
+    /// @param sharingPolicy    Flag indicating sharing policy of this pin set instance.
     PortInput(std::shared_ptr<IGpioPort<WidthTypeUnderlying>> port,
               WidthTypeUnderlying mask,
               ModifierCallback modifier = nullptr,

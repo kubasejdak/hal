@@ -1,6 +1,7 @@
 /////////////////////////////////////////////////////////////////////////////////////
 ///
 /// @file
+/// @author Grzegorz Heldt
 /// @author Kuba Sejdak
 /// @copyright BSD 2-Clause License
 ///
@@ -40,8 +41,8 @@
 namespace hal::gpio {
 
 /// @class IGpioPort
-/// @tparam WidthType       Type representing the bit-width of the port (e.g. std::uint32_t means that port is 32-bit).
 /// Represents the GPIO port with the defined width and access type.
+/// @tparam WidthType       Type representing the bit-width of the port (e.g. std::uint32_t means that port is 32-bit).
 template <typename WidthType>
 class IGpioPort {
     static_assert(cIsValidWidthType<WidthType>);
