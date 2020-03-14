@@ -10,3 +10,8 @@ version.hpp
 
 # macOS files.
 .DS_Store
+
+# Sourcetrail files.
+*.srctrlbm
+*.srctrldb
+*.srctrlprj
