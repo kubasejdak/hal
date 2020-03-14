@@ -8,7 +8,6 @@
 
 .Run_Test_Linux:
   extends: .Run_Test
-  stage: test
   tags:
     - linux
     - shared
@@ -16,17 +15,30 @@
 
 .Run_Test_Linux_ARM:
   extends: .Run_Test
-  stage: test
   tags:
     - raspberrypi
 
 GpioSet1_Linux_ARM_UT:
   extends: .Run_Test_Linux_ARM
+  tags:
+    - raspberrypi
+    - gpio
   dependencies:
     - GpioSet1_Linux_ARM_GCC_Debug_Build
   variables:
     AppArtifact: "GpioSet1_Linux_ARM_GCC_Debug_Build"
     App: "gpio-set1"
+
+GpioSet2_Linux_ARM_UT:
+  extends: .Run_Test_Linux_ARM
+  tags:
+    - raspberrypi
+    - gpio
+  dependencies:
+    - GpioSet2_Linux_ARM_GCC_Debug_Build
+  variables:
+    AppArtifact: "GpioSet2_Linux_ARM_GCC_Debug_Build"
+    App: "gpio-set2"
 
 Middleware_Linux_ARM_UT:
   extends: .Run_Test_Linux_ARM
@@ -43,4 +55,3 @@ Middleware_Linux_UT:
   variables:
     AppArtifact: "Middleware_Linux_GCC_Debug_Build"
     App: "middleware"
-

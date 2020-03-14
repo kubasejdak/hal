@@ -39,6 +39,7 @@
 
 #include <functional>
 #include <memory>
+#include <utility>
 
 namespace hal::gpio {
 
@@ -69,10 +70,12 @@ public:
               ModifierCallback modifier = nullptr,
               SharingPolicy sharingPolicy = SharingPolicy::eSingle)
         : IPortInput<WidthType>(sharingPolicy)
-        , m_port(port)
+        , m_port(std::move(port))
         , m_mask(mask)
-        , m_modifier(modifier)
-    {}
+        , m_modifier(std::move(modifier))
+    {
+        m_port->setDirection(~WidthType{0}, m_mask);
+    }
 
     /// @see IPortInput::read
     std::error_code read(WidthType& value) override

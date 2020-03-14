@@ -13,85 +13,133 @@
     - cd ${CI_JOB_NAME}
 
     # Build application.
-    - ../tools/build/${Script}.sh ${Args}
+    - cmake .. -DPLATFORM=${Platform} -DTOOLCHAIN=${Toolchain} -DAPP=${App} -DCMAKE_BUILD_TYPE=${BuildType}
     - make
 
 .Build_Test_Linux_ARM_Clang:
   extends: .Build_Test_Linux
   stage: build-Clang
   image: kubasejdak/arm-linux-gnueabihf-clang:latest
+  variables:
+    Platform: "linux-arm"
+    Toolchain: "arm-linux-gnueabihf-clang-9"
 
 .Build_Test_Linux_ARM_GCC:
   extends: .Build_Test_Linux
   stage: build-GCC
   image: kubasejdak/arm-linux-gnueabihf-gcc:latest
+  variables:
+    Platform: "linux-arm"
+    Toolchain: "arm-linux-gnueabihf-gcc-9"
 
 .Build_Test_Linux_Clang:
   extends: .Build_Test_Linux
   stage: build-Clang
   image: kubasejdak/clang:latest
+  variables:
+    Platform: "linux"
+    Toolchain: "clang-9"
 
 .Build_Test_Linux_GCC:
   extends: .Build_Test_Linux
   stage: build-GCC
   image: kubasejdak/gcc:latest
+  variables:
+    Platform: "linux"
+    Toolchain: "gcc-9"
 
 GpioSet1_Linux_ARM_Clang_Debug_Build:
   extends: .Build_Test_Linux_ARM_Clang
   variables:
-    Script: "gpio-set1-linux-arm-clang-9-debug"
+    App: "gpio-set1"
+    BuildType: "Debug"
 
 GpioSet1_Linux_ARM_Clang_Release_Build:
   extends: .Build_Test_Linux_ARM_Clang
   variables:
-    Script: "gpio-set1-linux-arm-clang-9-release"
+    App: "gpio-set1"
+    BuildType: "Release"
 
 GpioSet1_Linux_ARM_GCC_Debug_Build:
   extends: .Build_Test_Linux_ARM_GCC
   variables:
-    Script: "gpio-set1-linux-arm-gcc-9-debug"
+    App: "gpio-set1"
+    BuildType: "Debug"
 
 GpioSet1_Linux_ARM_GCC_Release_Build:
   extends: .Build_Test_Linux_ARM_GCC
   variables:
-    Script: "gpio-set1-linux-arm-gcc-9-release"
+    App: "gpio-set1"
+    BuildType: "Release"
+
+GpioSet2_Linux_ARM_Clang_Debug_Build:
+  extends: .Build_Test_Linux_ARM_Clang
+  variables:
+    App: "gpio-set2"
+    BuildType: "Debug"
+
+GpioSet2_Linux_ARM_Clang_Release_Build:
+  extends: .Build_Test_Linux_ARM_Clang
+  variables:
+    App: "gpio-set2"
+    BuildType: "Release"
+
+GpioSet2_Linux_ARM_GCC_Debug_Build:
+  extends: .Build_Test_Linux_ARM_GCC
+  variables:
+    App: "gpio-set2"
+    BuildType: "Debug"
+
+GpioSet2_Linux_ARM_GCC_Release_Build:
+  extends: .Build_Test_Linux_ARM_GCC
+  variables:
+    App: "gpio-set2"
+    BuildType: "Release"
 
 Middleware_Linux_ARM_Clang_Debug_Build:
   extends: .Build_Test_Linux_ARM_Clang
   variables:
-    Script: "middleware-linux-arm-clang-9-debug"
+    App: "middleware"
+    BuildType: "Debug"
 
 Middleware_Linux_ARM_Clang_Release_Build:
   extends: .Build_Test_Linux_ARM_Clang
   variables:
-    Script: "middleware-linux-arm-clang-9-release"
+    App: "middleware"
+    BuildType: "Release"
 
 Middleware_Linux_ARM_GCC_Debug_Build:
   extends: .Build_Test_Linux_ARM_GCC
   variables:
-    Script: "middleware-linux-arm-gcc-9-debug"
+    App: "middleware"
+    BuildType: "Debug"
 
 Middleware_Linux_ARM_GCC_Release_Build:
   extends: .Build_Test_Linux_ARM_GCC
   variables:
-    Script: "middleware-linux-arm-gcc-9-release"
+    App: "middleware"
+    BuildType: "Release"
 
 Middleware_Linux_Clang_Debug_Build:
   extends: .Build_Test_Linux_Clang
   variables:
-    Script: "middleware-linux-clang-9-debug"
+    App: "middleware"
+    BuildType: "Debug"
 
 Middleware_Linux_Clang_Release_Build:
   extends: .Build_Test_Linux_Clang
   variables:
-    Script: "middleware-linux-clang-9-release"
+    App: "middleware"
+    BuildType: "Release"
 
 Middleware_Linux_GCC_Debug_Build:
   extends: .Build_Test_Linux_GCC
   variables:
-    Script: "middleware-linux-gcc-9-debug"
+    App: "middleware"
+    BuildType: "Debug"
 
 Middleware_Linux_GCC_Release_Build:
   extends: .Build_Test_Linux_GCC
   variables:
-    Script: "middleware-linux-gcc-9-release"
+    App: "middleware"
+    BuildType: "Release"

@@ -125,7 +125,7 @@ std::error_code LinuxGpio::drvWrite(std::uint32_t value, std::uint32_t mask)
     std::bitset<m_cPortBits> valueBits(value);
     std::bitset<m_cPortBits> maskBits(mask);
     for (std::uint32_t i = 0; i < maskBits.size(); ++i) {
-        if (!maskBits[i]) {
+        if (maskBits[i]) {
             if (m_lines.find(i) == m_lines.end())
                 return Error::eInvalidArgument;
 
