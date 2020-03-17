@@ -20,13 +20,15 @@ if (NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Debug)
 endif ()
 
+conan_init()
+
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # Project-wide compilation options.
 add_compile_options(-Wall -Wextra -Wpedantic -Werror)
 
-# Generate coverage report.
 if (COVERAGE)
+    # Generate coverage report.
     add_lcov_coverage(${CMAKE_CURRENT_SOURCE_DIR}/test/*)
 endif ()
 
