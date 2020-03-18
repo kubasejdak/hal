@@ -5,7 +5,7 @@ arch=@CONAN_ARCH@
 arch_build=@CONAN_HOST_ARCH@
 compiler=@CONAN_COMPILER@
 compiler.version=@CONAN_COMPILER_MAJOR@
-compiler.libcxx=libstdc++11
+compiler.libcxx=@CONAN_LIBCXX@
 build_type=@CMAKE_BUILD_TYPE@
 
 [options]

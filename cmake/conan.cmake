@@ -54,6 +54,13 @@ function(conan_init)
     string(REPLACE "." ";" VERSION_LIST ${CMAKE_CXX_COMPILER_VERSION})
     list(GET VERSION_LIST 0 CONAN_COMPILER_MAJOR)
 
+    # Value for settings.compiler.libcxx.
+    if (CONAN_OS STREQUAL Macos AND CONAN_COMPILER STREQUAL clang)
+        set(CONAN_LIBCXX        libc++11)
+    else ()
+        set(CONAN_LIBCXX        libstdc++11)
+    endif ()
+
     # Values for env.CFLAGS, env.CXXFLAGS and env.LDFLAGS.
     string(TOUPPER ${CMAKE_BUILD_TYPE} BUILD_TYPE)
     set(CONAN_C_FLAGS           "${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_${BUILD_TYPE}}")
