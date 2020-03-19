@@ -56,7 +56,7 @@ function(conan_init)
 
     # Value for settings.compiler.libcxx.
     if (CONAN_OS STREQUAL Macos AND CONAN_COMPILER STREQUAL clang)
-        set(CONAN_LIBCXX        libc++11)
+        set(CONAN_LIBCXX        libc++)
     else ()
         set(CONAN_LIBCXX        libstdc++11)
     endif ()
