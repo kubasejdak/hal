@@ -1,4 +1,4 @@
-codecov.io:
+pages:
   stage: deploy
   only:
     - master
@@ -8,28 +8,19 @@ codecov.io:
     - shared
   dependencies:
     - Coverage_Total
-  script:
-    - cd Coverage_Total
-    - bash -c "bash <(curl -s https://codecov.io/bash) -t ${CODECOV_TOKEN}"
-
-pages:
-  stage: deploy
-  only:
-    - master
-  image: kubasejdak/gcc:latest
-  tags:
-    - linux
-    - shared
-  dependencies: []
   artifacts:
     paths:
       - public
   script:
-    - mkdir public
+    # Copy coverage report.
+    - mkdir -p public/coverage
+    - mv Coverage_Total/html/* public/coverage
+
+    # Generate documentation.
+    - mkdir -p public/docs
     - mkdir ${CI_JOB_NAME}
     - cd ${CI_JOB_NAME}
 
-    # Generate documentation.
     - cmake .. -DPLATFORM=linux -DAPP=middleware
     - make doxygen
-    - mv docs/* ../public
+    - mv docs/* ../public/docs

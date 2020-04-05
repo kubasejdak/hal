@@ -84,3 +84,5 @@ Coverage_Total:
            -a ../GpioSet2_Coverage/coverage/coverage.info \
            -a ../Middleware_Coverage/coverage/coverage.info \
            -o coverage.info
+    - genhtml coverage.info -o html
+    - echo Coverage - `lcov --summary coverage.info | grep lines | cut -d ' ' -f 4`
