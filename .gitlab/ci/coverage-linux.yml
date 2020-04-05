@@ -15,6 +15,7 @@
     - make
     - bin/${App} [unit]
     - make coverage
+    - sed -i "s|SF:${CI_PROJECT_DIR}/|SF:|g" coverage/coverage.info
 
 .Linux_ARM_GCC_Coverage:
   extends: .Linux_Coverage
