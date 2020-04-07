@@ -6,8 +6,8 @@ target_include_directories(gpio
     PUBLIC .
 )
 
-conan_add_remote(NAME ecashptyltd URL https://api.bintray.com/conan/ecashptyltd/public-conan)
-conan_get(libgpiod/1.2.1@ecashptyltd/stable)
+conan_add_remote(NAME kubasejdak URL https://api.bintray.com/conan/kubasejdak/public-conan)
+conan_get(libgpiod/1.4.3@kubasejdak/stable)
 find_package(libgpiod REQUIRED)
 
 target_link_libraries(gpio
