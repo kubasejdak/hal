@@ -71,11 +71,19 @@ function(conan_init)
     configure_file(${CMAKE_SOURCE_DIR}/tools/profile.in ${CMAKE_BINARY_DIR}/conan-profile)
 endfunction ()
 
+include(CMakeParseArguments)
+
 macro(conan_get)
+    set(OPTIONS                 "")
+    set(ONE_VALUE_ARGS          "")
+    set(MULTI_VALUE_ARGS        REQUIRES OPTIONS ENV)
+    cmake_parse_arguments(CONAN_GET "${OPTIONS}" "${ONE_VALUE_ARGS}" "${MULTI_VALUE_ARGS}" ${ARGN})
+
     set(CMAKE_SYSTEM_NAME_TMP   ${CMAKE_SYSTEM_NAME})
     set(CMAKE_SYSTEM_NAME       ${CMAKE_HOST_SYSTEM_NAME})
     conan_cmake_run(
-        REQUIRES                ${ARGN}
+        REQUIRES                ${CONAN_GET_REQUIRES}
+        OPTIONS                 ${CONAN_GET_OPTIONS}
         PROFILE                 ${CMAKE_BINARY_DIR}/conan-profile
         BUILD                   missing
         GENERATORS              cmake_find_package cmake_paths

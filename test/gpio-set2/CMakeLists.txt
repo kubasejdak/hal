@@ -12,7 +12,7 @@ target_compile_features(appgpio-set2
     PRIVATE cxx_std_17
 )
 
-conan_get(Catch2/2.11.1@catchorg/stable)
+conan_get(REQUIRES Catch2/2.11.1@catchorg/stable)
 find_package(Catch2 REQUIRED)
 
 if (PLATFORM STREQUAL freertos-arm)
