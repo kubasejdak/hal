@@ -13,7 +13,7 @@
     - cd ${CI_JOB_NAME}
 
     # Build application.
-    - cmake .. -DPLATFORM=${Platform} -DTOOLCHAIN=${Toolchain} -DAPP=${App} -DCMAKE_BUILD_TYPE=${BuildType}
+    - cmake .. -DPLATFORM=linux -DTOOLCHAIN=${Toolchain} -DAPP=${App} -DCMAKE_BUILD_TYPE=${BuildType}
     - make
 
 .Build_Test_Linux_ARM_Clang:
@@ -21,7 +21,6 @@
   stage: build-Clang
   image: kubasejdak/arm-linux-gnueabihf-clang:latest
   variables:
-    Platform: "linux-arm"
     Toolchain: "arm-linux-gnueabihf-clang-9"
 
 .Build_Test_Linux_ARM_GCC:
@@ -29,7 +28,6 @@
   stage: build-GCC
   image: kubasejdak/arm-linux-gnueabihf-gcc:latest
   variables:
-    Platform: "linux-arm"
     Toolchain: "arm-linux-gnueabihf-gcc-9"
 
 .Build_Test_Linux_Clang:
@@ -37,7 +35,6 @@
   stage: build-Clang
   image: kubasejdak/clang:latest
   variables:
-    Platform: "linux"
     Toolchain: "clang-9"
 
 .Build_Test_Linux_GCC:
@@ -45,7 +42,6 @@
   stage: build-GCC
   image: kubasejdak/gcc:latest
   variables:
-    Platform: "linux"
     Toolchain: "gcc-9"
 
 GpioSet1_Linux_ARM_Clang_Debug_Build:
