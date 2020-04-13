@@ -44,8 +44,8 @@ std::error_code Hardware::init()
 
     createBoards();
 
-    auto baseRange = m_boards.equal_range(Type::eBase);
-    for (auto i = baseRange.first; i != baseRange.second; ++i) {
+    auto [first, last] = m_boards.equal_range(Type::eBase);
+    for (auto i = first; i != last; ++i) {
         auto& board = i->second;
         if (auto error = board.init())
             return error;
@@ -60,8 +60,8 @@ std::error_code Hardware::attach()
     if (m_state != State::eDetached)
         return Error::eWrongState;
 
-    auto removableRange = m_boards.equal_range(Type::eRemovable);
-    for (auto i = removableRange.first; i != removableRange.second; ++i) {
+    auto [first, last] = m_boards.equal_range(Type::eRemovable);
+    for (auto i = first; i != last; ++i) {
         auto& board = i->second;
         if (auto error = board.init())
             return error;
@@ -76,14 +76,31 @@ std::error_code Hardware::detach()
     if (m_state != State::eAttached)
         return Error::eWrongState;
 
-    auto removableRange = m_boards.equal_range(Type::eRemovable);
-    for (auto i = removableRange.first; i != removableRange.second; ++i) {
+    auto [first, last] = m_boards.equal_range(Type::eRemovable);
+    for (auto i = first; i != last; ++i) {
         auto& board = i->second;
         if (auto error = board.deinit())
             return error;
     }
 
     m_state = State::eDetached;
+    return Error::eOk;
+}
+
+std::error_code Hardware::destroy()
+{
+    if (m_state != State::eDetached)
+        return Error::eWrongState;
+
+    auto [first, last] = m_boards.equal_range(Type::eBase);
+    for (auto i = first; i != last; ++i) {
+        auto& board = i->second;
+        if (auto error = board.deinit())
+            return error;
+    }
+
+    m_boards.clear();
+    m_state = State::eUninitialized;
     return Error::eOk;
 }
 
