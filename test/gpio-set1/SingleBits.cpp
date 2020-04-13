@@ -39,8 +39,8 @@
 
 TEST_CASE("Toggle values of single pins", "[unit][gpio]")
 {
-    hal::Hardware::init();
-    hal::Hardware::attach();
+    hal::ScopedHardware hardware;
+    REQUIRE(hardware.initialized());
 
     std::vector<std::shared_ptr<hal::gpio::IPinOutput>> outputs;
     std::vector<std::shared_ptr<hal::gpio::IPinInput>> inputs;
@@ -139,6 +139,4 @@ TEST_CASE("Toggle values of single pins", "[unit][gpio]")
 
     for (auto& input : inputs)
         hal::returnDevice(input);
-
-    hal::Hardware::detach();
 }

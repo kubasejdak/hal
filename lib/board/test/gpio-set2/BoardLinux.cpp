@@ -139,4 +139,12 @@ std::error_code Board<device_id::GpioSet2Id>::initImpl()
     return Error::eOk;
 }
 
+template <>
+std::error_code Board<device_id::GpioSet2Id>::deinitImpl()
+{
+    gpio::LinuxGpioDriver::clear();
+
+    return Error::eOk;
+}
+
 } // namespace hal

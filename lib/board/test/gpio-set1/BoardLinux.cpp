@@ -80,4 +80,12 @@ std::error_code Board<device_id::GpioSet1Id>::initImpl()
     return Error::eOk;
 }
 
+template <>
+std::error_code Board<device_id::GpioSet1Id>::deinitImpl()
+{
+    gpio::LinuxGpioDriver::clear();
+
+    return Error::eOk;
+}
+
 } // namespace hal

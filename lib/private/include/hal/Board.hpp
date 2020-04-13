@@ -74,7 +74,7 @@ private:
         }
 
         m_devices.clear();
-        return Error::eOk;
+        return deinitImpl();
     }
 
     std::shared_ptr<Device> getDeviceImpl(int id) override
@@ -89,6 +89,7 @@ private:
     std::error_code returnDeviceImpl(std::shared_ptr<Device>& /*unused*/) override { return Error::eOk; }
 
     std::error_code initImpl();
+    std::error_code deinitImpl() { return Error::eOk; }
 
 private:
     std::map<IdType, std::shared_ptr<Device>> m_devices;

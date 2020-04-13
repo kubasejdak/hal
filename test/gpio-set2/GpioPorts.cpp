@@ -41,8 +41,8 @@
 
 TEST_CASE("Set all combinations of bit patterns on 4bit ports", "[unit][gpio]")
 {
-    hal::Hardware::init();
-    hal::Hardware::attach();
+    hal::ScopedHardware hardware;
+    REQUIRE(hardware.initialized());
 
     // clang-format off
     auto outputSet0 = hal::getDevice<hal::gpio::IPortOutput<std::uint8_t>>(hal::device_id::GpioSet2Id::ePortAPinSet0);
@@ -80,6 +80,4 @@ TEST_CASE("Set all combinations of bit patterns on 4bit ports", "[unit][gpio]")
     hal::returnDevice(outputSet1);
     hal::returnDevice(inputSet0);
     hal::returnDevice(inputSet1);
-
-    hal::Hardware::detach();
 }
