@@ -54,8 +54,7 @@ TEST_CASE("Set all combinations of bit patterns on 4bit ports", "[unit][gpio]")
 
     constexpr std::uint8_t cPatternsCount = 15;
     constexpr std::uint8_t cPatternMask = 0x0f;
-    for (std::uint8_t pattern = 0; pattern < cPatternsCount; ++pattern)
-    {
+    for (std::uint8_t pattern = 0; pattern < cPatternsCount; ++pattern) {
         // Set pattern.
         auto error = outputSet0->write(pattern);
         REQUIRE(!error);

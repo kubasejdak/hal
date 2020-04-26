@@ -19,28 +19,28 @@
 .Build_Test_Linux_ARM_Clang:
   extends: .Build_Test_Linux
   stage: build-Clang
-  image: kubasejdak/arm-linux-gnueabihf-clang:latest
+  image: kubasejdak/arm-linux-gnueabihf-clang:10
   variables:
-    Toolchain: "arm-linux-gnueabihf-clang-9"
+    Toolchain: "arm-linux-gnueabihf-clang-10"
 
 .Build_Test_Linux_ARM_GCC:
   extends: .Build_Test_Linux
   stage: build-GCC
-  image: kubasejdak/arm-linux-gnueabihf-gcc:latest
+  image: kubasejdak/arm-linux-gnueabihf-gcc:9
   variables:
     Toolchain: "arm-linux-gnueabihf-gcc-9"
 
 .Build_Test_Linux_Clang:
   extends: .Build_Test_Linux
   stage: build-Clang
-  image: kubasejdak/clang:latest
+  image: kubasejdak/clang:10
   variables:
-    Toolchain: "clang-9"
+    Toolchain: "clang-10"
 
 .Build_Test_Linux_GCC:
   extends: .Build_Test_Linux
   stage: build-GCC
-  image: kubasejdak/gcc:latest
+  image: kubasejdak/gcc:9
   variables:
     Toolchain: "gcc-9"
 

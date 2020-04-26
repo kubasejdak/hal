@@ -8,7 +8,8 @@ Checks:                '*,
                         -google-runtime-references,
                         -hicpp-no-array-decay,
                         -llvm-header-guard,
-                        -modernize-use-trailing-return-type'
+                        -modernize-use-trailing-return-type,
+                        -readability-redundant-access-specifiers'
 WarningsAsErrors:      '*'
 HeaderFilterRegex:     ''
 AnalyzeTemporaryDtors: false
