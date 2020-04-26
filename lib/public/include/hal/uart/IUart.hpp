@@ -109,7 +109,7 @@ public:
     /// @return Flag indicating if the device is opened.
     /// @retval true                Device is currently opened.
     /// @retval false               Device is currently closed.
-    bool isOpened() { return m_opened; }
+    [[nodiscard]] bool isOpened() const { return m_opened; }
 
     /// Sets the given baudrate to be used in the UART transmission.
     /// @param baudrate             Baudrate to be used.

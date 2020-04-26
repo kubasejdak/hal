@@ -32,8 +32,9 @@
 
 #include "LinuxGpio.hpp"
 
-#include <fmt/format.h>
 #include <gpiod.h>
+
+#include <fmt/format.h>
 
 #include <bitset>
 #include <cassert>

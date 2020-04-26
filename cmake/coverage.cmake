@@ -1,7 +1,14 @@
 option(COVERAGE "Generate coverage report" OFF)
 
 function(add_lcov_coverage)
+    include(CMakeParseArguments)
     include(FindPackageHandleStandardArgs)
+
+    set(OPTIONS                 "")
+    set(ONE_VALUE_ARGS          "")
+    set(MULTI_VALUE_ARGS        IGNORE)
+    cmake_parse_arguments(COVERAGE_OPT "${OPTIONS}" "${ONE_VALUE_ARGS}" "${MULTI_VALUE_ARGS}" ${ARGN})
+
     # Find lcov.
     find_program(LCOV_BIN lcov)
     find_package_handle_standard_args(lcov REQUIRED_VARS LCOV_BIN)
@@ -19,9 +26,9 @@ function(add_lcov_coverage)
     set(COVERAGE_FLAGS              --coverage)
     set(COVERAGE_OUTPUT_PATH        ${PROJECT_BINARY_DIR}/coverage)
     set(COVERAGE_IGNORE             '/usr/*' '*/.conan/*' '/Library/Developer/CommandLineTools/*' '*/_deps/*')
-    foreach(IGNORE_PATH IN LISTS ARGN)
+    foreach (IGNORE_PATH IN LISTS COVERAGE_OPT_IGNORE)
         list(APPEND COVERAGE_IGNORE '${IGNORE_PATH}')
-    endforeach()
+    endforeach ()
 
     add_compile_options(${COVERAGE_FLAGS})
     set(CMAKE_C_LINK_FLAGS          "${CMAKE_C_LINK_FLAGS} ${COVERAGE_FLAGS}" CACHE INTERNAL "")

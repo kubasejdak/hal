@@ -1,6 +1,6 @@
 Clang_Format:
   stage: quality
-  image: kubasejdak/clang:latest
+  image: kubasejdak/clang:10
   tags:
     - linux
     - shared
@@ -38,23 +38,23 @@ Clang_Format:
 
 GpioSet1_Linux_ARM_Clang_Tidy:
   extends: .Clang_Tidy
-  image: kubasejdak/arm-linux-gnueabihf-clang:latest
+  image: kubasejdak/arm-linux-gnueabihf-clang:10
   variables:
-    Toolchain: "arm-linux-gnueabihf-clang-9"
+    Toolchain: "arm-linux-gnueabihf-clang-10"
     App: "gpio-set1"
 
 GpioSet2_Linux_ARM_Clang_Tidy:
   extends: .Clang_Tidy
-  image: kubasejdak/arm-linux-gnueabihf-clang:latest
+  image: kubasejdak/arm-linux-gnueabihf-clang:10
   variables:
-    Toolchain: "arm-linux-gnueabihf-clang-9"
+    Toolchain: "arm-linux-gnueabihf-clang-10"
     App: "gpio-set2"
 
 Middleware_Linux_Clang_Tidy:
   extends: .Clang_Tidy
-  image: kubasejdak/clang:latest
+  image: kubasejdak/clang:10
   variables:
-    Toolchain: "clang-9"
+    Toolchain: "clang-10"
     App: "middleware"
 
 Coverage_Total:
