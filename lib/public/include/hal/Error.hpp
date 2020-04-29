@@ -37,6 +37,8 @@
 
 namespace hal {
 
+/// @enum Error
+/// Represents possible error codes returned from HAL.
 enum class Error {
     eOk,
     eInvalidArgument,
@@ -54,8 +56,9 @@ enum class Error {
     eHardwareError
 };
 
-// NOLINTNEXTLINE(readability-identifier-naming)
-std::error_code make_error_code(Error error);
+/// Creates error code value for Error enum.
+/// @return std::error_code value created from Error enum.
+std::error_code make_error_code(Error error); // NOLINT(readability-identifier-naming)
 
 } // namespace hal
 

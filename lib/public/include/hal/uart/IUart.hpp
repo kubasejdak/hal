@@ -56,13 +56,21 @@ enum class Baudrate {
     e921600 = 921600  // NOLINT
 };
 
+// clang-format off
 /// @enum Mode
 /// Represents possible UART configurations in traditional form (<data bits><parity><stop bits>).
-enum class Mode { e8n1 }; // NOLINT
+enum class Mode {
+    e8n1 // NOLINT
+};
 
 /// @enum FlowControl
 /// Represents the flow control selected to be used in the UART transmission.
-enum class FlowControl { eNone, eRtsCts, eXonXoff };
+enum class FlowControl {
+    eNone,
+    eRtsCts,
+    eXonXoff
+};
+// clang-format on
 
 /// @class IUart
 /// Represents a single UART device. All operations will be limited to the given instance of this class.
@@ -105,7 +113,7 @@ public:
     std::error_code close();
 
     /// Checks if the device is currently opened.
-    /// @see IUart::Open
+    /// @see IUart::open().
     /// @return Flag indicating if the device is opened.
     /// @retval true                Device is currently opened.
     /// @retval false               Device is currently closed.

@@ -38,11 +38,13 @@
 
 namespace hal::uart {
 
-class TtyUart : public IUart {
+/// @class LinuxUart
+/// Represents Linux driver for the IUart interface.
+class LinuxUart final : public IUart {
 public:
     /// Constructor.
     /// @param ttyDevicePath        Path to the TTY device.
-    explicit TtyUart(std::string& ttyDevicePath);
+    explicit LinuxUart(std::string& ttyDevicePath);
 
 private:
     /// @see IUart::drvOpen().

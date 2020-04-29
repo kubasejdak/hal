@@ -49,28 +49,51 @@ struct gpiod_line;
 
 namespace hal::gpio {
 
-class LinuxGpio
+/// @class IGpioPort
+/// Represents Linux driver for the IGpioPort interface.
+/// @note This class uses libgpiod as the underlying GPIO driver.
+class LinuxGpio final
     : public IGpioPort<std::uint32_t>
     , public utils::Registrable<std::string_view> {
 public:
+    /// Constructor.
+    /// @param name                 Name of the GPIO instance handled by this object.
+    /// @param gpiochipName         Name of the GPIO chip (as seen by libgpiod) to be used by this object.
+    /// @param offsets              List of numerical identifiers of the GPIO lines handled by this object.
+    /// @param directions           List of directions for each GPIO line handled by this object.
     LinuxGpio(std::string_view name,
               std::string_view gpiochipName,
               const std::vector<int>& offsets,
               const std::vector<int>& directions);
+
+    /// Copy constructor.
+    /// @note This constructor is deleted, because this type is not meant to be copied.
     LinuxGpio(const LinuxGpio&) = delete;
+
+    /// Move constructor.
+    /// @param other                Object to be moved from.
     LinuxGpio(LinuxGpio&& other) noexcept;
+
+    /// Destructor.
     ~LinuxGpio() override;
 
+    /// Copy assignment operator.
+    /// @return Reference to self.
+    /// @note This operator is deleted, because this type is not meant to be copied.
     LinuxGpio& operator=(const LinuxGpio&) = delete;
+
+    /// Move assignment operator.
+    /// @return Reference to self.
+    /// @note This operator is deleted, because this type is not meant to be copied.
     LinuxGpio& operator=(LinuxGpio&&) = delete;
 
-    /// @see IGpioPort::drvSetDirection
-    std::error_code drvSetDirection(std::uint32_t /*direction*/, std::uint32_t /*mask*/) override { return Error::eOk; }
+    /// @see IGpioPort::drvSetDirection().
+    std::error_code drvSetDirection(std::uint32_t /*unused*/, std::uint32_t /*unused*/) override { return Error::eOk; }
 
-    /// @see IGpioPort::drvRead
+    /// @see IGpioPort::drvRead().
     std::error_code drvRead(std::uint32_t& value, std::uint32_t mask) override;
 
-    /// @see IGpioPort::drvWrite
+    /// @see IGpioPort::drvWrite().
     std::error_code drvWrite(std::uint32_t value, std::uint32_t mask) override;
 
 private:

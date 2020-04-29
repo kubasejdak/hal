@@ -40,6 +40,8 @@ namespace hal {
 namespace device_id {
 
 // clang-format off
+/// @enum GpioSet1Id
+/// Represents identifiers of the devices provided by the gpio-set1 board.
 enum GpioSet1Id {
     // Port A.
     ePortAPin0,
@@ -65,6 +67,13 @@ enum GpioSet1Id {
 
 } // namespace device_id
 
+/// Returns device handle associated with the given device id from gpio-set1 board.
+/// @tparam T           Type of the device to be returned.
+/// @param id           Identifier of the device to be returned.
+/// @return Device handle casted to the given type T and associated with the given device id.
+/// @note If there is no such id registered in the board or handle has been retrieved maximal times, then nullptr
+///       will be returned.
+/// @note Caller has to use the correct T type in order to get the valid handle.
 template <typename T>
 std::shared_ptr<T> getDevice(device_id::GpioSet1Id id)
 {

@@ -75,7 +75,7 @@ public:
     }
 
 private:
-    /// @see IPinInput::get
+    /// @see IPinInput::get().
     std::error_code get(bool& value) override
     {
         WidthType data{};

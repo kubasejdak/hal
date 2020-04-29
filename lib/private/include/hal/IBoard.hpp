@@ -40,16 +40,54 @@
 
 namespace hal {
 
+/// Interface for objects objects representing physical hardware boards.
+/// @note Main goal of the board interface is to be the container for device drivers and provide a mechanism to
+///       access them via special enum identifier.
 class IBoard {
 public:
+    /// Default constructor.
+    IBoard() = default;
+
+    /// Copy constructor.
+    /// @note This constructor is deleted, because IBoard is not meant to be copy-initialized.
+    IBoard(const IBoard&) = delete;
+
+    /// Move constructor.
+    /// @note This constructor is deleted, because IBoard is not meant to be move-initialized.
+    IBoard(IBoard&&) noexcept = delete;
+
+    /// Virtual destructor.
+    virtual ~IBoard() = default;
+
+    /// Copy assignment operator.
+    /// @note This operator is deleted, because IBoard is not meant to be copy-assigned.
+    IBoard& operator=(const IBoard&) = delete;
+
+    /// Move assignment operator.
+    /// @note This operator is deleted, because IBoard is not meant to be move-assigned.
+    IBoard& operator=(IBoard&&) noexcept = delete;
+
+    /// Initializes the board.
+    /// @return Error code of the operation.
+    /// @note This function will usually create and initialize all device drivers that will be available to access
+    ///       from this board.
     virtual std::error_code init() = 0;
+
+    /// Deinitializes the board.
+    /// @return Error code of the operation.
     virtual std::error_code deinit() = 0;
 
+    /// Returns device handle associated with the given device id from the current board.
+    /// @tparam IdType          Type of the device identifier (usually related to the concrete board implementation).
+    /// @param id               Identifier of the device to be returned.
+    /// @return Generic device handle associated with the given device id.
+    /// @note Before returning handle internal device reference counter is incremented. If maximal references has
+    ///       been reached, then nullptr will be returned.
     template <typename IdType>
     std::shared_ptr<Device> getDevice(IdType id)
     {
         if (auto device = getDeviceImpl(id)) {
-            if (auto error = device->take())
+            if (device->take())
                 return nullptr;
 
             return device;
@@ -58,6 +96,11 @@ public:
         return nullptr;
     }
 
+    /// Returns given device handle to the board.
+    /// @param device           Device to be returned.
+    /// @return Error code of the operation.
+    /// @note After returning internal device reference counter is decremented, making it possible to get this device
+    ///       by other clients.
     std::error_code returnDevice(std::shared_ptr<Device>& device)
     {
         if (auto error = returnDeviceImpl(device))
@@ -66,13 +109,25 @@ public:
         return device->give();
     }
 
+    /// Returns board containing given device.
+    /// @param device           Device for which containing board should be returned.
+    /// @return Board containing given device.
     static IBoard* getBoard(const std::shared_ptr<Device>& device) { return device->board(); }
 
 protected:
+    /// Sets reference to the current board in the given device.
+    /// @param device           Device for which containing board should be set.
     void setBoard(std::shared_ptr<Device>& device) { device->setBoard(this); }
 
 private:
+    /// Board-specific implementation of the method returning device handle associated with the given device id.
+    /// @param id               Identifier of the device to be returned.
+    /// @return Generic device handle associated with the given device id.
     virtual std::shared_ptr<Device> getDeviceImpl(int id) = 0;
+
+    /// Board-specific implementation of the method returning given device handle to the board.
+    /// @param device           Device to be returned.
+    /// @return Error code of the operation.
     virtual std::error_code returnDeviceImpl(std::shared_ptr<Device>& device) = 0;
 };
 

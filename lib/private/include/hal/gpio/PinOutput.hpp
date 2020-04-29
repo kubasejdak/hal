@@ -73,7 +73,7 @@ public:
         m_port->setDirection(WidthType{0}, m_mask);
     }
 
-    /// @see IPinOutput::set
+    /// @see IPinOutput::set().
     std::error_code set(bool value) override
     {
         if (value)

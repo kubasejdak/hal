@@ -30,7 +30,7 @@
 ///
 /////////////////////////////////////////////////////////////////////////////////////
 
-#include "TtyUart.hpp"
+#include "LinuxUart.hpp"
 
 #include "hal/Error.hpp"
 
@@ -38,44 +38,44 @@
 
 namespace hal::uart {
 
-TtyUart::TtyUart(std::string& ttyDevicePath)
+LinuxUart::LinuxUart(std::string& ttyDevicePath)
     : m_ttyDevicePath(std::move(ttyDevicePath))
 {}
 
-std::error_code TtyUart::drvOpen()
+std::error_code LinuxUart::drvOpen()
 {
     /// @todo: Implement.
     return Error::eOk;
 }
 
-std::error_code TtyUart::drvClose()
+std::error_code LinuxUart::drvClose()
 {
     /// @todo: Implement.
     return Error::eOk;
 }
 
-std::error_code TtyUart::drvSetBaudrate(Baudrate baudrate)
+std::error_code LinuxUart::drvSetBaudrate(Baudrate baudrate)
 {
     /// @todo: Implement.
     (void) baudrate;
     return Error::eOk;
 }
 
-std::error_code TtyUart::drvSetMode(Mode mode)
+std::error_code LinuxUart::drvSetMode(Mode mode)
 {
     /// @todo: Implement.
     (void) mode;
     return Error::eOk;
 }
 
-std::error_code TtyUart::drvSetFlowControl(FlowControl flowControl)
+std::error_code LinuxUart::drvSetFlowControl(FlowControl flowControl)
 {
     /// @todo: Implement.
     (void) flowControl;
     return Error::eOk;
 }
 
-std::error_code TtyUart::drvWrite(const std::uint8_t* bytes, std::size_t size)
+std::error_code LinuxUart::drvWrite(const std::uint8_t* bytes, std::size_t size)
 {
     /// @todo: Implement.
     (void) bytes;
@@ -84,7 +84,7 @@ std::error_code TtyUart::drvWrite(const std::uint8_t* bytes, std::size_t size)
 }
 
 std::error_code
-TtyUart::drvRead(std::uint8_t* bytes, std::size_t size, std::uint32_t timeoutMs, std::size_t& actualReadSize)
+LinuxUart::drvRead(std::uint8_t* bytes, std::size_t size, std::uint32_t timeoutMs, std::size_t& actualReadSize)
 {
     /// @todo: Implement.
     (void) bytes;

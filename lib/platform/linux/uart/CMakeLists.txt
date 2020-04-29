@@ -1,5 +1,5 @@
 add_library(uart EXCLUDE_FROM_ALL
-    TtyUart.cpp
+    LinuxUart.cpp
 )
 
 target_include_directories(uart

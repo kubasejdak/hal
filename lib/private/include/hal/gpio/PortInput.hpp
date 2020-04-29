@@ -77,7 +77,7 @@ public:
         m_port->setDirection(~WidthType{0}, m_mask);
     }
 
-    /// @see IPortInput::read
+    /// @see IPortInput::read().
     std::error_code read(WidthType& value) override
     {
         WidthTypeUnderlying originalValue{};

@@ -77,7 +77,7 @@ public:
         m_port->setDirection(WidthType{0}, m_mask);
     }
 
-    /// @see IPortOutput::write
+    /// @see IPortOutput::write().
     std::error_code write(WidthType value) override
     {
         WidthTypeUnderlying modifiedValue = m_modifier ? m_modifier(value, m_mask) : value;
