@@ -39,28 +39,58 @@ namespace hal {
 
 class IBoard;
 
+/// Provides the managing capabilities to control HAL creation and destruction for the client application.
 class Hardware {
 public:
+    /// Initializes all registered base boards.
+    /// @return Error code of the operation.
     static std::error_code init();
+
+    /// Initializes all registered removable boards.
+    /// @return Error code of the operation.
     static std::error_code attach();
+
+    /// Deinitializes all registered removable boards.
+    /// @return Error code of the operation.
     static std::error_code detach();
+
+    /// Deinitializes all registered base boards.
+    /// @return Error code of the operation.
     static std::error_code destroy();
 
 private:
+    /// Default constructor.
     Hardware() = default;
+
+    /// Creates and registers concrete boards in the c
     static void createBoards();
 
 private:
-    enum class State { eUninitialized, eAttached, eDetached };
+    // clang-format off
+    /// Represents the internal state of the Hardware.
+    enum class State {
+        eUninitialized,
+        eAttached,
+        eDetached
+    };
 
-    enum class Type { eBase, eRemovable };
+    /// Represents type of the board managed by Hardware. Base boards have to always be present and initialized.
+    /// Removable boards can be destroyed and re-initialized at any time in runtime.
+    /// @note Base boards are usually the ones containing the CPU.
+    enum class Type {
+        eBase,
+        eRemovable
+    };
+    // clang-format on
 
     static inline State m_state = State::eUninitialized;
     static inline std::multimap<Type, IBoard&> m_boards;
 };
 
+/// Helper RAII type for managing board initialization via Hardware.
 class ScopedHardware {
 public:
+    /// Constructor. Automatically initializes all base and removable boards registered in Hardware.
     ScopedHardware()
     {
         if (Hardware::init())
@@ -74,18 +104,35 @@ public:
         m_initialized = true;
     }
 
+    /// Copy constructor.
+    /// @note This constructor is deleted, because ScopedHardware is not meant to be copy-constructed.
     ScopedHardware(const ScopedHardware&) = delete;
+
+    /// Move constructor.
+    /// @note This constructor is deleted, because ScopedHardware is not meant to be move-constructed.
     ScopedHardware(ScopedHardware&&) noexcept = delete;
 
+    /// Destructor. Automatically deinitializes all base and removable boards registered in Hardware.
     ~ScopedHardware()
     {
         Hardware::detach();
         Hardware::destroy();
     }
 
+    /// Copy assignment operator.
+    /// @return Reference to self.
+    /// @note This operator is deleted, because ScopedHardware is not meant to be copy-assigned.
     ScopedHardware& operator=(const ScopedHardware&) = delete;
+
+    /// Move assignment operator.
+    /// @return Reference to self.
+    /// @note This operator is deleted, because ScopedHardware is not meant to be move-assigned.
     ScopedHardware& operator=(ScopedHardware&&) noexcept = delete;
 
+    /// Returns flag indicating if Hardware has been initialized.
+    /// @return Flag indicating if Hardware has been initialized.
+    /// @retval true            Hardware has been initialized.
+    /// @retval false           Hardware has not been initialized.
     [[nodiscard]] bool initialized() const { return m_initialized; }
 
 private:

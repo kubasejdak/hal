@@ -37,7 +37,6 @@
 
 namespace hal {
 
-/// @enum Error
 /// Represents possible error codes returned from HAL.
 enum class Error {
     eOk,

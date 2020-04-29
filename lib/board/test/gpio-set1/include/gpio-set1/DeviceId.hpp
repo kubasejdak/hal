@@ -40,7 +40,6 @@ namespace hal {
 namespace device_id {
 
 // clang-format off
-/// @enum GpioSet1Id
 /// Represents identifiers of the devices provided by the gpio-set1 board.
 enum GpioSet1Id {
     // Port A.

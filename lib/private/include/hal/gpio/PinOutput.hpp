@@ -45,7 +45,6 @@
 
 namespace hal::gpio {
 
-/// @class PinOutput
 /// Represents a single pin output device.
 /// This class isolates a single pin output from the whole GPIO port.
 /// @tparam WidthType           Type representing the bit-width of the port.

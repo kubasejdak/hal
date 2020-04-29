@@ -43,11 +43,17 @@
 
 namespace hal {
 
+/// Board template which holds all its drivers in a map (id -> handle).
+/// @tparam IdType          Type of the device identifier (usually related to the concrete board implementation).
+/// @note This map is parametrized with the device id type, which is specific to the concrete board implementation.
+///       Such boards have to only specialize Board::initImpl() and optionally Board::deinitImpl().
 template <typename IdType>
 class Board : public IBoard {
     static_assert(std::is_enum_v<IdType>, "Board can be instantiated only with enum types");
 
 public:
+    /// Returns instance of the Board singleton.
+    /// @return Instance of the Board singleton.
     static Board<IdType>& instance()
     {
         static Board<IdType> object;
@@ -55,6 +61,7 @@ public:
     }
 
 private:
+    /// @see IBoard::init().
     std::error_code init() override
     {
         if (auto error = initImpl())
@@ -66,6 +73,7 @@ private:
         return Error::eOk;
     }
 
+    /// @see IBoard::deinit().
     std::error_code deinit() override
     {
         for (const auto& [id, device] : m_devices) {
@@ -77,6 +85,7 @@ private:
         return deinitImpl();
     }
 
+    /// @see IBoard::getDeviceImpl().
     std::shared_ptr<Device> getDeviceImpl(int id) override
     {
         auto deviceId = static_cast<IdType>(id);
@@ -86,9 +95,16 @@ private:
         return m_devices[deviceId];
     }
 
+    /// @see IBoard::returnDeviceImpl().
     std::error_code returnDeviceImpl(std::shared_ptr<Device>& /*unused*/) override { return Error::eOk; }
 
+    /// Fills the device map with handles to the initialized device drivers.
+    /// @return Error code of the operation.
     std::error_code initImpl();
+
+    /// Deinitializes board after the device map is already cleared.
+    /// @return Error code of the operation.
+    /// @note This method will usually destroy all global drivers, which are held in GlobalRegistry.
     std::error_code deinitImpl() { return Error::eOk; }
 
 private:

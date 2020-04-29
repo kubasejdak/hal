@@ -40,7 +40,6 @@
 
 namespace hal::uart {
 
-/// @enum BaudRate
 /// Represents the baud rate (speed) used in the UART transmission.
 enum class Baudrate {
     e1200 = 1200,     // NOLINT
@@ -57,13 +56,11 @@ enum class Baudrate {
 };
 
 // clang-format off
-/// @enum Mode
 /// Represents possible UART configurations in traditional form (<data bits><parity><stop bits>).
 enum class Mode {
     e8n1 // NOLINT
 };
 
-/// @enum FlowControl
 /// Represents the flow control selected to be used in the UART transmission.
 enum class FlowControl {
     eNone,
@@ -72,7 +69,6 @@ enum class FlowControl {
 };
 // clang-format on
 
-/// @class IUart
 /// Represents a single UART device. All operations will be limited to the given instance of this class.
 class IUart : public Device {
 public:
@@ -82,24 +78,24 @@ public:
     {}
 
     /// Copy constructor.
-    /// @note This constructor is deleted, because IUart is not meant for copying.
+    /// @note This constructor is deleted, because IUart is not meant to be copy-constructed.
     IUart(const IUart&) = delete;
 
     /// Move constructor.
-    /// @note This constructor is deleted, because IUart is not meant for copying.
+    /// @note This constructor is deleted, because IUart is not meant to be move-constructed.
     IUart(IUart&&) = delete;
 
     /// Destructor.
     ~IUart() override { close(); }
 
-    /// Assignment operator.
-    /// @return Reference to the result of the assignment.
-    /// @note This operator is deleted, because IUart is not meant for copying.
+    /// Copy assignment operator.
+    /// @return Reference to self.
+    /// @note This operator is deleted, because IUart is not meant to be copy-assigned.
     IUart& operator=(const IUart&) = delete;
 
     /// Move assignment operator.
-    /// @return Reference to the result of the assignment.
-    /// @note This operator is deleted, because IUart is not meant for copying.
+    /// @return Reference to self.
+    /// @note This operator is deleted, because IUart is not meant to be move-assigned.
     IUart& operator=(IUart&&) = delete;
 
     /// Opens the transmission channel. If the configuration of this device is valid, then after a successful

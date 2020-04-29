@@ -49,21 +49,23 @@ public:
     IBoard() = default;
 
     /// Copy constructor.
-    /// @note This constructor is deleted, because IBoard is not meant to be copy-initialized.
+    /// @note This constructor is deleted, because IBoard is not meant to be copy-constructed.
     IBoard(const IBoard&) = delete;
 
     /// Move constructor.
-    /// @note This constructor is deleted, because IBoard is not meant to be move-initialized.
+    /// @note This constructor is deleted, because IBoard is not meant to be move-constructed.
     IBoard(IBoard&&) noexcept = delete;
 
     /// Virtual destructor.
     virtual ~IBoard() = default;
 
     /// Copy assignment operator.
+    /// @return Reference to self.
     /// @note This operator is deleted, because IBoard is not meant to be copy-assigned.
     IBoard& operator=(const IBoard&) = delete;
 
     /// Move assignment operator.
+    /// @return Reference to self.
     /// @note This operator is deleted, because IBoard is not meant to be move-assigned.
     IBoard& operator=(IBoard&&) noexcept = delete;
 

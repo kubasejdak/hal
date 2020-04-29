@@ -39,7 +39,6 @@
 
 namespace hal::gpio {
 
-/// @class IPinOutput
 /// Represents a single output pin abstraction.
 /// @note Pins are always part of a bigger GPIO port abstraction.
 class IPinOutput : public Device {

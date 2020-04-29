@@ -49,7 +49,6 @@ struct gpiod_line;
 
 namespace hal::gpio {
 
-/// @class IGpioPort
 /// Represents Linux driver for the IGpioPort interface.
 /// @note This class uses libgpiod as the underlying GPIO driver.
 class LinuxGpio final
@@ -67,7 +66,7 @@ public:
               const std::vector<int>& directions);
 
     /// Copy constructor.
-    /// @note This constructor is deleted, because this type is not meant to be copied.
+    /// @note This constructor is deleted, because LinuxGpio is not meant to be copy-constructed.
     LinuxGpio(const LinuxGpio&) = delete;
 
     /// Move constructor.
@@ -79,12 +78,12 @@ public:
 
     /// Copy assignment operator.
     /// @return Reference to self.
-    /// @note This operator is deleted, because this type is not meant to be copied.
+    /// @note This operator is deleted, because LinuxGpio is not meant to be copy-assigned.
     LinuxGpio& operator=(const LinuxGpio&) = delete;
 
     /// Move assignment operator.
     /// @return Reference to self.
-    /// @note This operator is deleted, because this type is not meant to be copied.
+    /// @note This operator is deleted, because LinuxGpio is not meant to be move-assigned.
     LinuxGpio& operator=(LinuxGpio&&) = delete;
 
     /// @see IGpioPort::drvSetDirection().

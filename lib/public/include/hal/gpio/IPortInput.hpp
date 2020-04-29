@@ -41,7 +41,6 @@
 
 namespace hal::gpio {
 
-/// @class IPortInput
 /// Represents an abstraction for the set of the GPIO input pins, which are part of the same GPIO port.
 /// This set can represent any combination of the pins and is defined by the board configuration.
 /// @tparam WidthType               Unsigned type representing bitness of the given port (e.g. std::uint32_t is 32bit).

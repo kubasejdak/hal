@@ -40,7 +40,6 @@ namespace hal {
 namespace device_id {
 
 // clang-format off
-/// @enum MiddlewareId
 /// Represents identifiers of the devices provided by the middleware board.
 enum MiddlewareId {
     eHardwareTestLed

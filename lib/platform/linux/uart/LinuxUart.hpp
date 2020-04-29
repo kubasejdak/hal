@@ -38,7 +38,6 @@
 
 namespace hal::uart {
 
-/// @class LinuxUart
 /// Represents Linux driver for the IUart interface.
 class LinuxUart final : public IUart {
 public:

@@ -40,7 +40,6 @@
 
 namespace hal::gpio {
 
-/// @class IGpioPort
 /// Represents the GPIO port with the defined width and access type.
 /// @tparam WidthType       Type representing the bit-width of the port (e.g. std::uint32_t means that port is 32-bit).
 template <typename WidthType>
@@ -52,7 +51,7 @@ public:
     IGpioPort() = default;
 
     /// Copy constructor.
-    /// @note This constructor is deleted, because IGpioPort is not meant for copying.
+    /// @note This constructor is deleted, because IGpioPort is not meant to be copy-constructed.
     IGpioPort(const IGpioPort&) = delete;
 
     /// Move constructor.
@@ -62,11 +61,14 @@ public:
     virtual ~IGpioPort() = default;
 
     /// Copy assignment operator.
-    /// @note This operator is deleted, because IGpioPort is not meant for copying.
+    /// @return Reference to self.
+    /// @note This operator is deleted, because IGpioPort is not meant to be copy-assigned.
     IGpioPort& operator=(const IGpioPort&) = delete;
 
     /// Move assignment operator.
-    IGpioPort& operator=(IGpioPort&&) noexcept = default;
+    /// @return Reference to self.
+    /// @note This operator is deleted, because IGpioPort is not meant to be move-assigned.
+    IGpioPort& operator=(IGpioPort&&) noexcept = delete;
 
     /// Sets the direction of each pin in the GPIO port.
     /// @param direction    Direction mask to be set.

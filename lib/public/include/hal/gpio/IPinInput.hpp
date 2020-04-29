@@ -39,7 +39,6 @@
 
 namespace hal::gpio {
 
-/// @class IPinInput
 /// Represents a single input pin abstraction.
 /// @note Pins are always part of a bigger GPIO port abstraction.
 class IPinInput : public Device {

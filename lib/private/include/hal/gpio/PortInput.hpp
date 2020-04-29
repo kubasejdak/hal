@@ -43,7 +43,6 @@
 
 namespace hal::gpio {
 
-/// @class PortInput
 /// Concrete implementation of the GPIO input pins set, which are part of the same GPIO port.
 /// This set can represent any combination of the pins and is defined by the board configuration.
 /// @tparam WidthType                   Client-side type representing the bit-width of the port (e.g. std::uint32_t

@@ -38,28 +38,68 @@
 
 namespace hal {
 
-enum class SharingPolicy { eSingle, eShared };
+// clang-format off
+/// Represents possible sharing policies of the HAL devices. Single devices can be only returned once from HAL,
+/// while shared devices can be returned multiple times and are internally synchronized if needed.
+enum class SharingPolicy {
+    eSingle,
+    eShared
+};
+// clang-format on
 
 class IBoard;
 
+/// Base class for all device drivers provided by HAL. Provides basic mechanics to support SharingPolicy.
 class Device {
     friend class IBoard;
 
 public:
+    /// Constructor.
+    /// @param sharingPolicy         SharingPolicy to be set for the current device.
     explicit Device(SharingPolicy sharingPolicy);
+
+    /// Copy constructor.
+    /// @note This constructor is deleted, because Device is not meant to be copy-constructed.
     Device(const Device&) = delete;
+
+    /// Move constructor.
+    /// @note This constructor is deleted, because Device is not meant to be move-constructed.
     Device(Device&&) noexcept = default;
+
+    /// Virtual destructor.
     virtual ~Device() = default;
 
+    /// Copy assignment operator.
+    /// @return Reference to self.
+    /// @note This operator is deleted, because Device is not meant to be copy-assigned.
     Device& operator=(const Device&) = delete;
+
+    /// Move assignment operator.
+    /// @return Reference to self.
+    /// @note This operator is deleted, because Device is not meant to be move-assigned.
     Device& operator=(Device&&) = delete;
 
+    /// Returns current number of clients outside HAL (how many times this driver has been returned from HAL).
+    /// @return Current number of clients outside HAL.
     [[nodiscard]] std::size_t ownersCount() const { return m_ownersCount; }
 
 private:
+    /// Checks if device has reached its owners limit according to its SharingPolicy. If not, then the internal
+    /// owners counter is incremented. If limit is reached, then appropriate error is returned.
+    /// @return Error code of the operation.
     std::error_code take();
+
+    /// Decrements the internal owners counter.
+    /// @return Error code of the operation.
     std::error_code give();
+
+    /// Sets the given board in the current device.
+    /// @param board                Board to be set in the current device.
+    /// @note Given board should be the one that is currently holding this device.
     void setBoard(IBoard* board) { m_board = board; }
+
+    /// Returns board which is holding this device.
+    /// @return Board which is holding this device.
     [[nodiscard]] IBoard* board() const { return m_board; }
 
 private:
@@ -70,11 +110,19 @@ private:
 
 namespace detail {
 
+/// Internal board implementation of the method returning device handle associated with the given device id.
+/// @tparam IdType                  Type of the device to be returned.
+/// @param id                       Identifier of the device to be returned.
+/// @return Device handle associated with the given device id.
 template <typename IdType>
 std::shared_ptr<Device> getDeviceImpl(IdType id);
 
 } // namespace detail
 
+/// Return given device to HAL.
+/// @param device                   Device to be returned.
+/// @return Error code of the operation.
+/// @note After this call device handle is cleared.
 std::error_code returnDevice(std::shared_ptr<Device>&& device);
 
 } // namespace hal

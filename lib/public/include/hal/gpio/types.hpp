@@ -40,7 +40,6 @@
 
 namespace hal::gpio {
 
-/// @enum Pin
 /// Represents possible bits from the GPIO ports.
 enum class Pin {
     eBit0,
