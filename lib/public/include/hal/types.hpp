@@ -37,7 +37,6 @@
 
 namespace hal {
 
-/// @typedef BytesVector
 /// Helper type alias representing vector of bytes.
 using BytesVector = std::vector<std::uint8_t>;
 

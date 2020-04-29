@@ -55,7 +55,6 @@ class PortOutput : public IPortOutput<WidthType> {
     static_assert(cIsValidWidthType<WidthTypeUnderlying>);
 
 public:
-    /// @typedef ModifierCallback
     /// Helper type defining function, that will be called on the output data before sending it to the hardware GPIO.
     using ModifierCallback = std::function<WidthTypeUnderlying(WidthType, WidthTypeUnderlying)>;
 

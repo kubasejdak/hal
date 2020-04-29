@@ -55,7 +55,6 @@ class PortInput : public IPortInput<WidthType> {
     static_assert(cIsValidWidthType<WidthTypeUnderlying>);
 
 public:
-    /// @typedef ModifierCallback
     /// Helper type defining function, that will be called on the input data before sending it to the client.
     using ModifierCallback = std::function<WidthType(WidthTypeUnderlying, WidthTypeUnderlying)>;
 

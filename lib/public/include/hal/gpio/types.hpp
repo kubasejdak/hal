@@ -137,7 +137,6 @@ constexpr Pin maxPin()
     }
 }
 
-/// @typedef PinMask
 /// Helper type representing bit mask with the specified width.
 /// @tparam WidthType       Unsigned type representing bitness of the given port (e.g. std::uint32_t is 32bit).
 template <typename WidthType>
