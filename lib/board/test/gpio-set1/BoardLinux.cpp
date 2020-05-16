@@ -54,9 +54,9 @@ std::error_code Board<device_id::GpioSet1Id>::initImpl()
     // clang-format off
     auto cGpio0Lines      = {4, 5, 6, 12, 13, 16, 17, 18, 20, 21, 22, 23, 24, 25, 26, 27}; // NOLINT
     auto cGpio0Directions = {0, 0, 0,  1,  0,  1,  0,  1,  1,  1,  0,  1,  1,  1,  0,  0};
-    gpio::LinuxGpioDriver::init(gpio::LinuxGpio("gpio0", "pinctrl-bcm2835", cGpio0Lines, cGpio0Directions));
+    gpio::Registry::init({{"gpio0", gpio::LinuxGpio("gpio0", "pinctrl-bcm2835", cGpio0Lines, cGpio0Directions)}});
 
-    auto gpio0 = gpio::LinuxGpioDriver::get("gpio0");
+    auto gpio0 = gpio::Registry::get("gpio0");
 
     m_devices[device_id::ePortAPin0] = std::make_shared<gpio::PinOutput<std::uint32_t>>(gpio0, gpio::Pin::eBit4);
     m_devices[device_id::ePortAPin1] = std::make_shared<gpio::PinOutput<std::uint32_t>>(gpio0, gpio::Pin::eBit17);
@@ -83,7 +83,7 @@ std::error_code Board<device_id::GpioSet1Id>::initImpl()
 template <>
 std::error_code Board<device_id::GpioSet1Id>::deinitImpl()
 {
-    gpio::LinuxGpioDriver::clear();
+    gpio::Registry::clear();
 
     return Error::eOk;
 }

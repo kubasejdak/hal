@@ -47,8 +47,7 @@ LinuxGpio::LinuxGpio(std::string_view name,
                      std::string_view gpiochipName,
                      const std::vector<int>& offsets,
                      const std::vector<int>& directions)
-    : utils::Registrable<std::string_view>(name)
-    , m_chip(gpiod_chip_open_by_label(gpiochipName.data()))
+    : m_chip(gpiod_chip_open_by_label(gpiochipName.data()))
 {
     assert(m_chip != nullptr);
     assert(offsets.size() == directions.size());
@@ -67,7 +66,7 @@ LinuxGpio::LinuxGpio(std::string_view name,
         auto* line = gpiod_chip_get_line(m_chip, requestedOffset);
         assert(line != nullptr);
 
-        auto owner = fmt::format("hal::{}.{}", instanceId(), requestedOffset);
+        auto owner = fmt::format("hal::{}.{}", name, requestedOffset);
         auto result = (requestedDirection == m_cGpioInput) ? gpiod_line_request_input(line, owner.c_str())
                                                            : gpiod_line_request_output(line, owner.c_str(), 0);
 
@@ -80,7 +79,6 @@ LinuxGpio::LinuxGpio(std::string_view name,
 }
 
 LinuxGpio::LinuxGpio(LinuxGpio&& other) noexcept
-    : utils::Registrable<std::string_view>(std::move(other))
 {
     m_chip = other.m_chip;
     other.m_chip = nullptr;
