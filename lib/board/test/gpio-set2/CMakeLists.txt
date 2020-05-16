@@ -1,7 +1,7 @@
 add_library(gpio-set2-public INTERFACE)
 add_library(gpio-set2-private EXCLUDE_FROM_ALL)
 
-if (PLATFORM STREQUAL linux OR PLATFORM STREQUAL linux-arm)
+if (PLATFORM STREQUAL linux)
     target_sources(gpio-set2-private
         PRIVATE BoardLinux.cpp
     )
@@ -15,9 +15,9 @@ target_link_libraries(gpio-set2-public
     INTERFACE hal-public
 )
 
-if (PLATFORM STREQUAL linux OR PLATFORM STREQUAL linux-arm)
+if (PLATFORM STREQUAL linux)
     target_link_libraries(gpio-set2-private
         PUBLIC gpio-set2-public hal-public
-        PRIVATE hal-private gpio
+        PRIVATE hal-private
     )
 endif ()

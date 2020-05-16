@@ -35,8 +35,6 @@
 #include "hal/Error.hpp"
 #include "hal/gpio/IGpioPort.hpp"
 
-#include <utils/GlobalRegistry.hpp>
-
 #include <climits>
 #include <cstdint>
 #include <map>
@@ -102,7 +100,5 @@ private:
     std::map<int, gpiod_line*> m_lines;
     std::map<int, int> m_directions;
 };
-
-using Registry = utils::GlobalRegistry<LinuxGpio>;
 
 } // namespace hal::gpio

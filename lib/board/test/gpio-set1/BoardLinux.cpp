@@ -30,12 +30,12 @@
 ///
 /////////////////////////////////////////////////////////////////////////////////////
 
-#include "LinuxGpio.hpp"
-#include "gpio-set1/DeviceId.hpp"
 #include "hal/Board.hpp"
 #include "hal/Error.hpp"
+#include "hal/gpio/IGpioPort.hpp"
 #include "hal/gpio/PinInput.hpp"
 #include "hal/gpio/PinOutput.hpp"
+#include "test/gpio-set1/DeviceId.hpp"
 
 namespace hal {
 namespace detail {
@@ -52,11 +52,7 @@ template <>
 std::error_code Board<device_id::GpioSet1Id>::initImpl()
 {
     // clang-format off
-    auto cGpio0Lines      = {4, 5, 6, 12, 13, 16, 17, 18, 20, 21, 22, 23, 24, 25, 26, 27}; // NOLINT
-    auto cGpio0Directions = {0, 0, 0,  1,  0,  1,  0,  1,  1,  1,  0,  1,  1,  1,  0,  0};
-    gpio::Registry::init({{"gpio0", gpio::LinuxGpio("gpio0", "pinctrl-bcm2835", cGpio0Lines, cGpio0Directions)}});
-
-    auto gpio0 = gpio::Registry::get("gpio0");
+    auto gpio0 = gpio::Registry<std::uint32_t>::get("gpio0");
 
     m_devices[device_id::ePortAPin0] = std::make_shared<gpio::PinOutput<std::uint32_t>>(gpio0, gpio::Pin::eBit4);
     m_devices[device_id::ePortAPin1] = std::make_shared<gpio::PinOutput<std::uint32_t>>(gpio0, gpio::Pin::eBit17);
@@ -76,14 +72,6 @@ std::error_code Board<device_id::GpioSet1Id>::initImpl()
     m_devices[device_id::ePortBPin6] = std::make_shared<gpio::PinInput<std::uint32_t>>(gpio0, gpio::Pin::eBit20);
     m_devices[device_id::ePortBPin7] = std::make_shared<gpio::PinInput<std::uint32_t>>(gpio0, gpio::Pin::eBit21);
     // clang-format on
-
-    return Error::eOk;
-}
-
-template <>
-std::error_code Board<device_id::GpioSet1Id>::deinitImpl()
-{
-    gpio::Registry::clear();
 
     return Error::eOk;
 }

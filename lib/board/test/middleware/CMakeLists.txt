@@ -1,7 +1,7 @@
 add_library(middleware-public INTERFACE)
 add_library(middleware-private EXCLUDE_FROM_ALL)
 
-if (PLATFORM STREQUAL linux OR PLATFORM STREQUAL linux-arm)
+if (PLATFORM STREQUAL linux)
     target_sources(middleware-private
         PRIVATE BoardLinux.cpp
     )
@@ -15,7 +15,7 @@ target_link_libraries(middleware-public
     INTERFACE hal-public
 )
 
-if (PLATFORM STREQUAL linux OR PLATFORM STREQUAL linux-arm)
+if (PLATFORM STREQUAL linux)
     target_link_libraries(middleware-private
         PUBLIC middleware-public hal-public
         PRIVATE hal-private

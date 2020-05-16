@@ -39,7 +39,8 @@ namespace hal {
 
 void Hardware::createBoards()
 {
-    m_boards.insert({Type::eBase, Board<device_id::GpioSet2Id>::instance()});
+    m_boards.insert({Type::eBase, Board<device_id::RaspberryPiId>::instance()});
+    m_boards.insert({Type::eRemovable, Board<device_id::GpioSet2Id>::instance()});
 }
 
 } // namespace hal

@@ -79,6 +79,7 @@ LinuxGpio::LinuxGpio(std::string_view name,
 }
 
 LinuxGpio::LinuxGpio(LinuxGpio&& other) noexcept
+    : IGpioPort<std::uint32_t>(std::move(other))
 {
     m_chip = other.m_chip;
     other.m_chip = nullptr;

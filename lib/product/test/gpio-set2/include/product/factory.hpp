@@ -32,4 +32,5 @@
 
 #pragma once
 
-#include "gpio-set2/DeviceId.hpp"
+#include "sbc/raspberrypi/DeviceId.hpp"
+#include "test/gpio-set2/DeviceId.hpp"
