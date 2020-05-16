@@ -51,9 +51,7 @@ namespace hal::gpio {
 
 /// Represents Linux driver for the IGpioPort interface.
 /// @note This class uses libgpiod as the underlying GPIO driver.
-class LinuxGpio final
-    : public IGpioPort<std::uint32_t>
-    , public utils::Registrable<std::string_view> {
+class LinuxGpio final : public IGpioPort<std::uint32_t> {
 public:
     /// Constructor.
     /// @param name                 Name of the GPIO instance handled by this object.
@@ -105,6 +103,6 @@ private:
     std::map<int, int> m_directions;
 };
 
-using LinuxGpioDriver = utils::GlobalRegistry<LinuxGpio>;
+using Registry = utils::GlobalRegistry<LinuxGpio>;
 
 } // namespace hal::gpio
