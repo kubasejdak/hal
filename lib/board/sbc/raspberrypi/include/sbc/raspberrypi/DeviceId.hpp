@@ -30,17 +30,34 @@
 ///
 /////////////////////////////////////////////////////////////////////////////////////
 
-#include "hal/Hardware.hpp"
+#pragma once
 
-#include "hal/Board.hpp"
-#include "hal/factory.hpp"
+#include "hal/Device.hpp"
+
+#include <memory>
 
 namespace hal {
+namespace device_id {
 
-void Hardware::createBoards()
+// clang-format off
+/// Represents identifiers of the devices provided by the sbc/raspberrypi board.
+enum RaspberryPiId {
+};
+// clang-format on
+
+} // namespace device_id
+
+/// Returns device handle associated with the given device id from sbc/raspberrypi board.
+/// @tparam T           Type of the device to be returned.
+/// @param id           Identifier of the device to be returned.
+/// @return Device handle casted to the given type T and associated with the given device id.
+/// @note If there is no such id registered in the board or handle has been retrieved maximal times, then nullptr
+///       will be returned.
+/// @note Caller has to use the correct T type in order to get the valid handle.
+template <typename T>
+std::shared_ptr<T> getDevice(device_id::RaspberryPiId id)
 {
-    m_boards.insert({Type::eBase, Board<device_id::RaspberryPiId>::instance()});
-    m_boards.insert({Type::eRemovable, Board<device_id::GpioSet1Id>::instance()});
+    return std::dynamic_pointer_cast<T>(detail::getDeviceImpl<decltype(id)>(id));
 }
 
 } // namespace hal

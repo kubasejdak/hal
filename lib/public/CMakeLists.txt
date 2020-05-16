@@ -7,3 +7,7 @@ add_library(hal-public EXCLUDE_FROM_ALL
 target_include_directories(hal-public
     PUBLIC include
 )
+
+target_link_libraries(hal-public
+    INTERFACE utils::registry
+)

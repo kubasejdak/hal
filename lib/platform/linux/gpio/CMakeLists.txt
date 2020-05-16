@@ -12,5 +12,5 @@ find_package(libgpiod REQUIRED)
 find_package(fmt REQUIRED)
 
 target_link_libraries(gpio
-    PUBLIC hal-public hal-private libgpiod::libgpiod fmt::fmt utils::registry
+    PUBLIC hal-public hal-private libgpiod::libgpiod fmt::fmt
 )
