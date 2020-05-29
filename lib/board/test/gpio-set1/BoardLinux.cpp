@@ -35,6 +35,7 @@
 #include "hal/gpio/IGpioPort.hpp"
 #include "hal/gpio/PinInput.hpp"
 #include "hal/gpio/PinOutput.hpp"
+#include "product/config.hpp"
 #include "test/gpio-set1/DeviceId.hpp"
 
 namespace hal {
@@ -52,25 +53,25 @@ template <>
 std::error_code Board<device_id::GpioSet1Id>::initImpl()
 {
     // clang-format off
-    auto gpio0 = gpio::Registry<std::uint32_t>::get("gpio0");
+    auto gpioA = gpio::Registry<std::uint32_t>::get(config::cGpioSet1GpioA);
 
-    m_devices[device_id::ePortAPin0] = std::make_shared<gpio::PinOutput<std::uint32_t>>(gpio0, gpio::Pin::eBit4);
-    m_devices[device_id::ePortAPin1] = std::make_shared<gpio::PinOutput<std::uint32_t>>(gpio0, gpio::Pin::eBit17);
-    m_devices[device_id::ePortAPin2] = std::make_shared<gpio::PinOutput<std::uint32_t>>(gpio0, gpio::Pin::eBit27);
-    m_devices[device_id::ePortAPin3] = std::make_shared<gpio::PinOutput<std::uint32_t>>(gpio0, gpio::Pin::eBit22);
-    m_devices[device_id::ePortAPin4] = std::make_shared<gpio::PinOutput<std::uint32_t>>(gpio0, gpio::Pin::eBit5);
-    m_devices[device_id::ePortAPin5] = std::make_shared<gpio::PinOutput<std::uint32_t>>(gpio0, gpio::Pin::eBit6);
-    m_devices[device_id::ePortAPin6] = std::make_shared<gpio::PinOutput<std::uint32_t>>(gpio0, gpio::Pin::eBit13);
-    m_devices[device_id::ePortAPin7] = std::make_shared<gpio::PinOutput<std::uint32_t>>(gpio0, gpio::Pin::eBit26);
+    m_devices[device_id::ePortAPin0] = std::make_shared<gpio::PinOutput<std::uint32_t>>(gpioA, gpio::Pin::eBit4);
+    m_devices[device_id::ePortAPin1] = std::make_shared<gpio::PinOutput<std::uint32_t>>(gpioA, gpio::Pin::eBit17);
+    m_devices[device_id::ePortAPin2] = std::make_shared<gpio::PinOutput<std::uint32_t>>(gpioA, gpio::Pin::eBit27);
+    m_devices[device_id::ePortAPin3] = std::make_shared<gpio::PinOutput<std::uint32_t>>(gpioA, gpio::Pin::eBit22);
+    m_devices[device_id::ePortAPin4] = std::make_shared<gpio::PinOutput<std::uint32_t>>(gpioA, gpio::Pin::eBit5);
+    m_devices[device_id::ePortAPin5] = std::make_shared<gpio::PinOutput<std::uint32_t>>(gpioA, gpio::Pin::eBit6);
+    m_devices[device_id::ePortAPin6] = std::make_shared<gpio::PinOutput<std::uint32_t>>(gpioA, gpio::Pin::eBit13);
+    m_devices[device_id::ePortAPin7] = std::make_shared<gpio::PinOutput<std::uint32_t>>(gpioA, gpio::Pin::eBit26);
 
-    m_devices[device_id::ePortBPin0] = std::make_shared<gpio::PinInput<std::uint32_t>>(gpio0, gpio::Pin::eBit18);
-    m_devices[device_id::ePortBPin1] = std::make_shared<gpio::PinInput<std::uint32_t>>(gpio0, gpio::Pin::eBit23);
-    m_devices[device_id::ePortBPin2] = std::make_shared<gpio::PinInput<std::uint32_t>>(gpio0, gpio::Pin::eBit24);
-    m_devices[device_id::ePortBPin3] = std::make_shared<gpio::PinInput<std::uint32_t>>(gpio0, gpio::Pin::eBit25);
-    m_devices[device_id::ePortBPin4] = std::make_shared<gpio::PinInput<std::uint32_t>>(gpio0, gpio::Pin::eBit12);
-    m_devices[device_id::ePortBPin5] = std::make_shared<gpio::PinInput<std::uint32_t>>(gpio0, gpio::Pin::eBit16);
-    m_devices[device_id::ePortBPin6] = std::make_shared<gpio::PinInput<std::uint32_t>>(gpio0, gpio::Pin::eBit20);
-    m_devices[device_id::ePortBPin7] = std::make_shared<gpio::PinInput<std::uint32_t>>(gpio0, gpio::Pin::eBit21);
+    m_devices[device_id::ePortBPin0] = std::make_shared<gpio::PinInput<std::uint32_t>>(gpioA, gpio::Pin::eBit18);
+    m_devices[device_id::ePortBPin1] = std::make_shared<gpio::PinInput<std::uint32_t>>(gpioA, gpio::Pin::eBit23);
+    m_devices[device_id::ePortBPin2] = std::make_shared<gpio::PinInput<std::uint32_t>>(gpioA, gpio::Pin::eBit24);
+    m_devices[device_id::ePortBPin3] = std::make_shared<gpio::PinInput<std::uint32_t>>(gpioA, gpio::Pin::eBit25);
+    m_devices[device_id::ePortBPin4] = std::make_shared<gpio::PinInput<std::uint32_t>>(gpioA, gpio::Pin::eBit12);
+    m_devices[device_id::ePortBPin5] = std::make_shared<gpio::PinInput<std::uint32_t>>(gpioA, gpio::Pin::eBit16);
+    m_devices[device_id::ePortBPin6] = std::make_shared<gpio::PinInput<std::uint32_t>>(gpioA, gpio::Pin::eBit20);
+    m_devices[device_id::ePortBPin7] = std::make_shared<gpio::PinInput<std::uint32_t>>(gpioA, gpio::Pin::eBit21);
     // clang-format on
 
     return Error::eOk;
