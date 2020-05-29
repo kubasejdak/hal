@@ -35,6 +35,7 @@
 #include "hal/gpio/IGpioPort.hpp"
 #include "hal/gpio/PortInput.hpp"
 #include "hal/gpio/PortOutput.hpp"
+#include "product/config.hpp"
 #include "test/gpio-set2/DeviceId.hpp"
 
 #include <bitset>
@@ -119,7 +120,7 @@ template <>
 std::error_code Board<device_id::GpioSet2Id>::initImpl()
 {
     // clang-format off
-    auto gpio0 = gpio::Registry<std::uint32_t>::get("gpio0");
+    auto gpio0 = gpio::Registry<std::uint32_t>::get(config::cGpioSet2GpioA);
 
     constexpr std::uint32_t cPortAPinSet0Mask = 0x2070;
     constexpr std::uint32_t cPortAPinSet1Mask = 0xc420000;

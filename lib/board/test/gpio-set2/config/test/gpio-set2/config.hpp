@@ -32,8 +32,12 @@
 
 #pragma once
 
-#if __has_include("sbc/raspberrypi/DeviceId.hpp")
-    #include "sbc/raspberrypi/DeviceId.hpp"
-#endif
+#include <utils/property.hpp>
 
-#include "test/gpio-set1/DeviceId.hpp"
+ADD_PROPERTY_2(RaspberryPi, GpioA, "gpio0");
+
+namespace hal::config {
+
+constexpr auto cGpioSet2GpioA = utils::cPropertyValue<utils::PropertyType<MainBoard>, GpioA>;
+
+} // namespace hal::config

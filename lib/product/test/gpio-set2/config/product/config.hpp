@@ -32,8 +32,8 @@
 
 #pragma once
 
-#if __has_include("sbc/raspberrypi/DeviceId.hpp")
-    #include "sbc/raspberrypi/DeviceId.hpp"
+#if __has_include("sbc/raspberrypi/config.hpp")
+    #include "sbc/raspberrypi/config.hpp"
 #endif
 
-#include "test/gpio-set1/DeviceId.hpp"
+#include "test/gpio-set2/config.hpp"
