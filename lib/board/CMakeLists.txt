@@ -1,5 +1,6 @@
 add_library(board-public INTERFACE)
 add_library(board-private INTERFACE)
+add_library(board-config INTERFACE)
 
 foreach (BOARD_PATH IN LISTS HAL_BOARDS)
     add_subdirectory(${BOARD_PATH})
@@ -11,4 +12,10 @@ foreach (BOARD_PATH IN LISTS HAL_BOARDS)
     target_link_libraries(board-private
         INTERFACE ${BOARD}-private
     )
+
+    if (TARGET ${BOARD}-config)
+        target_link_libraries(board-config
+            INTERFACE ${BOARD}-config
+        )
+    endif ()
 endforeach ()

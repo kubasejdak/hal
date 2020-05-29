@@ -6,13 +6,23 @@ add_library(product EXCLUDE_FROM_ALL
     ${HAL_PRODUCT}/Hardware.cpp
 )
 
+add_library(product-config INTERFACE)
+
 target_include_directories(product
     PUBLIC ${HAL_PRODUCT}/include
+)
+
+target_include_directories(product-config
+    INTERFACE ${HAL_PRODUCT}/config
 )
 
 target_link_libraries(product
     PUBLIC board-public
     PRIVATE hal-public hal-private board-private
+)
+
+target_link_libraries(product-config
+    INTERFACE board-config
 )
 
 add_subdirectory(${HAL_PRODUCT})
