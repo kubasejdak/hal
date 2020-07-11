@@ -15,6 +15,7 @@
 
 .Run_Test_Linux_ARM:
   extends: .Run_Test
+  image: kubasejdak/arm-tests:latest
   tags:
     - raspberrypi
 

@@ -19,6 +19,7 @@
 
 .Linux_ARM_GCC_Coverage:
   extends: .Linux_Coverage
+  image: kubasejdak/arm-tests:latest
   tags:
     - raspberrypi
 
