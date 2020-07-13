@@ -23,7 +23,7 @@ endif ()
 conan_init()
 
 # Project-wide compilation options.
-add_compile_options(-Wall -Wextra -Wpedantic -Werror)
+add_compile_options(-Wall -Wextra -Wpedantic -Werror $<$<COMPILE_LANGUAGE:CXX>:-std=c++2a>)
 
 if (COVERAGE)
     # Generate coverage report.

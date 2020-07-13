@@ -1,7 +1,7 @@
 include(FetchContent)
 FetchContent_Declare(platform
     GIT_REPOSITORY  https://gitlab.com/kubasejdak-libs/platform.git
-    GIT_TAG         v1.1.0
+    GIT_TAG         v1.1.2
 )
 
 FetchContent_GetProperties(platform)
