@@ -38,14 +38,6 @@ GpioSet1_Coverage:
   variables:
     App: "gpio-set1"
 
-GpioSet2_Coverage:
-  extends: .Linux_ARM_GCC_Coverage
-  tags:
-    - raspberrypi
-    - gpio
-  variables:
-    App: "gpio-set2"
-
 Middleware_Coverage:
   extends: .Linux_GCC_Coverage
   variables:

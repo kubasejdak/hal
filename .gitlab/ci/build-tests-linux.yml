@@ -68,30 +68,6 @@ GpioSet1_Linux_ARM_GCC_Release_Build:
     App: "gpio-set1"
     BuildType: "Release"
 
-GpioSet2_Linux_ARM_Clang_Debug_Build:
-  extends: .Build_Test_Linux_ARM_Clang
-  variables:
-    App: "gpio-set2"
-    BuildType: "Debug"
-
-GpioSet2_Linux_ARM_Clang_Release_Build:
-  extends: .Build_Test_Linux_ARM_Clang
-  variables:
-    App: "gpio-set2"
-    BuildType: "Release"
-
-GpioSet2_Linux_ARM_GCC_Debug_Build:
-  extends: .Build_Test_Linux_ARM_GCC
-  variables:
-    App: "gpio-set2"
-    BuildType: "Debug"
-
-GpioSet2_Linux_ARM_GCC_Release_Build:
-  extends: .Build_Test_Linux_ARM_GCC
-  variables:
-    App: "gpio-set2"
-    BuildType: "Release"
-
 Middleware_Linux_ARM_Clang_Debug_Build:
   extends: .Build_Test_Linux_ARM_Clang
   variables:

@@ -1,6 +1,7 @@
 # Object library type is used to prevent compiler from removing unit test functions from the binary.
 add_library(appgpio-set1 OBJECT EXCLUDE_FROM_ALL
     appMain.cpp
+    GpioPorts.cpp
     SingleBits.cpp
 )
 

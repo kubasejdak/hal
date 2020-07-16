@@ -45,11 +45,11 @@ TEST_CASE("Set all combinations of bit patterns on 4bit ports", "[unit][gpio]")
     REQUIRE(hardware.initialized());
 
     // clang-format off
-    auto outputSet0 = hal::getDevice<hal::gpio::IPortOutput<std::uint8_t>>(hal::device_id::GpioSet2Id::ePortAPinSet0);
-    auto outputSet1 = hal::getDevice<hal::gpio::IPortOutput<std::uint8_t>>(hal::device_id::GpioSet2Id::ePortAPinSet1);
+    auto outputSet0 = hal::getDevice<hal::gpio::IPortOutput<std::uint8_t>>(hal::device_id::GpioSet1Id::ePortAPinSet0);
+    auto outputSet1 = hal::getDevice<hal::gpio::IPortOutput<std::uint8_t>>(hal::device_id::GpioSet1Id::ePortAPinSet1);
 
-    auto inputSet0 = hal::getDevice<hal::gpio::IPortInput<std::uint8_t>>(hal::device_id::GpioSet2Id::ePortBPinSet0);
-    auto inputSet1 = hal::getDevice<hal::gpio::IPortInput<std::uint8_t>>(hal::device_id::GpioSet2Id::ePortBPinSet1);
+    auto inputSet0 = hal::getDevice<hal::gpio::IPortInput<std::uint8_t>>(hal::device_id::GpioSet1Id::ePortBPinSet0);
+    auto inputSet1 = hal::getDevice<hal::gpio::IPortInput<std::uint8_t>>(hal::device_id::GpioSet1Id::ePortBPinSet1);
     // clang-format on
 
     constexpr std::uint8_t cPatternsCount = 15;
