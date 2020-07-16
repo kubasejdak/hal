@@ -51,6 +51,8 @@ enum GpioSet1Id {
     ePortAPin5,
     ePortAPin6,
     ePortAPin7,
+    ePortAPinSet0,
+    ePortAPinSet1,
 
     // Port B.
     ePortBPin0,
@@ -60,7 +62,9 @@ enum GpioSet1Id {
     ePortBPin4,
     ePortBPin5,
     ePortBPin6,
-    ePortBPin7
+    ePortBPin7,
+    ePortBPinSet0,
+    ePortBPinSet1
 };
 // clang-format on
 
