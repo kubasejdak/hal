@@ -5,6 +5,7 @@ stages:
   - build-GCC
   - build-Clang
   - test
+  - valgrind
   - coverage
   - quality
   - deploy
@@ -15,3 +16,4 @@ include:
   - ".gitlab/ci/deploy.yml"
   - ".gitlab/ci/quality.yml"
   - ".gitlab/ci/run-tests-linux.yml"
+  - ".gitlab/ci/run-valgrind-linux.yml"

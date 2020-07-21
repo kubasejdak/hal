@@ -1,0 +1,39 @@
+.Run_Valgrind:
+  stage: valgrind
+  variables:
+    GIT_STRATEGY: none
+  script:
+    - cd ${AppArtifact}/bin
+    - valgrind --leak-check=full --show-leak-kinds=all --error-exitcode=123 ./${App} ${TestTags} || if [ $? -eq 123 ]; then exit 1; fi
+
+.Run_Valgrind_Linux:
+  extends: .Run_Valgrind
+  image: kubasejdak/gcc:latest
+  tags:
+    - linux
+    - shared
+
+.Run_Valgrind_Linux_ARM:
+  extends: .Run_Valgrind
+  image: kubasejdak/arm-tests:latest
+  tags:
+    - raspberrypi
+
+GpioSet1_Linux_ARM_Valgrind:
+  extends: .Run_Valgrind_Linux_ARM
+  tags:
+    - raspberrypi
+    - gpio
+  dependencies:
+    - GpioSet1_Linux_ARM_GCC_Debug_Build
+  variables:
+    AppArtifact: "GpioSet1_Linux_ARM_GCC_Debug_Build"
+    App: "gpio-set1"
+
+Middleware_Linux_Valgrind:
+  extends: .Run_Valgrind_Linux
+  dependencies:
+    - Middleware_Linux_GCC_Debug_Build
+  variables:
+    AppArtifact: "Middleware_Linux_GCC_Debug_Build"
+    App: "middleware"
