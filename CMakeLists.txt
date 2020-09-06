@@ -5,7 +5,7 @@ if (NOT DEFINED APP)
     message(FATAL_ERROR "'APP' is not defined!")
 endif ()
 
-include(test/${APP}/${APP}.cmake)
+include(test/${APP}/settings.cmake)
 
 include(cmake/conan.cmake)
 include(cmake/coverage.cmake)

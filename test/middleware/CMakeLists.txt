@@ -8,7 +8,7 @@ target_include_directories(appmiddleware
     PRIVATE .
 )
 
-conan_get(REQUIRES catch2/2.12.4)
+conan_get(REQUIRES catch2/2.13.0)
 find_package(Catch2 REQUIRED)
 
 if (PLATFORM STREQUAL freertos-arm)

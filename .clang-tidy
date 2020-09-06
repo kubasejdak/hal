@@ -1,5 +1,6 @@
 ---
 Checks:                '*,
+                        -llvmlibc-*,
                         -*-vararg,
                         -cppcoreguidelines-pro-bounds-array-to-pointer-decay,
                         -cppcoreguidelines-pro-bounds-constant-array-index,

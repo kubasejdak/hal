@@ -125,3 +125,6 @@ extern uint32_t SystemCoreClock; // NOLINT
 #ifndef vAssertCalled
   #define vAssertCalled(file, line)             { taskDISABLE_INTERRUPTS(); while(1); }
 #endif
+
+/* Platform specific definitions. */
+#define APPMAIN_STACK_SIZE                      1024
