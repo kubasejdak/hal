@@ -43,17 +43,52 @@
 
 namespace hal {
 
+/// Helper class for accessing currently used version/revision of the given board.
+/// @tparam IdType          Type of the device identifier (usually related to the concrete board implementation).
+/// @note Board version exists to represent/support idea of small changes applied to the same board. For example,
+///       v1.0 is the initial board layout, while v1.3 has additional EEPROM added. However all other components are
+///       the same. In such a case, we can reuse all device ids and only add missing components.
+/// @note HAL assumes, that multiple versions of the same board can be compiled into the binary, but only one of them is
+///       initialized nas used. This selection can be done on the Hardware::init() level.
+template <typename IdType>
+class CurrentBoardVersion {
+public:
+    /// Sets given board as currently used version.
+    /// @param board        Board to be set as currently used.
+    static void set(IBoard* board) { instance().m_currentVersion = board; }
+
+    /// Returns currently used instance of the board.
+    /// @return Currently used instance of the board.
+    static IBoard* get() { return instance().m_currentVersion; }
+
+private:
+    /// Default constructor.
+    CurrentBoardVersion() = default;
+
+    /// Returns only instance of the CurrentBoardVersion<IdType>.
+    /// @return Only instance of the CurrentBoardVersion<IdType>.
+    static CurrentBoardVersion<IdType>& instance()
+    {
+        static CurrentBoardVersion<IdType> object;
+        return object;
+    }
+
+private:
+    IBoard* m_currentVersion{};
+};
+
 /// Board template which holds all its drivers in a map (id -> handle).
 /// @tparam IdType          Type of the device identifier (usually related to the concrete board implementation).
+/// @tparam cVersion        Version of the board in a form of integer sequence (e.g. 1, 3, 2 meaning v1.3.2).
 /// @note This map is parametrized with the device id type, which is specific to the concrete board implementation.
 ///       Such boards have to only specialize Board::initImpl() and optionally Board::deinitImpl().
-template <typename IdType>
+template <typename IdType, std::size_t... cVersion>
 class Board : public IBoard {
     static_assert(std::is_enum_v<IdType>, "Board can be instantiated only with enum types");
 
 public:
-    /// Returns instance of the Board singleton.
-    /// @return Instance of the Board singleton.
+    /// Returns only instance of the Board singleton.
+    /// @return Only instance of the Board singleton.
     static Board<IdType>& instance()
     {
         static Board<IdType> object;
@@ -70,6 +105,7 @@ private:
         for (auto& [id, device] : m_devices)
             setBoard(device);
 
+        CurrentBoardVersion<IdType>::set(this);
         return Error::eOk;
     }
 
@@ -82,7 +118,9 @@ private:
         }
 
         m_devices.clear();
-        return deinitImpl();
+        auto error = deinitImpl();
+        CurrentBoardVersion<IdType>::set(nullptr);
+        return error;
     }
 
     /// @see IBoard::getDeviceImpl().

@@ -41,7 +41,7 @@ namespace detail {
 template <>
 std::shared_ptr<Device> getDeviceImpl<device_id::RaspberryPiId>(device_id::RaspberryPiId id)
 {
-    return Board<device_id::RaspberryPiId>::instance().getDevice(id);
+    return CurrentBoardVersion<device_id::RaspberryPiId>::get()->getDevice(id);
 }
 
 } // namespace detail

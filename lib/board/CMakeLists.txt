@@ -5,7 +5,7 @@ add_library(board-config INTERFACE)
 foreach (BOARD_PATH IN LISTS HAL_BOARDS)
     add_subdirectory(${BOARD_PATH})
 
-    get_filename_component(BOARD ${BOARD_PATH} NAME)
+    string(REPLACE "/" "-" BOARD "${BOARD_PATH}")
     target_link_libraries(board-public
         INTERFACE ${BOARD}-public
     )
