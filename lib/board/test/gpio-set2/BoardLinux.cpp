@@ -47,7 +47,7 @@ namespace detail {
 template <>
 std::shared_ptr<Device> getDeviceImpl<device_id::GpioSet2Id>(device_id::GpioSet2Id id)
 {
-    return Board<device_id::GpioSet2Id>::instance().getDevice(id);
+    return CurrentBoardVersion<device_id::GpioSet2Id>::get()->getDevice(id);
 }
 
 } // namespace detail

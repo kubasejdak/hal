@@ -40,7 +40,7 @@ namespace detail {
 template <>
 std::shared_ptr<Device> getDeviceImpl<device_id::MiddlewareId>(device_id::MiddlewareId id)
 {
-    return Board<device_id::MiddlewareId>::instance().getDevice(id);
+    return CurrentBoardVersion<device_id::MiddlewareId>::get()->getDevice(id);
 }
 
 } // namespace detail
