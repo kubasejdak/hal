@@ -1,6 +1,7 @@
 /////////////////////////////////////////////////////////////////////////////////////
 ///
 /// @file
+/// @author Grzegorz Heldt
 /// @author Kuba Sejdak
 /// @copyright BSD 2-Clause License
 ///
@@ -35,6 +36,9 @@
 #include "hal/Device.hpp"
 #include "hal/Error.hpp"
 #include "hal/types.hpp"
+
+#include <osal/Timeout.hpp>
+#include <utils/GlobalRegistry.hpp>
 
 #include <system_error>
 
@@ -82,8 +86,7 @@ public:
     IUart(const IUart&) = delete;
 
     /// Move constructor.
-    /// @note This constructor is deleted, because IUart is not meant to be move-constructed.
-    IUart(IUart&&) = delete;
+    IUart(IUart&&) = default;
 
     /// Destructor.
     ~IUart() override { close(); }
@@ -148,23 +151,23 @@ public:
     /// Receives the demanded number of bytes from the current UART instance.
     /// @param bytes                Vector where the received data will be placed by this method.
     /// @param size                 Number of bytes to be received from the current UART instance.
-    /// @param timeoutMs            Maximal time to wait for the data.
+    /// @param timeout              Maximal time to wait for the data.
     /// @return Error code of the operation.
     /// @note This method does not assume, that the output vector has the proper capacity. It will be
     ///       automatically expanded, if needed, by the container itself. Size of the vector after call
     ///       to this method will indicate the actual number of received bytes.
-    std::error_code read(BytesVector& bytes, std::size_t size, std::uint32_t timeoutMs);
+    std::error_code read(BytesVector& bytes, std::size_t size, osal::Timeout timeout);
 
     /// Receives the demanded number of bytes from the current UART instance.
     /// @param bytes                Memory block where the received data will be placed by this method.
     /// @param size                 Number of bytes to be received from the current UART instance.
-    /// @param timeoutMs            Maximal time to wait for the data.
+    /// @param timeout              Maximal time to wait for the data.
     /// @param actualReadSize       Actual number of received bytes.
     /// @return Error code of the operation.
     /// @note This method assumes, that the output memory block has the proper capacity. After call to this
     ///       method the 'actualReadSize' parameter will indicate the actual number of received bytes.
     ///       It is also assumed, that output memory block is empty.
-    std::error_code read(std::uint8_t* bytes, std::size_t size, std::uint32_t timeoutMs, std::size_t& actualReadSize);
+    std::error_code read(std::uint8_t* bytes, std::size_t size, osal::Timeout timeout, std::size_t& actualReadSize);
 
 private:
     /// Device specific implementation of the opening transmission channel.
@@ -199,15 +202,18 @@ private:
     /// Device specific implementation of the method that reads demanded number of bytes.
     /// @param bytes                Memory block where the received data will be placed by this method.
     /// @param size                 Number of bytes to be received from the current UART instance.
-    /// @param timeoutMs            Maximal time to wait for the data.
+    /// @param timeout              Maximal time to wait for the data.
     /// @param actualReadSize       Actual number of received bytes.
     /// @return Error code of the operation.
     virtual std::error_code
-    drvRead(std::uint8_t* bytes, std::size_t size, std::uint32_t timeoutMs, std::size_t& actualReadSize)
+    drvRead(std::uint8_t* bytes, std::size_t size, osal::Timeout timeout, std::size_t& actualReadSize)
         = 0;
 
 private:
     bool m_opened{};
 };
+
+/// Represents GlobalRegistry of IUart instances.
+using Registry = utils::GlobalRegistry<IUart>;
 
 } // namespace hal::uart

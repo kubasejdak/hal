@@ -5,5 +5,5 @@ target_include_directories(hal-private
 )
 
 target_link_libraries(hal-private
-    INTERFACE hal-public
+    INTERFACE hal-public utils::registry
 )

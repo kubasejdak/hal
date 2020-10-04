@@ -7,6 +7,6 @@ target_include_directories(uart
 )
 
 target_link_libraries(uart
-    PUBLIC hal-public
+    PUBLIC hal-public osal::cpp
     PRIVATE stdc++fs
 )

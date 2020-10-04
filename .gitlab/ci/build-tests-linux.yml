@@ -115,3 +115,15 @@ Middleware_Linux_GCC_Release_Build:
   variables:
     App: "middleware"
     BuildType: "Release"
+
+UartSet1_Linux_ARM_GCC_Debug_Build:
+  extends: .Build_Test_Linux_ARM_GCC
+  variables:
+    App: "uart-set1"
+    BuildType: "Debug"
+
+UartSet1_Linux_ARM_GCC_Release_Build:
+  extends: .Build_Test_Linux_ARM_GCC
+  variables:
+    App: "uart-set1"
+    BuildType: "Release"

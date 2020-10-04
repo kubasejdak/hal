@@ -13,6 +13,7 @@
     # Build application.
     - cmake .. -DPLATFORM=linux -DAPP=${App} -DCOVERAGE=ON
     - make
+    - if [ ! -z "${BeforeRun}" ]; then ${BeforeRun}; fi
     - bin/${App} [unit]
     - make coverage
     - sed -i "s|SF:${CI_PROJECT_DIR}/|SF:|g" coverage/coverage.info
@@ -42,3 +43,12 @@ Middleware_Coverage:
   extends: .Linux_GCC_Coverage
   variables:
     App: "middleware"
+
+#UartSet1_Coverage:
+#  extends: .Linux_ARM_GCC_Coverage
+#  tags:
+#    - raspberrypi
+#    - uart
+#  variables:
+#    App: "uart-set1"
+#    BeforeRun: "daemon/server.py"

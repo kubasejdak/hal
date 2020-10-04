@@ -108,7 +108,7 @@ private:
     virtual std::error_code drvWrite(WidthType value, WidthType mask) = 0;
 };
 
-/// Represents the GlobalRegistry of IGpioPort instances.
+/// Represents GlobalRegistry of IGpioPort instances.
 /// @tparam WidthType       Type representing the bit-width of the port (e.g. std::uint32_t means that port is 32-bit).
 template <typename WidthType>
 using Registry = utils::GlobalRegistry<IGpioPort<WidthType>>;

@@ -4,6 +4,7 @@
     GIT_STRATEGY: none
   script:
     - cd ${AppArtifact}/bin
+    - if [ ! -z "${BeforeRun}" ]; then ${BeforeRun}; fi
     - valgrind --leak-check=full --show-leak-kinds=all --error-exitcode=123 ./${App} ${TestTags} || if [ $? -eq 123 ]; then exit 1; fi
 
 .Run_Valgrind_Linux:
@@ -37,3 +38,15 @@ Middleware_Linux_Valgrind:
   variables:
     AppArtifact: "Middleware_Linux_GCC_Debug_Build"
     App: "middleware"
+
+#UartSet1_Linux_ARM_Valgrind:
+#  extends: .Run_Valgrind_Linux_ARM
+#  tags:
+#    - raspberrypi
+#    - uart
+#  dependencies:
+#    - UartSet1_Linux_ARM_GCC_Debug_Build
+#  variables:
+#    AppArtifact: "GpioSet1_Linux_ARM_GCC_Debug_Build"
+#    App: "uart-set1"
+#    BeforeRun: "daemon/server.py"

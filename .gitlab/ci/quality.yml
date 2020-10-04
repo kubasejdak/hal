@@ -50,6 +50,13 @@ Middleware_Linux_Clang_Tidy:
     Toolchain: "clang-10"
     App: "middleware"
 
+#UartSet1_Linux_ARM_Clang_Tidy:
+#  extends: .Clang_Tidy
+#  image: kubasejdak/arm-linux-gnueabihf-clang:10
+#  variables:
+#    Toolchain: "arm-linux-gnueabihf-clang-10"
+#    App: "uart-set1"
+
 Coverage_Total:
   stage: quality
   image: kubasejdak/gcc:latest
@@ -59,6 +66,7 @@ Coverage_Total:
   dependencies:
     - GpioSet1_Coverage
     - Middleware_Coverage
+#    - UartSet1_Coverage
   artifacts:
     name: "${CI_JOB_NAME}_${CI_JOB_ID}"
     expire_in: 2 weeks
@@ -68,6 +76,7 @@ Coverage_Total:
     - mkdir ${CI_JOB_NAME}
     - cd ${CI_JOB_NAME}
 
+    # -a ../UartSet1_Coverage/coverage/coverage.info \
     - |
       lcov -a ../GpioSet1_Coverage/coverage/coverage.info \
            -a ../Middleware_Coverage/coverage/coverage.info \

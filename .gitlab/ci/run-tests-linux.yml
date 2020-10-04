@@ -4,6 +4,7 @@
     GIT_STRATEGY: none
   script:
     - cd ${AppArtifact}/bin
+    - if [ ! -z "${BeforeRun}" ]; then ${BeforeRun}; fi
     - ./${App} ${TestTags}
 
 .Run_Test_Linux:
@@ -45,3 +46,15 @@ Middleware_Linux_UT:
   variables:
     AppArtifact: "Middleware_Linux_GCC_Debug_Build"
     App: "middleware"
+
+#UartSet1_Linux_ARM_UT:
+#  extends: .Run_Test_Linux_ARM
+#  tags:
+#    - raspberrypi
+#    - uart
+#  dependencies:
+#    - UartSet1_Linux_ARM_GCC_Debug_Build
+#  variables:
+#    AppArtifact: "UartSet1_Linux_ARM_GCC_Debug_Build"
+#    App: "uart-set1"
+#    BeforeRun: "daemon/server.py"
