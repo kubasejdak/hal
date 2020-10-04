@@ -34,6 +34,8 @@
 
 #include "hal/uart/IUart.hpp"
 
+#include <termios.h>
+
 #include <string>
 
 namespace hal::uart {
@@ -42,8 +44,8 @@ namespace hal::uart {
 class LinuxUart final : public IUart {
 public:
     /// Constructor.
-    /// @param ttyDevicePath        Path to the TTY device.
-    explicit LinuxUart(std::string& ttyDevicePath);
+    /// @param device           Device path.
+    explicit LinuxUart(std::string device);
 
 private:
     /// @see IUart::drvOpen().
@@ -59,17 +61,20 @@ private:
     std::error_code drvSetMode(Mode mode) override;
 
     /// @see IUart::drvSetFlowControl().
-    std::error_code drvSetFlowControl(FlowControl flowControl) override;
+    std::error_code drvSetFlowControl(FlowControl /*unused*/) override { return Error::eNotSupported; }
 
     /// @see IUart::drvWrite().
     std::error_code drvWrite(const std::uint8_t* bytes, std::size_t size) override;
 
     /// @see IUart::drvRead().
     std::error_code
-    drvRead(std::uint8_t* bytes, std::size_t size, std::uint32_t timeoutMs, std::size_t& actualReadSize) override;
+    drvRead(std::uint8_t* bytes, std::size_t size, osal::Timeout timeout, std::size_t& actualReadSize) override;
 
 private:
-    std::string m_ttyDevicePath;
+    int m_fd{-1};
+    termios m_tty{};
+    termios m_ttyPrev{};
+    std::string m_device;
 };
 
 } // namespace hal::uart

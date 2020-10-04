@@ -9,5 +9,5 @@ target_include_directories(hal-public
 )
 
 target_link_libraries(hal-public
-    INTERFACE utils::registry
+    PUBLIC osal::cpp utils::registry
 )
