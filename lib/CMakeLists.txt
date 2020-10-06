@@ -14,6 +14,7 @@ add_subdirectory(board)
 add_subdirectory(platform)
 add_subdirectory(private)
 add_subdirectory(public)
+add_subdirectory(utils)
 
 target_link_libraries(hal
     INTERFACE product
