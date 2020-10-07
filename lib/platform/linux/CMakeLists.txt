@@ -1,5 +1,6 @@
 set(DRIVERS
     gpio
+    i2c
     uart
 )
 
