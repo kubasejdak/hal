@@ -59,7 +59,7 @@ II2c::II2c(II2c&& other) noexcept
 
 II2c::~II2c()
 {
-    assert(m_userCount == 0 && m_locked);
+    assert(m_userCount == 0 && !m_locked);
 }
 
 std::error_code II2c::open()
