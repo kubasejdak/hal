@@ -1,5 +1,6 @@
 add_library(hal-private
     II2c.cpp
+    ISpi.cpp
 )
 
 target_include_directories(hal-private

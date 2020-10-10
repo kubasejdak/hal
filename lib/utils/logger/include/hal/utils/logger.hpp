@@ -52,4 +52,10 @@ namespace i2c {
 REGISTER_LOGGER(I2cLogger, "I2C", cDefaultLogLevel);
 
 } // namespace i2c
+
+namespace spi {
+
+REGISTER_LOGGER(SpiLogger, "SPI", cDefaultLogLevel);
+
+} // namespace spi
 } // namespace hal
