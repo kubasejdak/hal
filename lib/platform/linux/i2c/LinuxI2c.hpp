@@ -35,6 +35,7 @@
 #include <osal/Timeout.hpp>
 
 #include <string>
+#include <system_error>
 #include <vector>
 
 namespace hal::i2c {
