@@ -57,7 +57,7 @@ enum class Mode {
 
 /// Represents SPI parameters that can be set by each driver, which uses SPI.
 struct SpiParams {
-    std::uint32_t frequency{};
+    std::uint32_t frequencyHz{};
     Mode clockMode{};
     std::uint8_t wordLength{};
 };
