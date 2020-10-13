@@ -1,6 +1,7 @@
 add_library(hal-public EXCLUDE_FROM_ALL
     Device.cpp
     Error.cpp
+    IEeprom.cpp
     IUart.cpp
 )
 

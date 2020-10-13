@@ -4,7 +4,7 @@
 /// @author Kuba Sejdak
 /// @copyright BSD 2-Clause License
 ///
-/// Copyright (c) 2019-2020, Kuba Sejdak <kuba.sejdak@gmail.com>
+/// Copyright (c) 2020-2020, Kuba Sejdak <kuba.sejdak@gmail.com>
 /// All rights reserved.
 ///
 /// Redistribution and use in source and binary forms, with or without
@@ -30,96 +30,66 @@
 ///
 /////////////////////////////////////////////////////////////////////////////////////
 
-#include "hal/uart/IUart.hpp"
+#include "hal/storage/IEeprom.hpp"
 
 #include "hal/Error.hpp"
 
-namespace hal::uart {
+namespace hal::storage {
 
-std::error_code IUart::open()
+IEeprom::IEeprom(std::size_t size, std::size_t pageSize)
+    : Device(SharingPolicy::eSingle)
+    , m_size(size)
+    , m_pageSize(pageSize)
+{}
+
+std::error_code IEeprom::write(std::uint32_t address, const BytesVector& bytes, osal::Timeout timeout)
 {
-    if (isOpened())
-        return Error::eDeviceOpened;
-
-    auto status = drvOpen();
-    m_opened = (status == Error::eOk);
-    return status;
+    return write(address, bytes.data(), bytes.size(), timeout);
 }
 
-std::error_code IUart::close()
+std::error_code
+IEeprom::write(std::uint32_t address, const std::uint8_t* bytes, std::size_t size, osal::Timeout timeout)
 {
-    if (!isOpened())
-        return Error::eDeviceNotOpened;
+    if ((address + size) > getSize())
+        return Error::eInvalidArgument;
 
-    auto status = drvClose();
-    m_opened = !(status == Error::eOk);
-    return status;
-}
-
-std::error_code IUart::setBaudrate(Baudrate baudrate)
-{
-    if (isOpened())
-        return Error::eDeviceOpened;
-
-    return drvSetBaudrate(baudrate);
-}
-
-std::error_code IUart::setMode(Mode mode)
-{
-    if (isOpened())
-        return Error::eDeviceOpened;
-
-    return drvSetMode(mode);
-}
-
-std::error_code IUart::setFlowControl(FlowControl flowControl)
-{
-    if (isOpened())
-        return Error::eDeviceOpened;
-
-    return drvSetFlowControl(flowControl);
-}
-
-std::error_code IUart::write(const BytesVector& bytes)
-{
-    return write(bytes.data(), bytes.size());
-}
-
-std::error_code IUart::write(const std::uint8_t* bytes, std::size_t size)
-{
     if (bytes == nullptr)
         return Error::eInvalidArgument;
 
-    if (!isOpened())
-        return Error::eDeviceNotOpened;
+    if (size == 0)
+        return Error::eOk;
 
-    return drvWrite(bytes, size);
+    return drvWrite(address, bytes, size, timeout);
 }
 
-std::error_code IUart::read(BytesVector& bytes, std::size_t size, osal::Timeout timeout)
+std::error_code IEeprom::read(std::size_t address, BytesVector& bytes, std::size_t size, osal::Timeout timeout)
 {
     bytes.resize(size);
     if (bytes.size() != size)
         return Error::eNoMemory;
 
     std::size_t actualReadSize{};
-    if (auto error = read(bytes.data(), size, timeout, actualReadSize))
+    if (auto error = read(address, bytes.data(), size, timeout, actualReadSize))
         return error;
 
     bytes.resize(actualReadSize);
     return Error::eOk;
 }
 
-std::error_code IUart::read(std::uint8_t* bytes, std::size_t size, osal::Timeout timeout, std::size_t& actualReadSize)
+std::error_code IEeprom::read(std::size_t address,
+                              std::uint8_t* bytes,
+                              std::size_t size,
+                              osal::Timeout timeout,
+                              std::size_t& actualReadSize)
 {
+    if ((address + size) > getSize())
+        return Error::eInvalidArgument;
+
     if (bytes == nullptr)
         return Error::eInvalidArgument;
 
-    if (!isOpened())
-        return Error::eDeviceNotOpened;
-
     actualReadSize = 0;
-    return drvRead(bytes, size, timeout, actualReadSize);
+    return drvRead(address, bytes, size, timeout, actualReadSize);
 }
 
-} // namespace hal::uart
+} // namespace hal::storage

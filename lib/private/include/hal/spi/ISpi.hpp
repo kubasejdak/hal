@@ -33,14 +33,12 @@
 
 #pragma once
 
-#include "hal/Error.hpp"
 #include "hal/types.hpp"
 
 #include <osal/Mutex.hpp>
 #include <osal/Timeout.hpp>
 #include <utils/GlobalRegistry.hpp>
 
-#include <memory>
 #include <system_error>
 
 namespace hal::spi {

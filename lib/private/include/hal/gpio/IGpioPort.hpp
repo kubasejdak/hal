@@ -33,7 +33,6 @@
 
 #pragma once
 
-#include "hal/Error.hpp"
 #include "hal/gpio/types.hpp"
 
 #include <utils/GlobalRegistry.hpp>

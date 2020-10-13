@@ -34,7 +34,6 @@
 #pragma once
 
 #include "hal/Device.hpp"
-#include "hal/Error.hpp"
 #include "hal/types.hpp"
 
 #include <osal/Timeout.hpp>

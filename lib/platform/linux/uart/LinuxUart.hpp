@@ -32,6 +32,7 @@
 
 #pragma once
 
+#include "hal/Error.hpp"
 #include "hal/uart/IUart.hpp"
 
 #include <termios.h>
