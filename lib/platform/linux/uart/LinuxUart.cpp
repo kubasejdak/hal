@@ -32,8 +32,6 @@
 
 #include "LinuxUart.hpp"
 
-#include "hal/Error.hpp"
-
 #include <fcntl.h>
 #include <unistd.h>
 

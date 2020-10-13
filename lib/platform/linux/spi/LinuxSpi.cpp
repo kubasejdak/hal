@@ -32,13 +32,14 @@
 
 #include "LinuxSpi.hpp"
 
+#include "hal/Error.hpp"
+
 #include <fcntl.h>
 #include <linux/spi/spidev.h>
 #include <sys/ioctl.h>
 #include <unistd.h>
 
 #include <cstring>
-#include <vector>
 
 namespace hal::spi {
 

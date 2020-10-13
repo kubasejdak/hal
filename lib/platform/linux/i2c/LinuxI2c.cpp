@@ -32,6 +32,8 @@
 
 #include "LinuxI2c.hpp"
 
+#include "hal/Error.hpp"
+
 #include <fcntl.h>
 #include <linux/i2c-dev.h>
 #include <linux/i2c.h>

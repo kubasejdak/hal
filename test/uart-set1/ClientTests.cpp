@@ -31,6 +31,7 @@
 /////////////////////////////////////////////////////////////////////////////////////
 
 #include <digestpp/digestpp.hpp>
+#include <hal/Error.hpp>
 #include <hal/Hardware.hpp>
 #include <hal/factory.hpp>
 #include <hal/uart/IUart.hpp>

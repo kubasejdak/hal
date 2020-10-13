@@ -32,9 +32,9 @@
 
 #include "hal/spi/ISpi.hpp"
 
+#include "hal/Error.hpp"
 #include "hal/utils/logger.hpp"
 
-#include <algorithm>
 #include <cassert>
 
 namespace hal::spi {

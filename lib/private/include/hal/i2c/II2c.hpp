@@ -33,7 +33,6 @@
 
 #pragma once
 
-#include "hal/Error.hpp"
 #include "hal/types.hpp"
 
 #include <osal/Mutex.hpp>
