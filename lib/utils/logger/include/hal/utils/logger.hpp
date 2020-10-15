@@ -58,4 +58,10 @@ namespace spi {
 REGISTER_LOGGER(SpiLogger, "SPI", cDefaultLogLevel);
 
 } // namespace spi
+
+namespace uart {
+
+REGISTER_LOGGER(LinuxUartLogger, "LinuxUart", cDefaultLogLevel);
+
+} // namespace uart
 } // namespace hal

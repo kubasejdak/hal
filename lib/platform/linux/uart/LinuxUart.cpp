@@ -32,47 +32,68 @@
 
 #include "LinuxUart.hpp"
 
+#include "hal/Error.hpp"
+#include "hal/utils/logger.hpp"
+
 #include <fcntl.h>
 #include <unistd.h>
 
 #include <cerrno>
 #include <chrono>
+#include <cstring>
 #include <utility>
 
 namespace hal::uart {
 
 LinuxUart::LinuxUart(std::string device)
     : m_device(std::move(device))
-{}
+{
+    LinuxUartLogger::info("Created Linux UART with the following parameters:");
+    LinuxUartLogger::info("  device : {}", device);
+}
 
 std::error_code LinuxUart::drvOpen()
 {
     m_fd = ::open(m_device.c_str(), O_RDWR | O_NOCTTY | O_NONBLOCK); // NOLINT
-    if (m_fd < 0)
+    if (m_fd < 0) {
+        LinuxUartLogger::error("Failed to open: ::open() error: {}", strerror(errno));
         return Error::eFilesystemError;
+    }
 
-    if (tcgetattr(m_fd, &m_ttyPrev) != 0)
+    if (tcgetattr(m_fd, &m_ttyPrev) != 0) {
+        LinuxUartLogger::error("Failed to open: tcgetattr() error: {}", strerror(errno));
         return Error::eHardwareError;
+    }
 
-    if (tcflush(m_fd, TCIFLUSH) != 0)
+    if (tcflush(m_fd, TCIFLUSH) != 0) {
+        LinuxUartLogger::error("Failed to open: tcflush(TCIFLUSH) error: {}", strerror(errno));
         return Error::eHardwareError;
+    }
 
-    if (tcflush(m_fd, TCOFLUSH) != 0)
+    if (tcflush(m_fd, TCOFLUSH) != 0) {
+        LinuxUartLogger::error("Failed to open: tcflush(TCOFLUSH) error: {}", strerror(errno));
         return Error::eHardwareError;
+    }
 
-    if (tcsetattr(m_fd, TCSANOW, &m_tty) != 0)
+    if (tcsetattr(m_fd, TCSANOW, &m_tty) != 0) {
+        LinuxUartLogger::error("Failed to open: tcsetattr(TCSANOW) error: {}", strerror(errno));
         return Error::eHardwareError;
+    }
 
     return Error::eOk;
 }
 
 std::error_code LinuxUart::drvClose()
 {
-    if (tcsetattr(m_fd, TCSANOW, &m_ttyPrev) != 0)
+    if (tcsetattr(m_fd, TCSANOW, &m_ttyPrev) != 0) {
+        LinuxUartLogger::error("Failed to close: tcsetattr(TCSANOW) error: {}", strerror(errno));
         return Error::eHardwareError;
+    }
 
-    if (::close(m_fd) < 0)
+    if (::close(m_fd) < 0) {
+        LinuxUartLogger::error("Failed to close: ::close() error: {}", strerror(errno));
         return Error::eFilesystemError;
+    }
 
     return Error::eOk;
 }
@@ -98,11 +119,15 @@ std::error_code LinuxUart::drvSetBaudrate(Baudrate baudrate)
         return -1;
     };
 
-    if (cfsetospeed(&m_tty, termiosBaudrate(baudrate)) != 0)
+    if (cfsetospeed(&m_tty, termiosBaudrate(baudrate)) != 0) {
+        LinuxUartLogger::error("Failed to set baudrate: cfsetospeed() error: {}", strerror(errno));
         return Error::eHardwareError;
+    }
 
-    if (cfsetispeed(&m_tty, termiosBaudrate(baudrate)) != 0)
+    if (cfsetispeed(&m_tty, termiosBaudrate(baudrate)) != 0) {
+        LinuxUartLogger::error("Failed to set baudrate: cfsetispeed() error: {}", strerror(errno));
         return Error::eHardwareError;
+    }
 
     return Error::eOk;
 }
@@ -122,7 +147,7 @@ std::error_code LinuxUart::drvSetMode(Mode mode)
             m_tty.c_iflag |= tcflag_t(IGNPAR); // Ignore framing errors and parity errors.
             m_tty.c_iflag |= tcflag_t(INPCK);  // Enable input parity checking.
             break;
-        default: return Error::eNotSupported;
+        default: LinuxUartLogger::error("Failed to set mode: not supported value"); return Error::eNotSupported;
     }
 
     return Error::eOk;
@@ -134,9 +159,12 @@ std::error_code LinuxUart::drvWrite(const std::uint8_t* bytes, std::size_t size)
     while (writeSize != size) {
         auto result = ::write(m_fd, bytes + writeSize, size - writeSize);
         if (result == -1) {
-            if (errno == EAGAIN)
+            if (errno == EAGAIN) {
+                LinuxUartLogger::debug("Failed to write: ::write() error: {}", strerror(errno));
                 continue;
+            }
 
+            LinuxUartLogger::error("Failed to write: ::write() error: {}", strerror(errno));
             return Error::eHardwareError;
         }
 
@@ -171,15 +199,20 @@ LinuxUart::drvRead(std::uint8_t* bytes, std::size_t size, osal::Timeout timeout,
         auto result = select(m_fd + 1, &readFds, nullptr, nullptr, &tv);
         if (result > 0) {
             auto status = ::read(m_fd, bytes + (size - toRead), toRead);
-            if (status != -1) {
-                toRead -= status;
+            if (status == -1) {
+                LinuxUartLogger::debug("Failed to read: ::read error: {}", strerror(errno));
+                continue;
             }
+
+            toRead -= status;
         }
     } while (toRead != 0 && !timeout.isExpired());
 
     actualReadSize = size - toRead;
-    if (timeout.isExpired() && toRead != 0)
+    if (timeout.isExpired() && toRead != 0) {
+        LinuxUartLogger::error("Failed to read: timeout (timeout={} ms)", osal::durationMs(timeout));
         return Error::eTimeout;
+    }
 
     return Error::eOk;
 }

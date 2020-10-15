@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 
 import common
-import daemon
 
 class UartServer(common.UartEndpoint):
     def run(self):
@@ -44,6 +43,5 @@ class UartServer(common.UartEndpoint):
     def onClose(self):
         self.sendResponse({"type": "ack"})
 
-with daemon.DaemonContext():
-    server = UartServer("/dev/ttyUSB1", 115200)
-    server.run()
+server = UartServer("/dev/ttyUSB1", 115200)
+server.run()
