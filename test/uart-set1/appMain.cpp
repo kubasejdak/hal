@@ -31,8 +31,9 @@
 /////////////////////////////////////////////////////////////////////////////////////
 
 #define CATCH_CONFIG_RUNNER
-#define CATCH_CONFIG_DEFAULT_REPORTER "junit" // NOLINT
+#define CATCH_CONFIG_DEFAULT_REPORTER "verbose" // NOLINT
 
+#include "VerboseReporter.hpp"
 #include "platformInit.hpp"
 
 #include <osal/init.hpp>
