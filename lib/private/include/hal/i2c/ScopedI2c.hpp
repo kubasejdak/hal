@@ -67,7 +67,7 @@ public:
     /// @note This constructor is deleted, because ScopedI2c is not meant to be move-constructed.
     ScopedI2c(ScopedI2c&&) = delete;
 
-    /// Assignment operator.
+    /// Copy assignment operator.
     /// @note This operator is deleted, because ScopedI2c is not meant to be copy-assigned.
     ScopedI2c& operator=(const ScopedI2c&) = delete;
 

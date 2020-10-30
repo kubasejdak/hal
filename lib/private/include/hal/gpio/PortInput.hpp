@@ -71,15 +71,13 @@ public:
         , m_port(std::move(port))
         , m_mask(mask)
         , m_modifier(std::move(modifier))
-    {
-        m_port->setDirection(~WidthType{0}, m_mask);
-    }
+    {}
 
-    /// @see IPortInput::read().
-    std::error_code read(WidthType& value) override
+    /// @see IPortInput::get().
+    std::error_code get(WidthType& value) override
     {
         WidthTypeUnderlying originalValue{};
-        if (auto error = m_port->read(originalValue, m_mask))
+        if (auto error = m_port->get(originalValue, m_mask))
             return error;
 
         value = m_modifier ? m_modifier(originalValue, m_mask) : originalValue;

@@ -41,7 +41,7 @@
 
 namespace hal::gpio {
 
-/// Represents the GPIO port with the defined width and access type.
+/// Represents the GPIO port with the defined width.
 /// @tparam WidthType       Type representing the bit-width of the port (e.g. std::uint32_t means that port is 32-bit).
 template <typename WidthType>
 class IGpioPort {
@@ -71,40 +71,17 @@ public:
     /// @note This operator is deleted, because IGpioPort is not meant to be move-assigned.
     IGpioPort& operator=(IGpioPort&&) noexcept = delete;
 
-    /// Sets the direction of each pin in the GPIO port.
-    /// @param direction    Direction mask to be set.
-    /// @param mask         Mask indicating which pins should be affected.
-    /// @return Error code of the operation.
-    std::error_code setDirection(WidthType direction, WidthType mask) { return drvSetDirection(direction, mask); }
-
     /// Reads the demanded set of GPIO port bits defined by the mask.
     /// @param value        Output argument where the read value will be stored.
     /// @param mask         Mask defining which port bits should be read.
     /// @return Error code of the operation.
-    std::error_code read(WidthType& value, WidthType mask) { return drvRead(value, mask); }
+    virtual std::error_code get(WidthType& value, WidthType mask) = 0;
 
     /// Writes the demanded set of GPIO port bits defined by the mask.
     /// @param value        Value to be written to the GPIO port.
     /// @param mask         Mask defining which port bits should be written.
     /// @return Error code of the operation.
-    std::error_code write(WidthType value, WidthType mask) { return drvWrite(value, mask); }
-
-private:
-    /// Driver specific implementation of setting the GPIO port direction.
-    /// @return Error code of the operation.
-    virtual std::error_code drvSetDirection(WidthType, WidthType) = 0;
-
-    /// Driver specific implementation of GPIO port reading.
-    /// @param value        Output argument where the read value will be stored.
-    /// @param mask         Mask defining which port bits should be read.
-    /// @return Error code of the operation.
-    virtual std::error_code drvRead(WidthType& value, WidthType mask) = 0;
-
-    /// Driver specific implementation of GPIO port writing.
-    /// @param value        Value to be written to the GPIO port.
-    /// @param mask         Mask defining which port bits should be written.
-    /// @return Error code of the operation.
-    virtual std::error_code drvWrite(WidthType value, WidthType mask) = 0;
+    virtual std::error_code set(WidthType value, WidthType mask) = 0;
 };
 
 /// Represents GlobalRegistry of IGpioPort instances.

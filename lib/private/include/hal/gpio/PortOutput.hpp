@@ -71,15 +71,13 @@ public:
         , m_port(std::move(port))
         , m_mask(mask)
         , m_modifier(std::move(modifier))
-    {
-        m_port->setDirection(WidthType{0}, m_mask);
-    }
+    {}
 
-    /// @see IPortOutput::write().
-    std::error_code write(WidthType value) override
+    /// @see IPortOutput::set().
+    std::error_code set(WidthType value) override
     {
         WidthTypeUnderlying modifiedValue = m_modifier ? m_modifier(value, m_mask) : value;
-        return m_port->write(modifiedValue, m_mask);
+        return m_port->set(modifiedValue, m_mask);
     }
 
 private:

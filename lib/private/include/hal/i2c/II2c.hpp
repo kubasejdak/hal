@@ -74,7 +74,7 @@ public:
     /// Virtual destructor.
     virtual ~II2c();
 
-    /// Assignment operator.
+    /// Copy assignment operator.
     /// @return Reference to self.
     /// @note This operator is deleted, because II2c is not meant to be copy-assigned.
     II2c& operator=(const II2c&) = delete;

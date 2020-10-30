@@ -84,8 +84,8 @@ private:
     };
     // clang-format on
 
-    static inline State m_state = State::eUninitialized;
-    static inline std::multimap<Type, IBoard&> m_boards;
+    static inline State m_state = State::eUninitialized; // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
+    static inline std::multimap<Type, IBoard&> m_boards; // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
 };
 
 /// Helper RAII type for managing board initialization via Hardware.

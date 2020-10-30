@@ -76,9 +76,9 @@ public:
     /// @note This constructor is deleted, because ScopedSpi is not meant to be move-constructed.
     ScopedSpi(ScopedSpi&&) = delete;
 
-    /// Assignment operator.
+    /// Copy assignment operator.
     /// @return Reference to self.
-    /// @note This operator is deleted, because ScopedSpi is not meant to be move-assigned.
+    /// @note This operator is deleted, because ScopedSpi is not meant to be copy-assigned.
     ScopedSpi& operator=(const ScopedSpi&) = delete;
 
     /// Move assignment operator.
@@ -147,13 +147,13 @@ public:
     /// @return Flag indicating if the SPI has been acquired.
     /// @retval true            SPI has been acquired.
     /// @retval false           SPI has not been acquired.
-    bool isAcquired() const { return m_locked; }
+    [[nodiscard]] bool isAcquired() const { return m_locked; }
 
     /// Returns the flag indicating if the SPI chip select is enabled.
     /// @return Flag indicating if the SPI chip select has been enabled.
     /// @retval true            SPI chip select has been enabled.
     /// @retval false           SPI chip select has been disabled.
-    bool isChipSelectEnabled() const { return m_selected; }
+    [[nodiscard]] bool isChipSelectEnabled() const { return m_selected; }
 
     /// Enables the chip select manually.
     /// @return Error code of the operation.

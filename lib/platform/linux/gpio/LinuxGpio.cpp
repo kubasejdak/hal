@@ -32,6 +32,8 @@
 
 #include "LinuxGpio.hpp"
 
+#include "hal/Error.hpp"
+
 #include <gpiod.h>
 
 #include <fmt/format.h>
@@ -97,7 +99,7 @@ LinuxGpio::~LinuxGpio()
     }
 }
 
-std::error_code LinuxGpio::drvRead(std::uint32_t& value, std::uint32_t mask)
+std::error_code LinuxGpio::get(std::uint32_t& value, std::uint32_t mask)
 {
     std::bitset<m_cPortBits> valueBits(0);
     std::bitset<m_cPortBits> maskBits(mask);
@@ -121,7 +123,7 @@ std::error_code LinuxGpio::drvRead(std::uint32_t& value, std::uint32_t mask)
     return Error::eOk;
 }
 
-std::error_code LinuxGpio::drvWrite(std::uint32_t value, std::uint32_t mask)
+std::error_code LinuxGpio::set(std::uint32_t value, std::uint32_t mask)
 {
     std::bitset<m_cPortBits> valueBits(value);
     std::bitset<m_cPortBits> maskBits(mask);

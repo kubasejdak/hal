@@ -44,6 +44,9 @@ namespace hal {
 namespace gpio {
 
 REGISTER_LOGGER(LinuxGpioLogger, "LinuxGpio", cDefaultLogLevel);
+REGISTER_LOGGER(Mcp23x17Logger, "IMcp23x17", cDefaultLogLevel);
+REGISTER_LOGGER(Mcp23S17Logger, "Mcp23S17", cDefaultLogLevel);
+REGISTER_LOGGER(Mcp23017Logger, "Mcp23017", cDefaultLogLevel);
 
 } // namespace gpio
 

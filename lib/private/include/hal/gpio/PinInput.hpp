@@ -69,8 +69,6 @@ public:
         , m_negated(negated)
     {
         assert(pin <= maxPin<WidthType>());
-
-        m_port->setDirection(~WidthType{0}, m_mask);
     }
 
 private:
@@ -78,7 +76,7 @@ private:
     std::error_code get(bool& value) override
     {
         WidthType data{};
-        if (auto error = m_port->read(data, m_mask))
+        if (auto error = m_port->get(data, m_mask))
             return error;
 
         value = ((data == 0) == m_negated);
