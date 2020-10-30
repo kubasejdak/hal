@@ -32,7 +32,6 @@
 
 #pragma once
 
-#include "hal/Error.hpp"
 #include "hal/gpio/IGpioPort.hpp"
 
 #include <climits>
@@ -40,6 +39,7 @@
 #include <map>
 #include <string>
 #include <string_view>
+#include <system_error>
 #include <vector>
 
 struct gpiod_chip;
@@ -82,14 +82,11 @@ public:
     /// @note This operator is deleted, because LinuxGpio is not meant to be move-assigned.
     LinuxGpio& operator=(LinuxGpio&&) = delete;
 
-    /// @see IGpioPort::drvSetDirection().
-    std::error_code drvSetDirection(std::uint32_t /*unused*/, std::uint32_t /*unused*/) override { return Error::eOk; }
+    /// @see IGpioPort::get().
+    std::error_code get(std::uint32_t& value, std::uint32_t mask) override;
 
-    /// @see IGpioPort::drvRead().
-    std::error_code drvRead(std::uint32_t& value, std::uint32_t mask) override;
-
-    /// @see IGpioPort::drvWrite().
-    std::error_code drvWrite(std::uint32_t value, std::uint32_t mask) override;
+    /// @see IGpioPort::set().
+    std::error_code set(std::uint32_t value, std::uint32_t mask) override;
 
 private:
     static constexpr std::size_t m_cPortBits{sizeof(std::uint32_t) * CHAR_BIT};

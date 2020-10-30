@@ -68,17 +68,15 @@ public:
         , m_negated(negated)
     {
         assert(pin <= maxPin<WidthType>());
-
-        m_port->setDirection(WidthType{0}, m_mask);
     }
 
     /// @see IPinOutput::set().
     std::error_code set(bool value) override
     {
         if (value)
-            return m_port->write(m_negated ? 0 : (~WidthType{}), m_mask);
+            return m_port->set(m_negated ? 0 : (~WidthType{}), m_mask);
 
-        return m_port->write(m_negated ? (~WidthType{}) : 0, m_mask);
+        return m_port->set(m_negated ? (~WidthType{}) : 0, m_mask);
     }
 
 private:

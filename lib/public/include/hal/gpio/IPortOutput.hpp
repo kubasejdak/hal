@@ -58,7 +58,7 @@ public:
     /// Writes given value to this GPIO pin set.
     /// @param value                Bit values of each pin from this port.
     /// @return Error code of the operation.
-    virtual std::error_code write(WidthType value) = 0;
+    virtual std::error_code set(WidthType value) = 0;
 };
 
 } // namespace hal::gpio

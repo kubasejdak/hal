@@ -7,7 +7,7 @@ target_include_directories(gpio
 )
 
 conan_add_remote(NAME kubasejdak URL https://api.bintray.com/conan/kubasejdak/public-conan)
-conan_get(REQUIRES libgpiod/1.4.3@kubasejdak/stable fmt/7.0.3 OPTIONS fmt:header_only=True)
+conan_get(REQUIRES libgpiod/1.4.3@kubasejdak/stable fmt/7.1.0 OPTIONS fmt:header_only=True)
 find_package(libgpiod REQUIRED)
 find_package(fmt REQUIRED)
 

@@ -77,12 +77,12 @@ public:
     /// Virtual destructor.
     virtual ~ISpi();
 
-    /// Assignment operator.
+    /// Copy assignment operator.
     /// @return Reference to self.
     /// @note This operator is deleted, because ISpi is not meant to be copy-assigned.
     ISpi& operator=(const ISpi&) = delete;
 
-    /// Assignment operator.
+    /// Move assignment operator.
     /// @return Reference to self.
     /// @note This operator is deleted, because ISpi is not meant to be move-assigned.
     ISpi& operator=(ISpi&&) = delete;

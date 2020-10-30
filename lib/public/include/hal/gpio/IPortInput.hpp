@@ -58,7 +58,7 @@ public:
     /// Reads the value of this GPIO pin set and returns it as an output argument.
     /// @param value                Output argument with bit values of each pin from this port.
     /// @return Error code of the operation.
-    virtual std::error_code read(WidthType& value) = 0;
+    virtual std::error_code get(WidthType& value) = 0;
 };
 
 } // namespace hal::gpio

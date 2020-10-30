@@ -50,7 +50,7 @@ CheckOptions:
   - key:               readability-identifier-naming.ConstantMemberPrefix
     value:             'm_c'
   - key:               readability-identifier-naming.ConstantParameterCase
-    value:             'CamelBack'
+    value:             'CamelCase'
   - key:               readability-identifier-naming.ConstantParameterPrefix
     value:             'c'
   - key:               readability-identifier-naming.EnumCase
@@ -75,8 +75,6 @@ CheckOptions:
     value:             'm_'
   - key:               readability-identifier-naming.PublicMemberCase
     value:             'camelBack'
-  - key:               readability-identifier-naming.TemplateParameterCase
-    value:             'CamelCase'
   - key:               readability-identifier-naming.TypeAliasCase
     value:             'CamelCase'
   - key:               readability-identifier-naming.TypedefCase
@@ -84,7 +82,7 @@ CheckOptions:
   - key:               readability-identifier-naming.UnionCase
     value:             'CamelCase'
   - key:               readability-identifier-naming.ValueTemplateParameterCase
-    value:             'CamelBack'
+    value:             'CamelCase'
   - key:               readability-identifier-naming.ValueTemplateParameterPrefix
     value:             'c'
   - key:               readability-identifier-naming.VariableCase

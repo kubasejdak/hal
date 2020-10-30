@@ -31,18 +31,28 @@
     - linux
     - shared
 
-GpioSet1_Coverage:
-  extends: .Linux_ARM_GCC_Coverage
-  tags:
-    - raspberrypi
-    - gpio
-  variables:
-    App: "gpio-set1"
+#GpioSet1_Coverage:
+#  extends: .Linux_ARM_GCC_Coverage
+#  tags:
+#    - raspberrypi
+#    - q39tester
+#    - mcp23017
+#    - mcp23s17
+#  variables:
+#    App: "gpio-set1"
 
 Middleware_Coverage:
   extends: .Linux_GCC_Coverage
   variables:
     App: "middleware"
+
+PlatformGpio_Coverage:
+  extends: .Linux_ARM_GCC_Coverage
+  tags:
+    - raspberrypi
+    - gpio
+  variables:
+    App: "platform-gpio"
 
 UartSet1_Coverage:
   extends: .Linux_ARM_GCC_Coverage

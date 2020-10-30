@@ -3,7 +3,7 @@ add_library(test-uart-set1-private EXCLUDE_FROM_ALL)
 
 if (PLATFORM STREQUAL linux)
     target_sources(test-uart-set1-private
-        PRIVATE BoardLinux.cpp
+        PRIVATE BoardInit.cpp
     )
 endif ()
 
