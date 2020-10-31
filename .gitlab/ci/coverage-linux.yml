@@ -29,7 +29,6 @@
   image: kubasejdak/gcc:latest
   tags:
     - linux
-    - shared
 
 #GpioSet1_Coverage:
 #  extends: .Linux_ARM_GCC_Coverage

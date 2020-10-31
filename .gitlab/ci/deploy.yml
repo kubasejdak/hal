@@ -5,7 +5,6 @@ pages:
   image: kubasejdak/gcc:latest
   tags:
     - linux
-    - shared
   dependencies:
     - Coverage_Total
   artifacts:
