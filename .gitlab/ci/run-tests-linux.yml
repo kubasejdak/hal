@@ -12,7 +12,6 @@
   image: kubasejdak/gcc:latest
   tags:
     - linux
-    - shared
 
 .Run_Test_Linux_ARM:
   extends: .Run_Test
