@@ -5,7 +5,7 @@ pages:
   image: kubasejdak/gcc:latest
   tags:
     - linux
-  dependencies:
+  needs:
     - Coverage_Total
   artifacts:
     paths:

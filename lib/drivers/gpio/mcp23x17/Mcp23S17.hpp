@@ -40,6 +40,7 @@
 
 #include <chrono>
 #include <cstdint>
+#include <memory>
 #include <system_error>
 
 namespace hal::gpio {
