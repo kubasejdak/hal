@@ -26,7 +26,7 @@
 #    - q39tester
 #    - mcp23017
 #    - mcp23s17
-#  dependencies:
+#  needs:
 #    - GpioSet1_Linux_ARM_GCC_Debug_Build
 #  variables:
 #    AppArtifact: "GpioSet1_Linux_ARM_GCC_Debug_Build"
@@ -34,7 +34,7 @@
 
 Middleware_Linux_Valgrind:
   extends: .Run_Valgrind_Linux
-  dependencies:
+  needs:
     - Middleware_Linux_GCC_Debug_Build
   variables:
     AppArtifact: "Middleware_Linux_GCC_Debug_Build"
@@ -45,7 +45,7 @@ PlatformGpio_Linux_ARM_Valgrind:
   tags:
     - raspberrypi
     - gpio
-  dependencies:
+  needs:
     - PlatformGpio_Linux_ARM_GCC_Debug_Build
   variables:
     AppArtifact: "PlatformGpio_Linux_ARM_GCC_Debug_Build"
@@ -56,7 +56,7 @@ UartSet1_Linux_ARM_Valgrind:
   tags:
     - raspberrypi
     - uart
-  dependencies:
+  needs:
     - UartSet1_Linux_ARM_GCC_Debug_Build
   variables:
     AppArtifact: "UartSet1_Linux_ARM_GCC_Debug_Build"

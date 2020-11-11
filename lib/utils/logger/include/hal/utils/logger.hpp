@@ -62,6 +62,12 @@ REGISTER_LOGGER(SpiLogger, "SPI", cDefaultLogLevel);
 
 } // namespace spi
 
+namespace storage {
+
+REGISTER_LOGGER(GenericEepromLogger, "GenericEeprom", cDefaultLogLevel);
+
+} // namespace storage
+
 namespace uart {
 
 REGISTER_LOGGER(LinuxUartLogger, "LinuxUart", cDefaultLogLevel);

@@ -37,6 +37,7 @@
 
 #include <chrono>
 #include <cstdint>
+#include <memory>
 #include <system_error>
 
 namespace hal::gpio {
@@ -76,7 +77,7 @@ public:
 
     /// Move assignment operator.
     /// @return Reference to self.
-    /// @note This operator is deleted, because Mcp23017 is not meant to be copy-assigned.
+    /// @note This operator is deleted, because Mcp23017 is not meant to be move-assigned.
     Mcp23017& operator=(Mcp23017&&) noexcept = delete;
 
 private:
