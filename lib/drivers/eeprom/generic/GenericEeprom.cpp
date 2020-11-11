@@ -39,18 +39,9 @@
 #include <utils/bits.hpp>
 
 #include <cassert>
-#include <cstring>
 #include <utility>
 
 namespace hal::storage {
-
-template <typename T>
-constexpr auto toBytesArray(T value)
-{
-    std::array<std::uint8_t, sizeof(T)> bytes{};
-    std::memcpy(bytes.data(), &value, sizeof(T));
-    return bytes;
-}
 
 GenericEeprom::GenericEeprom(std::shared_ptr<i2c::II2c> i2c,
                              std::uint16_t address,
@@ -155,7 +146,7 @@ std::error_code GenericEeprom::drvRead(std::size_t address,
     }
 
     // Write only the address, don't send the STOP. STOP will be sent after the read.
-    auto addressArray = toBytesArray(utils::toBigEndian<std::uint16_t>(address));
+    auto addressArray = utils::toBytesArray(utils::toBigEndian<std::uint16_t>(address));
     if (auto error = m_i2c->write(m_address, addressArray.data(), addressArray.size(), false, timeout)) {
         GenericEepromLogger::warn("Failed to read: I2C write() returned err={} (timeout={} ms)",
                                   error.message(),
@@ -183,7 +174,7 @@ GenericEeprom::writePage(std::size_t address, const std::uint8_t* bytes, std::si
 
     osal::sleepUntilExpired(m_writeDelay);
 
-    auto addressArray = toBytesArray(utils::toBigEndian<std::uint16_t>(address));
+    auto addressArray = utils::toBytesArray(utils::toBigEndian<std::uint16_t>(address));
 
     BytesVector data;
     data.insert(data.end(), addressArray.begin(), addressArray.end());
