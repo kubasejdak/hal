@@ -1,10 +1,10 @@
 # Object library type is used to prevent compiler from removing unit test functions from the binary.
-add_library(appuart-set1 OBJECT EXCLUDE_FROM_ALL
+add_library(appplatform-uart OBJECT EXCLUDE_FROM_ALL
     appMain.cpp
     ClientTests.cpp
 )
 
-target_include_directories(appuart-set1
+target_include_directories(appplatform-uart
     PRIVATE .
 )
 
@@ -19,14 +19,14 @@ if (PLATFORM STREQUAL freertos-arm)
     target_compile_definitions(Catch2::Catch2 INTERFACE CATCH_CONFIG_NO_POSIX_SIGNALS CATCH_CONFIG_DISABLE_EXCEPTIONS)
 endif ()
 
-target_link_libraries(appuart-set1
+target_link_libraries(appplatform-uart
     PUBLIC platform-init
     PRIVATE Catch2::Catch2 osal::cpp hal RapidJSON::RapidJSON digestpp
 )
 
 # This is required to selectively run Catch2 tests using tags on platforms, where cmd line arguments are not available.
 if (DEFINED TEST_TAGS)
-    target_compile_definitions(appuart-set1
+    target_compile_definitions(appplatform-uart
         PRIVATE TEST_TAGS="${TEST_TAGS}"
     )
 endif ()

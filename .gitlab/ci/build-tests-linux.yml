@@ -155,30 +155,30 @@ PlatformGpio_Linux_ARM_GCC_Release_Build:
     App: "platform-gpio"
     BuildType: "Release"
 
-#UartSet1_Linux_ARM_Clang_Debug_Build:
+#PlatformUart_Linux_ARM_Clang_Debug_Build:
 #  extends: .Build_Test_Linux_ARM_Clang
 #  variables:
-#    App: "uart-set1"
+#    App: "platform-uart"
 #    BuildType: "Debug"
 #
-#UartSet1_Linux_ARM_Clang_Release_Build:
+#PlatformUart_Linux_ARM_Clang_Release_Build:
 #  extends: .Build_Test_Linux_ARM_Clang
 #  only:
 #    - master
 #  variables:
-#    App: "uart-set1"
+#    App: "platform-uart"
 #    BuildType: "Release"
 
-UartSet1_Linux_ARM_GCC_Debug_Build:
+PlatformUart_Linux_ARM_GCC_Debug_Build:
   extends: .Build_Test_Linux_ARM_GCC
   variables:
-    App: "uart-set1"
+    App: "platform-uart"
     BuildType: "Debug"
 
-UartSet1_Linux_ARM_GCC_Release_Build:
+PlatformUart_Linux_ARM_GCC_Release_Build:
   extends: .Build_Test_Linux_ARM_GCC
   only:
     - master
   variables:
-    App: "uart-set1"
+    App: "platform-uart"
     BuildType: "Release"

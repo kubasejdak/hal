@@ -51,14 +51,14 @@ PlatformGpio_Linux_ARM_Valgrind:
     AppArtifact: "PlatformGpio_Linux_ARM_GCC_Debug_Build"
     App: "platform-gpio"
 
-UartSet1_Linux_ARM_Valgrind:
+PlatformUart_Linux_ARM_Valgrind:
   extends: .Run_Valgrind_Linux_ARM
   tags:
     - raspberrypi
     - uart
   needs:
-    - UartSet1_Linux_ARM_GCC_Debug_Build
+    - PlatformUart_Linux_ARM_GCC_Debug_Build
   variables:
-    AppArtifact: "UartSet1_Linux_ARM_GCC_Debug_Build"
-    App: "uart-set1"
+    AppArtifact: "PlatformUart_Linux_ARM_GCC_Debug_Build"
+    App: "platform-uart"
     BeforeRun: "daemon/run.py"
