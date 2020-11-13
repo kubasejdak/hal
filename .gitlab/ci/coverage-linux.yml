@@ -53,11 +53,11 @@ PlatformGpio_Coverage:
   variables:
     App: "platform-gpio"
 
-UartSet1_Coverage:
+PlatformUart_Coverage:
   extends: .Linux_ARM_GCC_Coverage
   tags:
     - raspberrypi
     - uart
   variables:
-    App: "uart-set1"
+    App: "platform-uart"
     BeforeRun: "bin/daemon/run.py"

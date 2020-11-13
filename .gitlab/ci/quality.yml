@@ -61,10 +61,10 @@ PlatformGpio_Linux_ARM_Clang_Tidy:
   variables:
     App: "platform-gpio"
 
-#UartSet1_Linux_ARM_Clang_Tidy:
+#PlatformUart_Linux_ARM_Clang_Tidy:
 #  extends: .Clang_Tidy_Linux_ARM
 #  variables:
-#    App: "uart-set1"
+#    App: "platform-uart"
 
 Coverage_Total:
   stage: quality
@@ -75,7 +75,7 @@ Coverage_Total:
 #    - GpioSet1_Coverage
     - Middleware_Coverage
     - PlatformGpio_Coverage
-    - UartSet1_Coverage
+    - PlatformUart_Coverage
   artifacts:
     name: "${CI_JOB_NAME}_${CI_JOB_ID}"
     expire_in: 2 weeks
@@ -89,7 +89,7 @@ Coverage_Total:
     - |
       lcov -a ../Middleware_Coverage/coverage/coverage.info \
            -a ../PlatformGpio_Coverage/coverage/coverage.info \
-           -a ../UartSet1_Coverage/coverage/coverage.info \
+           -a ../PlatformUart_Coverage/coverage/coverage.info \
            -o coverage.info
     - sed -i "s|SF:|SF:${CI_PROJECT_DIR}/|g" coverage.info
     - genhtml coverage.info -o html
