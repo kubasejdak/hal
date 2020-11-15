@@ -12,7 +12,7 @@
 
     # Build application.
     - cmake .. -DPLATFORM=linux -DAPP=${App} -DCOVERAGE=ON
-    - make
+    - make ${MakeParams}
     - if [ ! -z "${BeforeRun}" ]; then ${BeforeRun}; sleep 1; fi
     - bin/${App} [unit]
     - make coverage
@@ -23,6 +23,8 @@
   image: kubasejdak/arm-tests:latest
   tags:
     - raspberrypi
+  variables:
+    MakeParams: "-j 4"
 
 .Linux_GCC_Coverage:
   extends: .Linux_Coverage
