@@ -46,6 +46,11 @@ Clang_Format:
   variables:
     Toolchain: "arm-linux-gnueabihf-clang-11"
 
+EepromSet1_Linux_ARM_Clang_Tidy:
+  extends: .Clang_Tidy_Linux_ARM
+  variables:
+    App: "q39tester/eeprom-set1"
+
 GpioSet1_Linux_ARM_Clang_Tidy:
   extends: .Clang_Tidy_Linux_ARM
   variables:
@@ -85,6 +90,7 @@ Coverage_Total:
     - mkdir ${CI_JOB_NAME}
     - cd ${CI_JOB_NAME}
 
+#-a ../EepromSet1_Coverage/coverage/coverage.info \
 #-a ../GpioSet1_Coverage/coverage/coverage.info \
     - |
       lcov -a ../Middleware_Coverage/coverage/coverage.info \

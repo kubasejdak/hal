@@ -30,6 +30,15 @@
   tags:
     - linux
 
+#EepromSet1_Coverage:
+#  extends: .Linux_ARM_GCC_Coverage
+#  tags:
+#    - raspberrypi
+#    - q39tester
+#    - at24cm02
+#  variables:
+#    App: "eeprom-set1"
+
 #GpioSet1_Coverage:
 #  extends: .Linux_ARM_GCC_Coverage
 #  tags:
