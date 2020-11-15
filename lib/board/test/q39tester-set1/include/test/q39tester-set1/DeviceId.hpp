@@ -115,11 +115,14 @@ enum Q39TesterSet1Id {
     eMcp23017PingPongOutPB0,
     eMcp23017PingPongInPB1,
     eMcp23017TriggerOutPB2,
-    eMcp23017CounterInPB3u7
+    eMcp23017CounterInPB3u7,
 
     ////////////////////////////////////////////////////////////////////
     // Storage.
     ////////////////////////////////////////////////////////////////////
+
+    eAt24Cm02Eeprom1,
+    eAt24Cm02Eeprom2
 };
 
 } // namespace device_id

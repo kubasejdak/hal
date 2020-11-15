@@ -30,6 +30,7 @@
 ///
 /////////////////////////////////////////////////////////////////////////////////////
 
+#include "GenericEeprom.hpp"
 #include "Mcp23017.hpp"
 #include "Mcp23S17.hpp"
 #include "Mcp23x17Common.hpp"
@@ -65,7 +66,7 @@ static void initGpio(std::map<device_id::Q39TesterSet1Id, std::shared_ptr<Device
     auto mcp23s17Spi = spi::Registry::get(std::get<0>(config::cQ39TesterSet1Mcp23S17));
     auto mcp23s17ChipSelectGpio = gpio::Registry<std::uint32_t>::get(std::get<1>(config::cQ39TesterSet1Mcp23S17));
     auto mcp23s17ChipSelectPin = std::get<2>(config::cQ39TesterSet1Mcp23S17);
-    constexpr std::uint8_t cMcp23s17Addr = 0x20;
+    constexpr std::uint16_t cMcp23s17Addr = 0x20;
     constexpr auto cMcp23s17BusTimeout = 5s;
     std::shared_ptr<gpio::IPinOutput> mcp23s17ChipSelect = std::make_shared<gpio::PinOutput<std::uint32_t>>(mcp23s17ChipSelectGpio, mcp23s17ChipSelectPin, true);
 
@@ -120,7 +121,7 @@ static void initGpio(std::map<device_id::Q39TesterSet1Id, std::shared_ptr<Device
     };
 
     auto mcp23017I2c = i2c::Registry::get(config::cQ39TesterSet1Mcp23017);
-    constexpr std::uint8_t cMcp23017Addr = 0x20;
+    constexpr std::uint16_t cMcp23017Addr = 0x20;
     constexpr auto cMcp23017BusTimeout = 5s;
 
     auto initMcp23017PortA = [&] {
@@ -180,8 +181,24 @@ static void initGpio(std::map<device_id::Q39TesterSet1Id, std::shared_ptr<Device
     // clang-format on
 }
 
-static void initStorage(std::map<device_id::Q39TesterSet1Id, std::shared_ptr<Device>>& /*unused*/)
-{}
+static void initStorage(std::map<device_id::Q39TesterSet1Id, std::shared_ptr<Device>>& devices)
+{
+    // clang-format off
+    auto initAt24Cm02 = [&] {
+        auto i2c = i2c::Registry::get(config::cQ39TesterSet1Mcp23017);
+        constexpr std::uint16_t cEepromAddr1 = 0x50;
+        constexpr std::uint16_t cEepromAddr2 = 0x54;
+        constexpr std::size_t cSize = 256 * 1024;
+        constexpr std::size_t cPageSize = 256;
+        constexpr auto cWriteDelay = 10ms;
+
+        devices[device_id::eAt24Cm02Eeprom1] = std::make_shared<storage::GenericEeprom>(i2c, cEepromAddr1, i2c::AddressingMode::e7bit, cSize, cPageSize, cWriteDelay);
+        devices[device_id::eAt24Cm02Eeprom2] = std::make_shared<storage::GenericEeprom>(i2c, cEepromAddr2, i2c::AddressingMode::e7bit, cSize, cPageSize, cWriteDelay);
+    };
+
+    initAt24Cm02();
+    // clang-format on
+}
 
 template <>
 std::error_code Board<device_id::Q39TesterSet1Id>::initImpl()
