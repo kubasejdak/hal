@@ -31,18 +31,18 @@
 #    AppArtifact: "EepromSet1_Linux_ARM_GCC_Debug_Build"
 #    App: "eeprom-set1"
 
-#GpioSet1_Linux_ARM_UT:
-#  extends: .Run_Test_Linux_ARM
-#  tags:
-#    - raspberrypi
-#    - q39tester
-#    - mcp23017
-#    - mcp23s17
-#  needs:
-#    - GpioSet1_Linux_ARM_GCC_Debug_Build
-#  variables:
-#    AppArtifact: "GpioSet1_Linux_ARM_GCC_Debug_Build"
-#    App: "gpio-set1"
+GpioSet1_Linux_ARM_UT:
+  extends: .Run_Test_Linux_ARM
+  tags:
+    - raspberrypi
+    - q39tester
+    - mcp23017
+    - mcp23s17
+  needs:
+    - GpioSet1_Linux_ARM_GCC_Debug_Build
+  variables:
+    AppArtifact: "GpioSet1_Linux_ARM_GCC_Debug_Build"
+    App: "gpio-set1"
 
 Middleware_Linux_ARM_UT:
   extends: .Run_Test_Linux_ARM

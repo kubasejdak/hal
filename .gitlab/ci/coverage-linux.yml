@@ -14,7 +14,7 @@
     - cmake .. -DPLATFORM=linux -DAPP=${App} -DCOVERAGE=ON
     - make ${MakeParams}
     - if [ ! -z "${BeforeRun}" ]; then ${BeforeRun}; sleep 1; fi
-    - bin/${App} [unit]
+    - bin/$(basename ${App}) [unit]
     - make coverage
     - sed -i "s|SF:${CI_PROJECT_DIR}/|SF:|g" coverage/coverage.info
 
@@ -39,17 +39,17 @@
 #    - q39tester
 #    - at24cm02
 #  variables:
-#    App: "eeprom-set1"
+#    App: "q39tester/eeprom-set1"
 
-#GpioSet1_Coverage:
-#  extends: .Linux_ARM_GCC_Coverage
-#  tags:
-#    - raspberrypi
-#    - q39tester
-#    - mcp23017
-#    - mcp23s17
-#  variables:
-#    App: "gpio-set1"
+GpioSet1_Coverage:
+  extends: .Linux_ARM_GCC_Coverage
+  tags:
+    - raspberrypi
+    - q39tester
+    - mcp23017
+    - mcp23s17
+  variables:
+    App: "q39tester/gpio-set1"
 
 Middleware_Coverage:
   extends: .Linux_GCC_Coverage

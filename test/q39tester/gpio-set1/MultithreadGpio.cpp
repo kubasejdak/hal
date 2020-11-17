@@ -119,6 +119,9 @@ static void noiseThreadBFunc(bool& stop,
     // Cleanup.
     if (auto error = output->off())
         REQUIRE(!error);
+
+    hal::returnDevice(output);
+    hal::returnDevice(input);
 }
 
 static bool isCounterOverflow(bool countUp, std::uint8_t counter)
@@ -182,6 +185,9 @@ static void triggerThreadFunc(bool& stop,
         triggerValue = !triggerValue;
         prevCounter = counter;
     }
+
+    hal::returnDevice(counterInput);
+    hal::returnDevice(triggerOutput);
 }
 
 static void counterThreadFunc(bool& stop,
@@ -226,6 +232,9 @@ static void counterThreadFunc(bool& stop,
         expectedTriggerValue = !expectedTriggerValue;
         prevCounter = counter;
     }
+
+    hal::returnDevice(counterOutput);
+    hal::returnDevice(triggerInput);
 }
 
 TEST_CASE("Multithread ping-pong and counter setting", "[unit][mcp23x17]")
