@@ -86,7 +86,7 @@ public:
     /// @note This method does not assume, that the output vector has the proper capacity. It will be
     ///       automatically expanded, if needed, by the container itself. Size of the vector after call
     ///       to this method will indicate the actual number of read bytes.
-    std::error_code read(std::size_t address, BytesVector& bytes, std::size_t size, osal::Timeout timeout);
+    std::error_code read(std::uint32_t address, BytesVector& bytes, std::size_t size, osal::Timeout timeout);
 
     /// Reads the demanded number of bytes from the current EEPROM device.
     /// @param address              Location address, from where the data should be read.
@@ -98,7 +98,7 @@ public:
     /// @note This method assumes, that the output memory block has the proper capacity. After call to this
     ///       method the 'actualReadSize' parameter will indicate the actual number of received bytes.
     ///       It is also assumed, that output memory block is empty.
-    std::error_code read(std::size_t address,
+    std::error_code read(std::uint32_t address,
                          std::uint8_t* bytes,
                          std::size_t size,
                          osal::Timeout timeout,
@@ -112,7 +112,7 @@ private:
     /// @param timeout              Maximal time to wait for the data.
     /// @return Error code of the operation.
     virtual std::error_code
-    drvWrite(std::size_t address, const std::uint8_t* bytes, std::size_t size, osal::Timeout timeout)
+    drvWrite(std::uint32_t address, const std::uint8_t* bytes, std::size_t size, osal::Timeout timeout)
         = 0;
 
     /// Driver specific implementation of the method that reads demanded number of bytes.
@@ -122,7 +122,7 @@ private:
     /// @param timeout              Maximal time to wait for the data.
     /// @param actualReadSize       Actual number of received bytes.
     /// @return Error code of the operation.
-    virtual std::error_code drvRead(std::size_t address,
+    virtual std::error_code drvRead(std::uint32_t address,
                                     std::uint8_t* bytes,
                                     std::size_t size,
                                     osal::Timeout timeout,

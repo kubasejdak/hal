@@ -91,10 +91,10 @@ public:
 private:
     /// @see IEeprom::drvWrite().
     std::error_code
-    drvWrite(std::size_t address, const std::uint8_t* bytes, std::size_t size, osal::Timeout timeout) override;
+    drvWrite(std::uint32_t address, const std::uint8_t* bytes, std::size_t size, osal::Timeout timeout) override;
 
     /// @see IEeprom::drvRead().
-    std::error_code drvRead(std::size_t address,
+    std::error_code drvRead(std::uint32_t address,
                             std::uint8_t* bytes,
                             std::size_t size,
                             osal::Timeout timeout,
@@ -106,7 +106,8 @@ private:
     /// @param size                 Size of the memory block to be stored.
     /// @param timeout              Maximal time to wait for the bus.
     /// @return Error code of the operation.
-    std::error_code writePage(std::size_t address, const std::uint8_t* bytes, std::size_t size, osal::Timeout timeout);
+    std::error_code
+    writePage(std::uint32_t address, const std::uint8_t* bytes, std::size_t size, osal::Timeout timeout);
 
 private:
     std::shared_ptr<i2c::II2c> m_i2c;
