@@ -49,10 +49,10 @@ namespace hal::storage {
 /// @param baseDeviceAddress        Base I2C address of the EEPROM device.
 /// @param baseByteAddress          Address of the byte in EEPROM device to be accessed.
 /// @return Pair of normalized EEPROM address and byte address.
-static inline auto normalizeAddresses(std::uint16_t baseDeviceAddress, std::size_t baseByteAddress)
+static inline auto normalizeAddresses(std::uint16_t baseDeviceAddress, std::uint32_t baseByteAddress)
 {
     std::uint16_t deviceAddress = baseDeviceAddress | (baseByteAddress >> (sizeof(std::uint16_t) * CHAR_BIT));
-    std::size_t byteAddress = baseByteAddress & std::numeric_limits<std::uint16_t>::max();
+    std::uint32_t byteAddress = baseByteAddress & std::numeric_limits<std::uint16_t>::max();
 
     return std::make_pair(deviceAddress, byteAddress);
 }
@@ -105,7 +105,7 @@ GenericEeprom::~GenericEeprom()
 }
 
 std::error_code
-GenericEeprom::drvWrite(std::size_t address, const std::uint8_t* bytes, std::size_t size, osal::Timeout timeout)
+GenericEeprom::drvWrite(std::uint32_t address, const std::uint8_t* bytes, std::size_t size, osal::Timeout timeout)
 {
     if (!isInitialized()) {
         GenericEepromLogger::error("Failed to write: driver is not initialized");
@@ -137,7 +137,7 @@ GenericEeprom::drvWrite(std::size_t address, const std::uint8_t* bytes, std::siz
     return Error::eOk;
 }
 
-std::error_code GenericEeprom::drvRead(std::size_t address,
+std::error_code GenericEeprom::drvRead(std::uint32_t address,
                                        std::uint8_t* bytes,
                                        std::size_t size,
                                        osal::Timeout timeout,
@@ -159,7 +159,8 @@ std::error_code GenericEeprom::drvRead(std::size_t address,
 
     while (toRead != 0) {
         auto [deviceAddress, readAddress] = normalizeAddresses(m_address, currentAddress);
-        std::size_t readSize = std::min(toRead, std::numeric_limits<std::uint16_t>::max() - readAddress + 1);
+        std::size_t readSize
+            = std::min(toRead, std::size_t(std::numeric_limits<std::uint16_t>::max()) - readAddress + 1);
 
         i2c::ScopedI2c lock(m_i2c, timeout);
         if (!lock.isAcquired()) {
@@ -196,7 +197,7 @@ std::error_code GenericEeprom::drvRead(std::size_t address,
 }
 
 std::error_code
-GenericEeprom::writePage(std::size_t address, const std::uint8_t* bytes, std::size_t size, osal::Timeout timeout)
+GenericEeprom::writePage(std::uint32_t address, const std::uint8_t* bytes, std::size_t size, osal::Timeout timeout)
 {
     assert(size <= getPageSize());
     if (size == 0)

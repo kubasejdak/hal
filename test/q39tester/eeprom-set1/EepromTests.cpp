@@ -53,160 +53,206 @@ TEST_CASE("Basic EEPROM operations", "[unit][eeprom]")
 {
     hal::ScopedHardware hardware;
 
-    auto eeprom = hal::getDevice<hal::storage::IEeprom>(hal::device_id::eAt24Cm02Eeprom1);
+    auto eeprom1 = hal::getDevice<hal::storage::IEeprom>(hal::device_id::eAt24Cm02Eeprom1);
+    auto eeprom2 = hal::getDevice<hal::storage::IEeprom>(hal::device_id::eAt24Cm02Eeprom2);
 
     SECTION("Get size")
     {
         constexpr std::uint32_t cSize = 256 * 1024;
-        auto eepromSize = eeprom->getSize();
+        auto eepromSize = eeprom1->getSize();
+        REQUIRE(eepromSize == cSize);
+
+        eepromSize = eeprom2->getSize();
         REQUIRE(eepromSize == cSize);
     }
 
     SECTION("Get page size")
     {
         constexpr std::uint32_t cSize = 256;
-        auto pageSize = eeprom->getPageSize();
+        auto pageSize = eeprom1->getPageSize();
+        REQUIRE(pageSize == cSize);
+
+        pageSize = eeprom2->getPageSize();
         REQUIRE(pageSize == cSize);
     }
 
-    hal::returnDevice(eeprom);
+    hal::returnDevice(eeprom2);
+    hal::returnDevice(eeprom1);
 }
 
 TEST_CASE("Write whole first page of EEPROM", "[unit][eeprom]")
 {
     hal::ScopedHardware hardware;
 
-    auto eeprom = hal::getDevice<hal::storage::IEeprom>(hal::device_id::eAt24Cm02Eeprom1);
+    auto eeprom1 = hal::getDevice<hal::storage::IEeprom>(hal::device_id::eAt24Cm02Eeprom1);
+    auto eeprom2 = hal::getDevice<hal::storage::IEeprom>(hal::device_id::eAt24Cm02Eeprom2);
 
     constexpr auto cTimeout = 100ms;
-    const size_t cPageSize = eeprom->getPageSize();
-    std::vector<std::uint8_t> writeBlock(cPageSize);
-    prepareRandomData(writeBlock);
+    const size_t cPageSize = eeprom1->getPageSize();
 
-    // Write whole first page.
-    std::uint16_t address = 0;
-    auto error = eeprom->write(address, writeBlock, cTimeout);
+    // Write whole first page of EEPROM 1.
+    std::vector<std::uint8_t> writeBlock1(cPageSize);
+    prepareRandomData(writeBlock1);
+    std::size_t address = 0;
+    auto error = eeprom1->write(address, writeBlock1, cTimeout);
     REQUIRE(!error);
 
-    // Read and verify whole first page.
-    std::vector<std::uint8_t> readBlock;
-    error = eeprom->read(address, readBlock, writeBlock.size(), cTimeout);
+    // Read and verify whole first page from EEPROM 1.
+    std::vector<std::uint8_t> readBlock1;
+    error = eeprom1->read(address, readBlock1, writeBlock1.size(), cTimeout);
     REQUIRE(!error);
-    REQUIRE(readBlock == writeBlock);
+    REQUIRE(readBlock1 == writeBlock1);
 
-    hal::returnDevice(eeprom);
+    // Write whole first page of EEPROM 2.
+    std::vector<std::uint8_t> writeBlock2(cPageSize);
+    prepareRandomData(writeBlock2);
+    error = eeprom2->write(address, writeBlock2, cTimeout);
+    REQUIRE(!error);
+
+    // Read and verify whole first page from EEPROM 2.
+    std::vector<std::uint8_t> readBlock2;
+    error = eeprom2->read(address, readBlock2, writeBlock2.size(), cTimeout);
+    REQUIRE(!error);
+    REQUIRE(readBlock2 == writeBlock2);
+
+    // Read and verify whole first page from EEPROM 1 again.
+    error = eeprom1->read(address, readBlock1, writeBlock1.size(), cTimeout);
+    REQUIRE(!error);
+    REQUIRE(readBlock1 == writeBlock1);
+
+    hal::returnDevice(eeprom2);
+    hal::returnDevice(eeprom1);
 }
 
 TEST_CASE("Write whole last page of EEPROM", "[unit][eeprom]")
 {
     hal::ScopedHardware hardware;
 
-    auto eeprom = hal::getDevice<hal::storage::IEeprom>(hal::device_id::eAt24Cm02Eeprom1);
+    auto eeprom1 = hal::getDevice<hal::storage::IEeprom>(hal::device_id::eAt24Cm02Eeprom1);
+    auto eeprom2 = hal::getDevice<hal::storage::IEeprom>(hal::device_id::eAt24Cm02Eeprom2);
 
     constexpr auto cTimeout = 100ms;
-    const std::uint32_t cSize = eeprom->getSize();
-    const size_t cPageSize = eeprom->getPageSize();
-    std::vector<std::uint8_t> writeBlock(cPageSize);
-    prepareRandomData(writeBlock);
+    const std::uint32_t cSize = eeprom1->getSize();
+    const size_t cPageSize = eeprom1->getPageSize();
 
-    // Write whole last page.
-    const std::uint16_t cAddress = cSize - cPageSize;
-    auto error = eeprom->write(cAddress, writeBlock, cTimeout);
+    // Write whole last page of EEPROM 1.
+    std::vector<std::uint8_t> writeBlock1(cPageSize);
+    prepareRandomData(writeBlock1);
+    const std::size_t cAddress = cSize - cPageSize;
+    auto error = eeprom1->write(cAddress, writeBlock1, cTimeout);
     REQUIRE(!error);
 
-    // Read and verify whole last page.
-    std::vector<std::uint8_t> readBlock;
-    error = eeprom->read(cAddress, readBlock, writeBlock.size(), cTimeout);
+    // Read and verify whole last page of EEPROM 1.
+    std::vector<std::uint8_t> readBlock1;
+    error = eeprom1->read(cAddress, readBlock1, writeBlock1.size(), cTimeout);
     REQUIRE(!error);
-    REQUIRE(readBlock == writeBlock);
+    REQUIRE(readBlock1 == writeBlock1);
 
-    hal::returnDevice(eeprom);
+    // Write whole last page of EEPROM 1.
+    std::vector<std::uint8_t> writeBlock2(cPageSize);
+    prepareRandomData(writeBlock2);
+    error = eeprom2->write(cAddress, writeBlock2, cTimeout);
+    REQUIRE(!error);
+
+    // Read and verify whole last page of EEPROM 2.
+    std::vector<std::uint8_t> readBlock2;
+    error = eeprom2->read(cAddress, readBlock2, writeBlock2.size(), cTimeout);
+    REQUIRE(!error);
+    REQUIRE(readBlock2 == writeBlock2);
+
+    // Read and verify whole last page of EEPROM 1 again.
+    error = eeprom1->read(cAddress, readBlock1, writeBlock1.size(), cTimeout);
+    REQUIRE(!error);
+    REQUIRE(readBlock1 == writeBlock1);
+
+    hal::returnDevice(eeprom2);
+    hal::returnDevice(eeprom1);
 }
 
-TEST_CASE("Write page at page intersection in EEPROM", "[unit][eeprom]")
-{
-    hal::ScopedHardware hardware;
-
-    auto eeprom = hal::getDevice<hal::storage::IEeprom>(hal::device_id::eAt24Cm02Eeprom1);
-
-    constexpr auto cTimeout = 100ms;
-    const size_t cPageSize = eeprom->getPageSize();
-    constexpr std::uint8_t cPattern1 = 1;
-    constexpr std::uint8_t cPattern2 = 2;
-    constexpr std::uint8_t cPattern3 = 3;
-    const std::vector<std::uint8_t> cWriteBlock1(cPageSize, cPattern1);
-    const std::vector<std::uint8_t> cWriteBlock2(cPageSize, cPattern2);
-    const std::vector<std::uint8_t> cWriteBlock3(cPageSize, cPattern3);
-
-    // Fill first and second page with pattern.
-    std::uint16_t address = 0;
-    auto error = eeprom->write(address, cWriteBlock1, cTimeout);
-    REQUIRE(!error);
-
-    error = eeprom->write(address + cPageSize, cWriteBlock2, cTimeout);
-    REQUIRE(!error);
-
-    // Fill block with size equal to the page size with pattern at the intersection of first and second page.
-    error = eeprom->write(address + (cPageSize / 2), cWriteBlock3, cTimeout);
-    REQUIRE(!error);
-
-    std::vector<std::uint8_t> readBlock;
-    error = eeprom->read(address, readBlock, 2 * cPageSize, cTimeout);
-    REQUIRE(!error);
-
-    // Verify first pattern.
-    for (std::size_t i = 0; i < (cPageSize / 2); ++i)
-        REQUIRE(readBlock[i] == cPattern1);
-
-    // Verify third pattern.
-    for (std::size_t i = cPageSize / 2; i < cPageSize + (cPageSize / 2); ++i)
-        REQUIRE(readBlock[i] == cPattern3);
-
-    // Verify second pattern.
-    for (std::size_t i = cPageSize + (cPageSize / 2); i < (2 * cPageSize); ++i)
-        REQUIRE(readBlock[i] == cPattern2);
-
-    hal::returnDevice(eeprom);
-}
-
-TEST_CASE("Write every second byte separately in EEPROM", "[unit][eeprom]")
-{
-    hal::ScopedHardware hardware;
-
-    auto eeprom = hal::getDevice<hal::storage::IEeprom>(hal::device_id::eAt24Cm02Eeprom1);
-
-    constexpr auto cTimeout = 100ms;
-    const std::uint32_t cSize = eeprom->getSize();
-    const size_t cPageSize = eeprom->getPageSize();
-    constexpr std::uint8_t cPattern = 6;
-
-    const std::vector<std::uint8_t> cWriteBlock(cPageSize, cPattern);
-
-    // Clear page.
-    std::uint16_t address = cSize / 2;
-    auto error = eeprom->write(address, cWriteBlock, cTimeout);
-    REQUIRE(!error);
-
-    // Fill page with pattern (every second byte is a next integral number).
-    for (std::uint16_t i = 0; i < cPageSize; i += 2) {
-        auto value = static_cast<std::uint8_t>(i / 2);
-        error = eeprom->write(address + i, &value, sizeof(value), cTimeout);
-        REQUIRE(!error);
-    }
-
-    // Read and verify page.
-    for (std::uint16_t i = 0; i < cPageSize; ++i) {
-        auto expectedValue = static_cast<std::uint8_t>((i % 2) != 0 ? cPattern : (i / 2));
-        std::uint8_t readValue{};
-        std::size_t actualReadSize{};
-        error = eeprom->read(address + i, &readValue, sizeof(readValue), cTimeout, actualReadSize);
-        REQUIRE(!error);
-        REQUIRE(actualReadSize == sizeof(readValue));
-        REQUIRE(readValue == expectedValue);
-    }
-
-    hal::returnDevice(eeprom);
-}
+// TEST_CASE("Write page at page intersection in EEPROM", "[unit][eeprom]")
+//{
+//    hal::ScopedHardware hardware;
+//
+//    auto eeprom = hal::getDevice<hal::storage::IEeprom>(hal::device_id::eAt24Cm02Eeprom1);
+//
+//    constexpr auto cTimeout = 100ms;
+//    const size_t cPageSize = eeprom->getPageSize();
+//    constexpr std::uint8_t cPattern1 = 1;
+//    constexpr std::uint8_t cPattern2 = 2;
+//    constexpr std::uint8_t cPattern3 = 3;
+//    const std::vector<std::uint8_t> cWriteBlock1(cPageSize, cPattern1);
+//    const std::vector<std::uint8_t> cWriteBlock2(cPageSize, cPattern2);
+//    const std::vector<std::uint8_t> cWriteBlock3(cPageSize, cPattern3);
+//
+//    // Fill first and second page with pattern.
+//    std::size_t address = 0;
+//    auto error = eeprom->write(address, cWriteBlock1, cTimeout);
+//    REQUIRE(!error);
+//
+//    error = eeprom->write(address + cPageSize, cWriteBlock2, cTimeout);
+//    REQUIRE(!error);
+//
+//    // Fill block with size equal to the page size with pattern at the intersection of first and second page.
+//    error = eeprom->write(address + (cPageSize / 2), cWriteBlock3, cTimeout);
+//    REQUIRE(!error);
+//
+//    std::vector<std::uint8_t> readBlock;
+//    error = eeprom->read(address, readBlock, 2 * cPageSize, cTimeout);
+//    REQUIRE(!error);
+//
+//    // Verify first pattern.
+//    for (std::size_t i = 0; i < (cPageSize / 2); ++i)
+//        REQUIRE(readBlock[i] == cPattern1);
+//
+//    // Verify third pattern.
+//    for (std::size_t i = cPageSize / 2; i < cPageSize + (cPageSize / 2); ++i)
+//        REQUIRE(readBlock[i] == cPattern3);
+//
+//    // Verify second pattern.
+//    for (std::size_t i = cPageSize + (cPageSize / 2); i < (2 * cPageSize); ++i)
+//        REQUIRE(readBlock[i] == cPattern2);
+//
+//    hal::returnDevice(eeprom);
+//}
+//
+// TEST_CASE("Write every second byte separately in EEPROM", "[unit][eeprom]")
+//{
+//    hal::ScopedHardware hardware;
+//
+//    auto eeprom = hal::getDevice<hal::storage::IEeprom>(hal::device_id::eAt24Cm02Eeprom1);
+//
+//    constexpr auto cTimeout = 100ms;
+//    const std::uint32_t cSize = eeprom->getSize();
+//    const size_t cPageSize = eeprom->getPageSize();
+//    constexpr std::uint8_t cPattern = 6;
+//
+//    const std::vector<std::uint8_t> cWriteBlock(cPageSize, cPattern);
+//
+//    // Clear page.
+//    std::size_t address = cSize / 2;
+//    auto error = eeprom->write(address, cWriteBlock, cTimeout);
+//    REQUIRE(!error);
+//
+//    // Fill page with pattern (every second byte is a next integral number).
+//    for (std::uint16_t i = 0; i < cPageSize; i += 2) {
+//        auto value = static_cast<std::uint8_t>(i / 2);
+//        error = eeprom->write(address + i, &value, sizeof(value), cTimeout);
+//        REQUIRE(!error);
+//    }
+//
+//    // Read and verify page.
+//    for (std::uint16_t i = 0; i < cPageSize; ++i) {
+//        auto expectedValue = static_cast<std::uint8_t>((i % 2) != 0 ? cPattern : (i / 2));
+//        std::uint8_t readValue{};
+//        std::size_t actualReadSize{};
+//        error = eeprom->read(address + i, &readValue, sizeof(readValue), cTimeout, actualReadSize);
+//        REQUIRE(!error);
+//        REQUIRE(actualReadSize == sizeof(readValue));
+//        REQUIRE(readValue == expectedValue);
+//    }
+//
+//    hal::returnDevice(eeprom);
+//}
 
 TEST_CASE("Read bytes when address exceeds EEPROM size", "[unit][eeprom]")
 {
@@ -215,7 +261,7 @@ TEST_CASE("Read bytes when address exceeds EEPROM size", "[unit][eeprom]")
     auto eeprom = hal::getDevice<hal::storage::IEeprom>(hal::device_id::eAt24Cm02Eeprom1);
 
     // Read bytes starting from one page after the end of EEPROM.
-    const std::uint16_t cAddress = eeprom->getSize() + eeprom->getPageSize();
+    const std::size_t cAddress = eeprom->getSize() + eeprom->getPageSize();
     std::vector<std::uint8_t> readBlock;
     constexpr std::size_t cReadSize = 13;
     constexpr auto cTimeout = 100ms;
@@ -234,7 +280,7 @@ TEST_CASE("Read bytes when address plus size exceeds EEPROM size", "[unit][eepro
 
     // Read bytes from address, which summed with the readBlock size gives one byte after the of EEPROM.
     constexpr std::size_t cReadSize = 13;
-    const std::uint16_t cAddress = eeprom->getSize() - (cReadSize - 1);
+    const std::size_t cAddress = eeprom->getSize() - (cReadSize - 1);
     std::vector<std::uint8_t> readBlock;
     constexpr auto cTimeout = 100ms;
     auto error = eeprom->read(cAddress, readBlock, cReadSize, cTimeout);
@@ -251,7 +297,7 @@ TEST_CASE("Write bytes when address exceeds EEPROM size", "[unit][eeprom]")
     auto eeprom = hal::getDevice<hal::storage::IEeprom>(hal::device_id::eAt24Cm02Eeprom1);
 
     // Write bytes starting from one page after the end of EEPROM.
-    const std::uint16_t cAddress = eeprom->getSize() + eeprom->getPageSize();
+    const std::size_t cAddress = eeprom->getSize() + eeprom->getPageSize();
     constexpr std::size_t cWriteSize = 13;
     constexpr std::uint8_t cPattern = 0xa;
     const std::vector<std::uint8_t> cWriteBlock(cWriteSize, cPattern);
@@ -272,7 +318,7 @@ TEST_CASE("Write bytes when address plus size exceeds EEPROM size", "[unit][eepr
     constexpr std::size_t cWriteSize = 13;
     constexpr std::uint8_t cPattern = 0xb;
     const std::vector<std::uint8_t> cWriteBlock(cWriteSize, cPattern);
-    const std::uint16_t cAddress = eeprom->getSize() - (cWriteBlock.size() - 1);
+    const std::size_t cAddress = eeprom->getSize() - (cWriteBlock.size() - 1);
     constexpr auto cTimeout = 100ms;
     auto error = eeprom->write(cAddress, cWriteBlock, cTimeout);
     REQUIRE(error == hal::Error::eInvalidArgument);

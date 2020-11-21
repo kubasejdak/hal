@@ -62,21 +62,19 @@ IEeprom::write(std::uint32_t address, const std::uint8_t* bytes, std::size_t siz
     return drvWrite(address, bytes, size, timeout);
 }
 
-std::error_code IEeprom::read(std::size_t address, BytesVector& bytes, std::size_t size, osal::Timeout timeout)
+std::error_code IEeprom::read(std::uint32_t address, BytesVector& bytes, std::size_t size, osal::Timeout timeout)
 {
     bytes.resize(size);
     if (bytes.size() != size)
         return Error::eNoMemory;
 
     std::size_t actualReadSize{};
-    if (auto error = read(address, bytes.data(), size, timeout, actualReadSize))
-        return error;
-
+    auto error = read(address, bytes.data(), size, timeout, actualReadSize);
     bytes.resize(actualReadSize);
-    return Error::eOk;
+    return error;
 }
 
-std::error_code IEeprom::read(std::size_t address,
+std::error_code IEeprom::read(std::uint32_t address,
                               std::uint8_t* bytes,
                               std::size_t size,
                               osal::Timeout timeout,

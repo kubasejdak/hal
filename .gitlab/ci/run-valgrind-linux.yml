@@ -19,17 +19,17 @@
   tags:
     - raspberrypi
 
-#EepromSet1_Linux_ARM_Valgrind:
-#  extends: .Run_Valgrind_Linux_ARM
-#  tags:
-#    - raspberrypi
-#    - q39tester
-#    - at24cm02
-#  needs:
-#    - EepromSet1_Linux_ARM_GCC_Debug_Build
-#  variables:
-#    AppArtifact: "EepromSet1_Linux_ARM_GCC_Debug_Build"
-#    App: "eeprom-set1"
+EepromSet1_Linux_ARM_Valgrind:
+  extends: .Run_Valgrind_Linux_ARM
+  tags:
+    - raspberrypi
+    - q39tester
+    - at24cm02
+  needs:
+    - EepromSet1_Linux_ARM_GCC_Debug_Build
+  variables:
+    AppArtifact: "EepromSet1_Linux_ARM_GCC_Debug_Build"
+    App: "eeprom-set1"
 
 GpioSet1_Linux_ARM_Valgrind:
   extends: .Run_Valgrind_Linux_ARM
