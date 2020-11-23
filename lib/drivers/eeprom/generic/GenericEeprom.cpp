@@ -112,15 +112,13 @@ GenericEeprom::drvWrite(std::uint32_t address, const std::uint8_t* bytes, std::s
         return Error::eDeviceNotOpened;
     }
 
-    GenericEepromLogger::trace("Attempting to write {} bytes", size);
+    GenericEepromLogger::debug("Starting write transaction of {:#x} bytes to {:#x} address", size, address);
 
     auto currentAddress = address;
     const auto* currentBytes = bytes;
     std::size_t toWrite = size;
     std::size_t writeSize = getPageSize() - (address & ((getPageSize() - 1)));
     writeSize = std::min(writeSize, size);
-
-    GenericEepromLogger::trace("Actual write size will be {} bytes", writeSize);
 
     while (toWrite != 0) {
         if (auto error = writePage(currentAddress, currentBytes, writeSize, timeout)) {
@@ -151,7 +149,7 @@ std::error_code GenericEeprom::drvRead(std::uint32_t address,
     osal::sleepUntilExpired(m_writeDelay);
 
     actualReadSize = 0;
-    GenericEepromLogger::trace("Attempting to read {} bytes", size);
+    GenericEepromLogger::debug("Starting read transaction of {:#x} bytes from {:#x} address", size, address);
 
     auto currentAddress = address;
     auto* currentBytes = bytes;
@@ -160,7 +158,12 @@ std::error_code GenericEeprom::drvRead(std::uint32_t address,
     while (toRead != 0) {
         auto [deviceAddress, readAddress] = normalizeAddresses(m_address, currentAddress);
         std::size_t readSize
-            = std::min(toRead, std::size_t(std::numeric_limits<std::uint16_t>::max()) - readAddress + 1);
+            = std::min(toRead, std::size_t(std::numeric_limits<std::uint16_t>::max()) + 1 - readAddress);
+
+        GenericEepromLogger::trace("Normalized read: deviceAddress={:#x}, readAddress={:#x}, readSize={:#x}",
+                                   deviceAddress,
+                                   readAddress,
+                                   readSize);
 
         i2c::ScopedI2c lock(m_i2c, timeout);
         if (!lock.isAcquired()) {
@@ -169,7 +172,7 @@ std::error_code GenericEeprom::drvRead(std::uint32_t address,
         }
 
         // Write only the address, don't send the STOP. STOP will be sent after the read.
-        auto addressArray = utils::toBytesArray(utils::toBigEndian<std::uint16_t>(address));
+        auto addressArray = utils::toBytesArray(utils::toBigEndian<std::uint16_t>(readAddress));
         if (auto error = m_i2c->write(deviceAddress, addressArray.data(), addressArray.size(), false, timeout)) {
             GenericEepromLogger::warn("Failed to read: I2C write() returned err={} (timeout={} ms)",
                                       error.message(),
@@ -192,7 +195,7 @@ std::error_code GenericEeprom::drvRead(std::uint32_t address,
 
     actualReadSize = size;
 
-    GenericEepromLogger::trace("Successfully read {} bytes", actualReadSize);
+    GenericEepromLogger::trace("Successfully read {:#x} bytes", actualReadSize);
     return Error::eOk;
 }
 
@@ -205,8 +208,14 @@ GenericEeprom::writePage(std::uint32_t address, const std::uint8_t* bytes, std::
 
     osal::sleepUntilExpired(m_writeDelay);
 
+    GenericEepromLogger::trace("Write page: address={:#x}, size={:#x}", address, size);
+
     auto [deviceAddress, writeAddress] = normalizeAddresses(m_address, address);
     auto addressArray = utils::toBytesArray(utils::toBigEndian<std::uint16_t>(writeAddress));
+
+    GenericEepromLogger::trace("Normalized write: deviceAddress={:#x}, writeAddress={:#x}",
+                               deviceAddress,
+                               writeAddress);
 
     BytesVector data;
     data.insert(data.end(), addressArray.begin(), addressArray.end());
