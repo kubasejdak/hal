@@ -32,51 +32,54 @@
 
 #pragma once
 
-#include <utils/Logger.hpp>
+#include "hal/i2c/II2c.hpp"
+#include "hal/time/IRtc.hpp"
 
-#ifdef NDEBUG
-constexpr auto cDefaultLogLevel = spdlog::level::off;
-#else
-constexpr auto cDefaultLogLevel = spdlog::level::err;
-#endif
+#include <cstdint>
+#include <memory>
+#include <system_error>
 
-namespace hal {
-namespace gpio {
+namespace hal::time {
 
-REGISTER_LOGGER(LinuxGpioLogger, "LinuxGpio", cDefaultLogLevel);
-REGISTER_LOGGER(Mcp23x17Logger, "IMcp23x17", cDefaultLogLevel);
-REGISTER_LOGGER(Mcp23S17Logger, "Mcp23S17", cDefaultLogLevel);
-REGISTER_LOGGER(Mcp23017Logger, "Mcp23017", cDefaultLogLevel);
+/// Represents M41T82 RTC driver with the IRtc interface.
+class M41T82 : public IRtc {
+public:
+    /// Constructor.
+    /// @param i2c              Reference to the I2C bus that should be used.
+    /// @param address          Address of the device on the I2C bus.
+    M41T82(std::shared_ptr<i2c::II2c> i2c, std::uint16_t address);
 
-} // namespace gpio
+    /// Copy constructor.
+    /// @note This constructor is deleted, because M41T82 is not meant to be copy-constructed.
+    M41T82(const M41T82&) = delete;
 
-namespace i2c {
+    /// Copy constructor.
+    /// @note This constructor is deleted, because M41T82 is not meant to be move-constructed.
+    M41T82(M41T82&&) noexcept = delete;
 
-REGISTER_LOGGER(I2cLogger, "I2C", cDefaultLogLevel);
+    /// Destructor.
+    ~M41T82() override;
 
-} // namespace i2c
+    /// Copy assignment operator.
+    /// @return Reference to self.
+    /// @note This operator is deleted, because M41T82 is not meant to be copy-assigned.
+    M41T82& operator=(const M41T82&) = delete;
 
-namespace spi {
+    /// Move assignment operator.
+    /// @return Reference to self.
+    /// @note This operator is deleted, because M41T82 is not meant to be move-assigned.
+    M41T82& operator=(M41T82&&) noexcept = delete;
 
-REGISTER_LOGGER(SpiLogger, "SPI", cDefaultLogLevel);
+private:
+    /// @see IRtc::drvGetTime().
+    std::error_code drvGetTime(std::tm& tm) override;
 
-} // namespace spi
+    /// @see IRtc::drvSetTime().
+    std::error_code drvSetTime(const std::tm& tm) override;
 
-namespace storage {
+private:
+    std::shared_ptr<i2c::II2c> m_i2c;
+    const std::uint16_t m_cAddress;
+};
 
-REGISTER_LOGGER(GenericEepromLogger, "GenericEeprom", cDefaultLogLevel);
-
-} // namespace storage
-
-namespace time {
-
-REGISTER_LOGGER(M41T82Logger, "M41T82", cDefaultLogLevel);
-
-} // namespace time
-
-namespace uart {
-
-REGISTER_LOGGER(LinuxUartLogger, "LinuxUart", cDefaultLogLevel);
-
-} // namespace uart
-} // namespace hal
+} // namespace hal::time

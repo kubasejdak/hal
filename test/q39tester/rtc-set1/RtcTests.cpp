@@ -30,53 +30,17 @@
 ///
 /////////////////////////////////////////////////////////////////////////////////////
 
-#pragma once
+#include <hal/Error.hpp>
+#include <hal/Hardware.hpp>
+#include <hal/factory.hpp>
+#include <hal/time/IRtc.hpp>
 
-#include <utils/Logger.hpp>
+#include <catch2/catch.hpp>
 
-#ifdef NDEBUG
-constexpr auto cDefaultLogLevel = spdlog::level::off;
-#else
-constexpr auto cDefaultLogLevel = spdlog::level::err;
-#endif
+TEST_CASE("1. Basic RTC operations", "[unit][rtc]")
+{
+    hal::ScopedHardware hardware;
 
-namespace hal {
-namespace gpio {
-
-REGISTER_LOGGER(LinuxGpioLogger, "LinuxGpio", cDefaultLogLevel);
-REGISTER_LOGGER(Mcp23x17Logger, "IMcp23x17", cDefaultLogLevel);
-REGISTER_LOGGER(Mcp23S17Logger, "Mcp23S17", cDefaultLogLevel);
-REGISTER_LOGGER(Mcp23017Logger, "Mcp23017", cDefaultLogLevel);
-
-} // namespace gpio
-
-namespace i2c {
-
-REGISTER_LOGGER(I2cLogger, "I2C", cDefaultLogLevel);
-
-} // namespace i2c
-
-namespace spi {
-
-REGISTER_LOGGER(SpiLogger, "SPI", cDefaultLogLevel);
-
-} // namespace spi
-
-namespace storage {
-
-REGISTER_LOGGER(GenericEepromLogger, "GenericEeprom", cDefaultLogLevel);
-
-} // namespace storage
-
-namespace time {
-
-REGISTER_LOGGER(M41T82Logger, "M41T82", cDefaultLogLevel);
-
-} // namespace time
-
-namespace uart {
-
-REGISTER_LOGGER(LinuxUartLogger, "LinuxUart", cDefaultLogLevel);
-
-} // namespace uart
-} // namespace hal
+    auto rtc = hal::getDevice<hal::time::IRtc>(hal::device_id::eM41T82Rtc);
+    hal::returnDevice(rtc);
+}
