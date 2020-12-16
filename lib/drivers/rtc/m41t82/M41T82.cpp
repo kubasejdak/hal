@@ -30,53 +30,61 @@
 ///
 /////////////////////////////////////////////////////////////////////////////////////
 
-#pragma once
+#include "M41T82.hpp"
 
-#include <utils/Logger.hpp>
+#include "hal/Error.hpp"
+#include "hal/i2c/ScopedI2c.hpp"
+#include "hal/utils/logger.hpp"
 
-#ifdef NDEBUG
-constexpr auto cDefaultLogLevel = spdlog::level::off;
-#else
-constexpr auto cDefaultLogLevel = spdlog::level::err;
-#endif
+#include <cassert>
+#include <utility>
 
-namespace hal {
-namespace gpio {
+namespace hal::time {
 
-REGISTER_LOGGER(LinuxGpioLogger, "LinuxGpio", cDefaultLogLevel);
-REGISTER_LOGGER(Mcp23x17Logger, "IMcp23x17", cDefaultLogLevel);
-REGISTER_LOGGER(Mcp23S17Logger, "Mcp23S17", cDefaultLogLevel);
-REGISTER_LOGGER(Mcp23017Logger, "Mcp23017", cDefaultLogLevel);
+M41T82::M41T82(std::shared_ptr<i2c::II2c> i2c, std::uint16_t address)
+    : m_i2c(std::move(i2c))
+    , m_cAddress(address)
+{
+    if (!i2c::verifyAddress(i2c::AddressingMode::e7bit, m_cAddress)) {
+        M41T82Logger::critical("Failed to create M41T82 RTC: bad parameters");
+        assert(false);
+        return;
+    }
 
-} // namespace gpio
+    i2c::ScopedI2c lock(m_i2c);
+    if (!lock.isAcquired()) {
+        M41T82Logger::critical("Failed to create M41T82 RTC: timeout when locking I2C bus (timeout=default)");
+        assert(false);
+        return;
+    }
 
-namespace i2c {
+    m_i2c->open();
 
-REGISTER_LOGGER(I2cLogger, "I2C", cDefaultLogLevel);
+    M41T82Logger::info("Created M41T82 RTC with the following parameters:");
+    M41T82Logger::info("  address      : {:#04x}", m_cAddress);
+}
 
-} // namespace i2c
+M41T82::~M41T82()
+{
+    i2c::ScopedI2c lock(m_i2c);
+    if (!lock.isAcquired()) {
+        M41T82Logger::error("Failed to close I2C device: timeout when locking I2C bus (timeout=default)");
+        return;
+    }
 
-namespace spi {
+    m_i2c->close();
+}
 
-REGISTER_LOGGER(SpiLogger, "SPI", cDefaultLogLevel);
+std::error_code M41T82::drvGetTime(std::tm& tm)
+{
+    (void) tm;
+    return Error::eOk;
+}
 
-} // namespace spi
+std::error_code M41T82::drvSetTime(const std::tm& tm)
+{
+    (void) tm;
+    return Error::eOk;
+}
 
-namespace storage {
-
-REGISTER_LOGGER(GenericEepromLogger, "GenericEeprom", cDefaultLogLevel);
-
-} // namespace storage
-
-namespace time {
-
-REGISTER_LOGGER(M41T82Logger, "M41T82", cDefaultLogLevel);
-
-} // namespace time
-
-namespace uart {
-
-REGISTER_LOGGER(LinuxUartLogger, "LinuxUart", cDefaultLogLevel);
-
-} // namespace uart
-} // namespace hal
+} // namespace hal::time
