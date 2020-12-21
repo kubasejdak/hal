@@ -8,15 +8,17 @@ target_include_directories(appplatform-uart
     PRIVATE .
 )
 
-conan_get(REQUIRES catch2/2.13.2 rapidjson/1.1.0)
+conan_get(REQUIRES catch2/2.13.3 rapidjson/1.1.0)
 find_package(Catch2 REQUIRED)
 find_package(RapidJSON REQUIRED)
 
 add_subdirectory(${CMAKE_SOURCE_DIR}/external/digestpp ${CMAKE_BINARY_DIR}/external/digestpp)
 
+target_compile_definitions(Catch2::Catch2 INTERFACE CATCH_CONFIG_DISABLE_EXCEPTIONS)
+
 if (PLATFORM STREQUAL freertos-arm)
     # This is required, because FreeRTOS doesn't support signals or exceptions.
-    target_compile_definitions(Catch2::Catch2 INTERFACE CATCH_CONFIG_NO_POSIX_SIGNALS CATCH_CONFIG_DISABLE_EXCEPTIONS)
+    target_compile_definitions(Catch2::Catch2 INTERFACE CATCH_CONFIG_NO_POSIX_SIGNALS)
 endif ()
 
 target_link_libraries(appplatform-uart

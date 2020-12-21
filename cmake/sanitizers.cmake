@@ -1,0 +1,16 @@
+macro(enable_sanitizers)
+    if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+        set(LSAN_FLAGS              "-fsanitize=leak -fno-omit-frame-pointer")
+        set(ASAN_FLAGS              "-fsanitize=address -fno-optimize-sibling-calls -fsanitize-address-use-after-scope -fno-omit-frame-pointer")
+        set(UBSAN_FLAGS             "-fsanitize=undefined")
+#        set(TSAN_FLAGS              "-fsanitize=thread")
+
+        set(SANITIZERS_FLAGS        "${LSAN_FLAGS} ${ASAN_FLAGS} ${UBSAN_FLAGS} ${TSAN_FLAGS}")
+
+        set(CMAKE_C_FLAGS           "${CMAKE_C_FLAGS} ${SANITIZERS_FLAGS}" CACHE INTERNAL "")
+        set(CMAKE_CXX_FLAGS         "${CMAKE_CXX_FLAGS} ${SANITIZERS_FLAGS}" CACHE INTERNAL "")
+        set(CMAKE_EXE_LINKER_FLAGS  "${CMAKE_EXE_LINKER_FLAGS} ${SANITIZERS_FLAGS}" CACHE INTERNAL "")
+    elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+        message(FATAL_ERROR "Sanitizers are not supported for clang builds at the moment")
+    endif ()
+endmacro ()

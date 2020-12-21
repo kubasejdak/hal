@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.15)
+cmake_minimum_required(VERSION 3.19)
 
 # Define application settings.
 if (NOT DEFINED APP)
@@ -24,6 +24,11 @@ conan_init()
 
 # Project-wide compilation options.
 add_compile_options(-Wall -Wextra -Wpedantic -Werror $<$<COMPILE_LANGUAGE:CXX>:-std=c++17>)
+
+if (SANITIZE)
+    # Enable compiler sanitizers.
+    enable_sanitizers()
+endif ()
 
 if (COVERAGE)
     # Generate coverage report.

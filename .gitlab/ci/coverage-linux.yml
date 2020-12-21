@@ -1,5 +1,7 @@
 .Linux_Coverage:
   stage: coverage
+  only:
+    - master
   needs: []
   artifacts:
     name: "${CI_JOB_NAME}_${CI_JOB_ID}"
