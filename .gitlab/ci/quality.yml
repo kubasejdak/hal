@@ -73,6 +73,8 @@ PlatformGpio_Linux_ARM_Clang_Tidy:
 
 Coverage_Total:
   stage: quality
+  only:
+    - master
   image: kubasejdak/gcc:latest
   tags:
     - linux

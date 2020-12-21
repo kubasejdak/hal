@@ -7,6 +7,6 @@ target_include_directories(rtc-m41t82
 )
 
 target_link_libraries(rtc-m41t82
-    PUBLIC hal-public hal-private osal::cpp
-    PRIVATE hal-logger
+    PUBLIC hal-public hal-private
+    PRIVATE hal-logger osal::cpp
 )

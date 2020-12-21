@@ -36,6 +36,8 @@
 #include "hal/i2c/ScopedI2c.hpp"
 #include "hal/utils/logger.hpp"
 
+#include <osal/Timeout.hpp>
+
 #include <cassert>
 #include <utility>
 
