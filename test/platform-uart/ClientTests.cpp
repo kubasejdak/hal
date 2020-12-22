@@ -35,11 +35,9 @@
 #include <hal/Hardware.hpp>
 #include <hal/factory.hpp>
 #include <hal/uart/IUart.hpp>
+#include <nlohmann/json.hpp>
 #include <osal/Thread.hpp>
 #include <osal/sleep.hpp>
-#include <rapidjson/document.h>
-#include <rapidjson/stringbuffer.h>
-#include <rapidjson/writer.h>
 
 #include <catch2/catch.hpp>
 
@@ -82,22 +80,16 @@ public:
         REQUIRE(!error);
     }
 
-    rapidjson::Document sendRequest(const rapidjson::Document& request)
+    nlohmann::json sendRequest(const nlohmann::json& request)
     {
-        rapidjson::StringBuffer buffer;
-        rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
-        request.Accept(writer);
-
-        writeline(buffer.GetString());
+        writeline(request.dump());
         return receiveRequest();
     }
 
-    rapidjson::Document receiveRequest()
+    nlohmann::json receiveRequest()
     {
         std::string msgIn = readline();
-        rapidjson::Document json;
-        json.Parse(msgIn.data());
-        return json;
+        return nlohmann::json::parse(msgIn);
     }
 
 private:
@@ -155,9 +147,7 @@ public:
 
     void sendClose()
     {
-        rapidjson::Document request;
-        request.SetObject();
-        request.AddMember("type", "close", request.GetAllocator());
+        nlohmann::json request = {{"type", "close"}};
         auto response = sendRequest(request);
         REQUIRE(response["type"] == "ack");
     }
@@ -167,19 +157,14 @@ public:
 private:
     void sendPing()
     {
-        rapidjson::Document request;
-        request.SetObject();
-        request.AddMember("type", "ping", request.GetAllocator());
+        nlohmann::json request = {{"type", "ping"}};
         auto response = sendRequest(request);
         REQUIRE(response["type"] == "pong");
     }
 
     void sendSettings(hal::uart::Baudrate baudrate)
     {
-        rapidjson::Document request;
-        request.SetObject();
-        request.AddMember("type", "settings", request.GetAllocator());
-        request.AddMember("baudrate", static_cast<int>(baudrate), request.GetAllocator());
+        nlohmann::json request = {{"type", "settings"}, {"baudrate", int(baudrate)}};
         auto response = sendRequest(request);
         REQUIRE(response["type"] == "ack");
 
@@ -213,10 +198,7 @@ private:
         constexpr std::size_t cMaxDataSize = 16 * 1024;
         auto size = generateRandomNumber<>(cMinDataSize, cMaxDataSize);
 
-        rapidjson::Document request;
-        request.SetObject();
-        request.AddMember("type", "data", request.GetAllocator());
-        request.AddMember("size", size, request.GetAllocator());
+        nlohmann::json request = {{"type", "data"}, {"size", size}};
         auto response = sendRequest(request);
         REQUIRE(response["type"] == "ack");
 
@@ -290,10 +272,7 @@ private:
         constexpr int cMaxDataSize = 16 * 1024;
         auto size = generateRandomNumber<>(cMinDataSize, cMaxDataSize);
 
-        rapidjson::Document request;
-        request.SetObject();
-        request.AddMember("type", "data", request.GetAllocator());
-        request.AddMember("size", size, request.GetAllocator());
+        nlohmann::json request = {{"type", "data"}, {"size", size}};
         auto response = sendRequest(request);
         REQUIRE(response["type"] == "ack");
 
