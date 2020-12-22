@@ -42,11 +42,15 @@ using SpiConfig = std::tuple<const char*, const char*, hal::gpio::Pin>;
 
 ADD_PROPERTY_2(RaspberryPi, Mcp23S17, (SpiConfig{"spi0.0", "gpio-stub", hal::gpio::Pin::eBit0}));
 ADD_PROPERTY_2(RaspberryPi, Mcp23017, "i2c1");
+ADD_PROPERTY_2(RaspberryPi, GenericEeprom, "i2c1");
+ADD_PROPERTY_2(RaspberryPi, M41T82, "i2c1");
 
 namespace hal::config {
 
 using MainBoardType = utils::PropertyType<MainBoard>;
 constexpr auto cQ39TesterSet1Mcp23S17 = utils::cPropertyValue<MainBoardType, Mcp23S17>;
 constexpr auto cQ39TesterSet1Mcp23017 = utils::cPropertyValue<MainBoardType, Mcp23017>;
+constexpr auto cQ39TesterSet1GenericEeprom = utils::cPropertyValue<MainBoardType, GenericEeprom>;
+constexpr auto cQ39TesterSet1M41T82 = utils::cPropertyValue<MainBoardType, M41T82>;
 
 } // namespace hal::config
