@@ -66,10 +66,10 @@ PlatformGpio_Linux_ARM_Clang_Tidy:
   variables:
     App: "platform-gpio"
 
-#PlatformUart_Linux_ARM_Clang_Tidy:
-#  extends: .Clang_Tidy_Linux_ARM
-#  variables:
-#    App: "platform-uart"
+PlatformUart_Linux_ARM_Clang_Tidy:
+  extends: .Clang_Tidy_Linux_ARM
+  variables:
+    App: "platform-uart"
 
 Coverage_Total:
   stage: quality

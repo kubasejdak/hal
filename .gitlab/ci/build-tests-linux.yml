@@ -183,19 +183,19 @@ PlatformGpio_Linux_ARM_GCC_Release_Build:
     App: "platform-gpio"
     BuildType: "Release"
 
-#PlatformUart_Linux_ARM_Clang_Debug_Build:
-#  extends: .Build_Test_Linux_ARM_Clang
-#  variables:
-#    App: "platform-uart"
-#    BuildType: "Debug"
-#
-#PlatformUart_Linux_ARM_Clang_Release_Build:
-#  extends: .Build_Test_Linux_ARM_Clang
-#  only:
-#    - master
-#  variables:
-#    App: "platform-uart"
-#    BuildType: "Release"
+PlatformUart_Linux_ARM_Clang_Debug_Build:
+  extends: .Build_Test_Linux_ARM_Clang
+  variables:
+    App: "platform-uart"
+    BuildType: "Debug"
+
+PlatformUart_Linux_ARM_Clang_Release_Build:
+  extends: .Build_Test_Linux_ARM_Clang
+  only:
+    - master
+  variables:
+    App: "platform-uart"
+    BuildType: "Release"
 
 PlatformUart_Linux_ARM_GCC_Debug_Build:
   extends: .Build_Test_Linux_ARM_GCC
