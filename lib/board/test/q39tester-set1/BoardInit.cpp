@@ -31,6 +31,7 @@
 /////////////////////////////////////////////////////////////////////////////////////
 
 #include "GenericEeprom.hpp"
+#include "M41T82.hpp"
 #include "Mcp23017.hpp"
 #include "Mcp23S17.hpp"
 #include "Mcp23x17Common.hpp"
@@ -185,7 +186,7 @@ static void initStorage(std::map<device_id::Q39TesterSet1Id, std::shared_ptr<Dev
 {
     // clang-format off
     auto initAt24Cm02 = [&] {
-        auto i2c = i2c::Registry::get(config::cQ39TesterSet1Mcp23017);
+        auto i2c = i2c::Registry::get(config::cQ39TesterSet1GenericEeprom);
         constexpr std::uint16_t cEepromAddr1 = 0x50;
         constexpr std::uint16_t cEepromAddr2 = 0x54;
         constexpr std::size_t cSize = 256 * 1024;
@@ -200,11 +201,22 @@ static void initStorage(std::map<device_id::Q39TesterSet1Id, std::shared_ptr<Dev
     // clang-format on
 }
 
+static void initRtc(std::map<device_id::Q39TesterSet1Id, std::shared_ptr<Device>>& devices)
+{
+    // clang-format off
+    auto i2c = i2c::Registry::get(config::cQ39TesterSet1M41T82);
+    constexpr std::uint16_t cRtcAddr = 0x68;
+
+    devices[device_id::eM41T82Rtc] = std::make_shared<time::M41T82>(i2c, cRtcAddr);
+    // clang-format on
+}
+
 template <>
 std::error_code Board<device_id::Q39TesterSet1Id>::initImpl()
 {
     initGpio(m_devices);
     initStorage(m_devices);
+    initRtc(m_devices);
 
     return Error::eOk;
 }
