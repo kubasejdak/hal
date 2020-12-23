@@ -9,4 +9,6 @@ if (PLATFORM STREQUAL freertos-arm)
     set(APP_CXX_FLAGS               "-mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16 -mthumb" CACHE INTERNAL "")
 endif ()
 
+set(APP_CXX_FLAGS                   "${APP_CXX_FLAGS} -fno-exceptions" CACHE INTERNAL "")
+
 set(HAL_PRODUCT                     test/middleware)

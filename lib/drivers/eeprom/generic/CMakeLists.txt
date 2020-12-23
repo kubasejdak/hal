@@ -1,4 +1,4 @@
-add_library(eeprom-generic
+add_library(eeprom-generic EXCLUDE_FROM_ALL
     GenericEeprom.cpp
 )
 

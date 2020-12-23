@@ -1,3 +1,5 @@
+set(CMAKE_EXPORT_COMPILE_COMMANDS OFF)
+
 add_library(stm32f4 EXCLUDE_FROM_ALL
     CMSIS/system_stm32f4xx.c
     CMSIS/startup_stm32f40_41xxx.s
