@@ -30,11 +30,11 @@
 ///
 /////////////////////////////////////////////////////////////////////////////////////
 
-#include <digestpp/digestpp.hpp>
 #include <hal/Error.hpp>
 #include <hal/Hardware.hpp>
 #include <hal/factory.hpp>
 #include <hal/uart/IUart.hpp>
+#include <hash/sha256.h>
 #include <nlohmann/json.hpp>
 #include <osal/Thread.hpp>
 #include <osal/sleep.hpp>
@@ -227,7 +227,7 @@ class AsynchronousClient : public IUartClient {
 private:
     void threadSender(int size)
     {
-        digestpp::sha256 checksum;
+        SHA256 sha256;
         auto toSend = size;
         while (toSend != 0) {
             constexpr int cMinPacketSize = 1;
@@ -241,16 +241,16 @@ private:
                 REQUIRE(!error);
             }
 
-            checksum.absorb(sendData.begin(), sendData.end());
+            sha256.add(sendData.data(), sendData.size());
             toSend -= packetSize;
         }
 
-        m_checksumSender = checksum.hexdigest();
+        m_checksumSender = sha256.getHash();
     }
 
     void threadReceiver(int size)
     {
-        digestpp::sha256 checksum;
+        SHA256 sha256;
         auto toReceive = size;
         while (toReceive != 0) {
             hal::BytesVector receiveData;
@@ -259,11 +259,11 @@ private:
                 REQUIRE(!error);
             }
 
-            checksum.absorb(receiveData.begin(), receiveData.end());
+            sha256.add(receiveData.data(), receiveData.size());
             toReceive -= receiveData.size();
         }
 
-        m_checksumReceiver = checksum.hexdigest();
+        m_checksumReceiver = sha256.getHash();
     }
 
     void testCase() override
