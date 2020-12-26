@@ -74,3 +74,15 @@ PlatformUart_Linux_ARM_Valgrind:
     AppArtifact: "PlatformUart_Linux_ARM_GCC_Debug_Build"
     App: "platform-uart"
     BeforeRun: "daemon/run.py"
+
+RtcSet1_Linux_ARM_Valgrind:
+  extends: .Run_Valgrind_Linux_ARM
+  tags:
+    - raspberrypi
+    - q39tester
+    - m41t82
+  needs:
+    - RtcSet1_Linux_ARM_GCC_Debug_Build
+  variables:
+    AppArtifact: "RtcSet1_Linux_ARM_GCC_Debug_Build"
+    App: "rtc-set1"

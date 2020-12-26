@@ -33,6 +33,9 @@
 #include "hal/time/IRtc.hpp"
 
 #include "hal/Error.hpp"
+#include "hal/utils/logger.hpp"
+
+#include <cerrno>
 
 namespace hal::time {
 
@@ -48,18 +51,45 @@ static bool isValidTime(std::tm& tm)
 {
     std::tm toConvert = tm;
     auto time = std::mktime(&toConvert);
-    if (time == static_cast<std::time_t>(-1))
+    if (time == static_cast<std::time_t>(-1)) {
+        RtcLogger::error("Invalid std::tm value: std::mktime() returned err={}", strerror(errno));
         return false;
+    }
 
     std::tm converted{};
-    if (gmtime_r(&time, &converted) == nullptr)
+    if (gmtime_r(&time, &converted) == nullptr) {
+        RtcLogger::error("Invalid std::tm value: gmtime_r() returned err={}", strerror(errno));
         return false;
+    }
 
-    tm.tm_wday = toConvert.tm_wday;
-    tm.tm_yday = toConvert.tm_yday;
-    tm.tm_isdst = toConvert.tm_isdst;
+    tm.tm_wday = converted.tm_wday;
+    tm.tm_yday = converted.tm_yday;
+    tm.tm_isdst = converted.tm_isdst;
 
-    return (std::memcmp(&tm, &converted, sizeof(std::tm)) == 0);
+    auto isSame = [](const std::tm& a, const std::tm& b) {
+        if (a.tm_hour != b.tm_hour)
+            return false;
+        if (a.tm_min != b.tm_min)
+            return false;
+        if (a.tm_sec != b.tm_sec)
+            return false;
+        if (a.tm_mday != b.tm_mday)
+            return false;
+        if (a.tm_mon != b.tm_mon)
+            return false;
+        if (a.tm_year != b.tm_year)
+            return false;
+        if (a.tm_wday != b.tm_wday)
+            return false;
+        if (a.tm_yday != b.tm_yday)
+            return false;
+        if (a.tm_isdst != b.tm_isdst)
+            return false;
+
+        return true;
+    };
+
+    return isSame(tm, converted);
 }
 
 IRtc::IRtc()
@@ -91,10 +121,15 @@ std::error_code IRtc::getTime(std::time_t& time)
 std::error_code IRtc::setTime(const std::tm& tm)
 {
     std::tm toSet = tm;
-    if (!isValidTime(toSet))
+    if (!isValidTime(toSet)) {
+        RtcLogger::error("Failed to set time: invalid argument");
         return Error::eInvalidArgument;
+    }
 
     auto error = drvSetTime(toSet);
+    if (error)
+        RtcLogger::error("Failed to set time: drvSetTime() returned err={}", error.message());
+
     m_initialized = static_cast<bool>(!error);
     return error;
 }

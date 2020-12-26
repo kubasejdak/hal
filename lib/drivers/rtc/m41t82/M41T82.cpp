@@ -142,6 +142,12 @@ std::error_code M41T82::drvGetTime(std::tm& tm)
 
 std::error_code M41T82::drvSetTime(const std::tm& tm)
 {
+    constexpr int cMillennialBoundary = 100;
+    if (tm.tm_year < cMillennialBoundary) {
+        M41T82Logger::error("Years below 2000 are not supported");
+        return Error::eNotSupported;
+    }
+
     constexpr std::size_t cWriteSize = 8;
     std::array<std::uint8_t, cWriteSize> registers{};
 

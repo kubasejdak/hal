@@ -34,7 +34,7 @@
 
 #include <catch2/catch.hpp>
 
-TEST_CASE("Typical hardware init flow", "[unit][middleware]")
+TEST_CASE("1. Typical hardware init flow", "[unit][middleware]")
 {
     auto error = hal::Hardware::init();
     REQUIRE(!error);
@@ -48,7 +48,7 @@ TEST_CASE("Typical hardware init flow", "[unit][middleware]")
     REQUIRE(!error);
 }
 
-TEST_CASE("Typical hardware init flow with ScopedHardware", "[unit][middleware]")
+TEST_CASE("2. Typical hardware init flow with ScopedHardware", "[unit][middleware]")
 {
     hal::ScopedHardware hardware;
     REQUIRE(hardware.initialized());

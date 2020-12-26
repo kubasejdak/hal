@@ -11,5 +11,5 @@ target_include_directories(hal-public
 )
 
 target_link_libraries(hal-public
-    PUBLIC osal::cpp utils::registry
+    PUBLIC osal::cpp utils::registry hal-logger
 )
