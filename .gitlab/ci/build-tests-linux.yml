@@ -210,3 +210,31 @@ PlatformUart_Linux_ARM_GCC_Release_Build:
   variables:
     App: "platform-uart"
     BuildType: "Release"
+
+RtcSet1_Linux_ARM_Clang_Debug_Build:
+  extends: .Build_Test_Linux_ARM_Clang
+  variables:
+    App: "q39tester/rtc-set1"
+    BuildType: "Debug"
+
+RtcSet1_Linux_ARM_Clang_Release_Build:
+  extends: .Build_Test_Linux_ARM_Clang
+  only:
+    - master
+  variables:
+    App: "q39tester/rtc-set1"
+    BuildType: "Release"
+
+RtcSet1_Linux_ARM_GCC_Debug_Build:
+  extends: .Build_Test_Linux_ARM_GCC
+  variables:
+    App: "q39tester/rtc-set1"
+    BuildType: "Debug"
+
+RtcSet1_Linux_ARM_GCC_Release_Build:
+  extends: .Build_Test_Linux_ARM_GCC
+  only:
+    - master
+  variables:
+    App: "q39tester/rtc-set1"
+    BuildType: "Release"

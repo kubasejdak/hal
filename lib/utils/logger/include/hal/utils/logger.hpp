@@ -71,6 +71,7 @@ REGISTER_LOGGER(GenericEepromLogger, "GenericEeprom", cDefaultLogLevel);
 namespace time {
 
 REGISTER_LOGGER(M41T82Logger, "M41T82", cDefaultLogLevel);
+REGISTER_LOGGER(RtcLogger, "RTC", cDefaultLogLevel);
 
 } // namespace time
 

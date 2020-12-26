@@ -40,7 +40,7 @@
 
 namespace hal::time {
 
-/// Represents a single EEPROM device. All operations will be limited to the given instance of this class.
+/// Represents a single RTC device. All operations will be limited to the given instance of this class.
 /// @note On some platforms (e.g. Linux) this may or may not refer to the physical device.
 class IRtc : public Device {
 public:
