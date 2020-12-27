@@ -30,6 +30,7 @@
 ///
 /////////////////////////////////////////////////////////////////////////////////////
 
+#include <hal/Error.hpp>
 #include <hal/Hardware.hpp>
 
 #include <catch2/catch.hpp>
@@ -38,6 +39,7 @@ TEST_CASE("1. Typical hardware init flow", "[unit][middleware]")
 {
     auto error = hal::Hardware::init();
     REQUIRE(!error);
+
     error = hal::Hardware::attach();
     REQUIRE(!error);
 
@@ -52,4 +54,70 @@ TEST_CASE("2. Typical hardware init flow with ScopedHardware", "[unit][middlewar
 {
     hal::ScopedHardware hardware;
     REQUIRE(hardware.initialized());
+}
+
+TEST_CASE("3. Wrong Hardware states", "[unit][middleware]")
+{
+    SECTION("3.1. Hardware not initialized")
+    {
+        auto error = hal::Hardware::attach();
+        REQUIRE(error == hal::Error::eWrongState);
+
+        error = hal::Hardware::detach();
+        REQUIRE(error == hal::Error::eWrongState);
+
+        error = hal::Hardware::destroy();
+        REQUIRE(error == hal::Error::eWrongState);
+
+        error = hal::Hardware::init();
+        REQUIRE(!error);
+
+        error = hal::Hardware::attach();
+        REQUIRE(!error);
+
+        error = hal::Hardware::detach();
+        REQUIRE(!error);
+
+        error = hal::Hardware::destroy();
+        REQUIRE(!error);
+    }
+
+    SECTION("3.2. Hardware not attached")
+    {
+        auto error = hal::Hardware::init();
+        REQUIRE(!error);
+
+        error = hal::Hardware::init();
+        REQUIRE(error == hal::Error::eWrongState);
+
+        error = hal::Hardware::detach();
+        REQUIRE(error == hal::Error::eWrongState);
+
+        error = hal::Hardware::attach();
+        REQUIRE(!error);
+
+        error = hal::Hardware::detach();
+        REQUIRE(!error);
+
+        error = hal::Hardware::destroy();
+        REQUIRE(!error);
+    }
+
+    SECTION("3.2. Hardware not detached")
+    {
+        auto error = hal::Hardware::init();
+        REQUIRE(!error);
+
+        error = hal::Hardware::attach();
+        REQUIRE(!error);
+
+        error = hal::Hardware::destroy();
+        REQUIRE(error == hal::Error::eWrongState);
+
+        error = hal::Hardware::detach();
+        REQUIRE(!error);
+
+        error = hal::Hardware::destroy();
+        REQUIRE(!error);
+    }
 }
