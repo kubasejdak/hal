@@ -30,35 +30,28 @@
 ///
 /////////////////////////////////////////////////////////////////////////////////////
 
-#pragma once
+#include <hal/Error.hpp>
 
-#include "hal/Device.hpp"
+#include <catch2/catch.hpp>
 
-#include <memory>
+#include <string_view>
+#include <system_error>
 
-namespace hal {
-namespace device_id {
-
-// clang-format off
-/// Represents identifiers of the devices provided by the middleware board.
-enum MiddlewareId {
-    eDevice1
-};
-// clang-format on
-
-} // namespace device_id
-
-/// Returns device handle associated with the given device id from middleware board.
-/// @tparam T           Type of the device to be returned.
-/// @param id           Identifier of the device to be returned.
-/// @return Device handle casted to the given type T and associated with the given device id.
-/// @note If there is no such id registered in the board or handle has been retrieved maximal times, then nullptr
-///       will be returned.
-/// @note Caller has to use the correct T type in order to get the valid handle.
-template <typename T>
-std::shared_ptr<T> getDevice(device_id::MiddlewareId id)
+TEST_CASE("Errors have proper human readable messages", "[unit][error]")
 {
-    return std::dynamic_pointer_cast<T>(detail::getDeviceImpl<decltype(id)>(id));
-}
+    const std::string_view cUnrecognizedMsg = "(unrecognized error)";
+    constexpr int cErrorsCount = 14;
 
-} // namespace hal
+    for (int i = 0; i < cErrorsCount; ++i) {
+        std::error_code error = static_cast<hal::Error>(i);
+        REQUIRE(std::string_view(error.category().name()) == "hal");
+        REQUIRE(!error.message().empty());
+        REQUIRE(error.message() != cUnrecognizedMsg);
+    }
+
+    constexpr int cInvalidError = cErrorsCount;
+    std::error_code error = static_cast<hal::Error>(cInvalidError);
+    REQUIRE(std::string_view(error.category().name()) == "hal");
+    REQUIRE(!error.message().empty());
+    REQUIRE(error.message() == cUnrecognizedMsg);
+}

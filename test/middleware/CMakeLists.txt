@@ -1,6 +1,7 @@
 # Object library type is used to prevent compiler from removing unit test functions from the binary.
 add_library(appmiddleware OBJECT EXCLUDE_FROM_ALL
     appMain.cpp
+    Error.cpp
     initialization.cpp
 )
 
