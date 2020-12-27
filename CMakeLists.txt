@@ -32,7 +32,7 @@ endif ()
 
 if (COVERAGE)
     # Generate coverage report.
-    add_lcov_coverage(IGNORE ${CMAKE_CURRENT_SOURCE_DIR}/test/*)
+    add_lcov_coverage(IGNORE ${CMAKE_CURRENT_SOURCE_DIR}/test/* */external/*)
 endif ()
 
 add_subdirectory(${platform_SOURCE_DIR}/app ${platform_BINARY_DIR})
