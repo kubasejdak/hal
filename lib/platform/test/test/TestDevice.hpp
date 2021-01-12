@@ -4,7 +4,7 @@
 /// @author Kuba Sejdak
 /// @copyright BSD 2-Clause License
 ///
-/// Copyright (c) 2019-2021, Kuba Sejdak <kuba.sejdak@gmail.com>
+/// Copyright (c) 2021-2021, Kuba Sejdak <kuba.sejdak@gmail.com>
 /// All rights reserved.
 ///
 /// Redistribution and use in source and binary forms, with or without
@@ -30,28 +30,23 @@
 ///
 /////////////////////////////////////////////////////////////////////////////////////
 
-#include <hal/Error.hpp>
+#pragma once
 
-#include <catch2/catch.hpp>
+#include "hal/Device.hpp"
 
-#include <string_view>
-#include <system_error>
+namespace hal::test {
 
-TEST_CASE("2.1. Errors have proper human readable messages", "[unit][error]")
-{
-    const std::string_view cUnrecognizedMsg = "(unrecognized error)";
-    constexpr int cErrorsCount = 14;
+/// Represent test device used only for testing purposes.
+class TestDevice final : public Device {
+public:
+    /// Constructor.
+    /// @param sharingPolicy        Sharing policy to be used for this test device.
+    explicit TestDevice(SharingPolicy sharingPolicy)
+        : Device(sharingPolicy)
+    {}
 
-    for (int i = 0; i < cErrorsCount; ++i) {
-        std::error_code error = static_cast<hal::Error>(i);
-        REQUIRE(std::string_view(error.category().name()) == "hal");
-        REQUIRE(!error.message().empty());
-        REQUIRE(error.message() != cUnrecognizedMsg);
-    }
+    /// Empty test function.
+    void testFunc() const {}
+};
 
-    constexpr int cInvalidError = cErrorsCount;
-    std::error_code error = static_cast<hal::Error>(cInvalidError);
-    REQUIRE(std::string_view(error.category().name()) == "hal");
-    REQUIRE(!error.message().empty());
-    REQUIRE(error.message() == cUnrecognizedMsg);
-}
+} // namespace hal::test

@@ -40,7 +40,7 @@
 #include <cstdint>
 #include <vector>
 
-TEST_CASE("Set all combinations of pin patterns", "[unit][mcp23x17]")
+TEST_CASE("2. Set all combinations of pin patterns", "[unit][mcp23x17]")
 {
     hal::ScopedHardware hardware;
 
@@ -50,10 +50,10 @@ TEST_CASE("Set all combinations of pin patterns", "[unit][mcp23x17]")
         auto normalInputIds = {hal::device_id::eMcp23017PortIn4BPA0u3, hal::device_id::eMcp23s17PortIn4BPB0u3};
         auto invertedInputIds = {hal::device_id::eMcp23s17PortIn4BPA4u7, hal::device_id::eMcp23017PortIn4BPB4u7};
 
-        std::vector<std::shared_ptr<hal::gpio::IPortOutput<std::uint8_t>>> normalOutputs;
-        std::vector<std::shared_ptr<hal::gpio::IPortOutput<std::uint8_t>>> invertedOutputs;
-        std::vector<std::shared_ptr<hal::gpio::IPortInput<std::uint8_t>>> normalInputs;
-        std::vector<std::shared_ptr<hal::gpio::IPortInput<std::uint8_t>>> invertedInputs;
+        std::vector<hal::ScopedDevice<hal::gpio::IPortOutput<std::uint8_t>>> normalOutputs;
+        std::vector<hal::ScopedDevice<hal::gpio::IPortOutput<std::uint8_t>>> invertedOutputs;
+        std::vector<hal::ScopedDevice<hal::gpio::IPortInput<std::uint8_t>>> normalInputs;
+        std::vector<hal::ScopedDevice<hal::gpio::IPortInput<std::uint8_t>>> invertedInputs;
 
         for (const auto& cId : normalOutputIds)
             normalOutputs.emplace_back(hal::getDevice<hal::gpio::IPortOutput<std::uint8_t>>(cId));
@@ -100,17 +100,5 @@ TEST_CASE("Set all combinations of pin patterns", "[unit][mcp23x17]")
                 REQUIRE(getValue == expectedValue);
             }
         }
-
-        for (auto& output : normalOutputs)
-            hal::returnDevice(output);
-
-        for (auto& output : invertedOutputs)
-            hal::returnDevice(output);
-
-        for (auto& input : normalInputs)
-            hal::returnDevice(input);
-
-        for (auto& input : invertedInputs)
-            hal::returnDevice(input);
     }
 }

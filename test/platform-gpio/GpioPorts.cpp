@@ -39,17 +39,17 @@
 
 #include <cstdint>
 
-TEST_CASE("Set all combinations of bit patterns on 4bit ports", "[unit][gpio]")
+TEST_CASE("2. Set all combinations of bit patterns on 4bit ports", "[unit][gpio]")
 {
     hal::ScopedHardware hardware;
     REQUIRE(hardware.initialized());
 
     // clang-format off
-    auto outputSet0 = hal::getDevice<hal::gpio::IPortOutput<std::uint8_t>>(hal::device_id::PlatformGpioId::ePortAPinSet0);
-    auto outputSet1 = hal::getDevice<hal::gpio::IPortOutput<std::uint8_t>>(hal::device_id::PlatformGpioId::ePortAPinSet1);
+    auto outputSet0 = hal::getScopedDevice<hal::gpio::IPortOutput<std::uint8_t>>(hal::device_id::PlatformGpioId::ePortAPinSet0);
+    auto outputSet1 = hal::getScopedDevice<hal::gpio::IPortOutput<std::uint8_t>>(hal::device_id::PlatformGpioId::ePortAPinSet1);
 
-    auto inputSet0 = hal::getDevice<hal::gpio::IPortInput<std::uint8_t>>(hal::device_id::PlatformGpioId::ePortBPinSet0);
-    auto inputSet1 = hal::getDevice<hal::gpio::IPortInput<std::uint8_t>>(hal::device_id::PlatformGpioId::ePortBPinSet1);
+    auto inputSet0 = hal::getScopedDevice<hal::gpio::IPortInput<std::uint8_t>>(hal::device_id::PlatformGpioId::ePortBPinSet0);
+    auto inputSet1 = hal::getScopedDevice<hal::gpio::IPortInput<std::uint8_t>>(hal::device_id::PlatformGpioId::ePortBPinSet1);
     // clang-format on
 
     constexpr std::uint8_t cPatternsCount = 15;
@@ -74,9 +74,4 @@ TEST_CASE("Set all combinations of bit patterns on 4bit ports", "[unit][gpio]")
         expectedValue = std::uint8_t(~pattern) & cPatternMask;
         REQUIRE(getValue == expectedValue);
     }
-
-    hal::returnDevice(outputSet0);
-    hal::returnDevice(outputSet1);
-    hal::returnDevice(inputSet0);
-    hal::returnDevice(inputSet1);
 }

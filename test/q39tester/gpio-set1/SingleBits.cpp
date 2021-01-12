@@ -39,7 +39,7 @@
 
 #include <vector>
 
-TEST_CASE("Toggle values of single pins", "[unit][mcp23x17]")
+TEST_CASE("1. Toggle values of single pins", "[unit][mcp23x17]")
 {
     hal::ScopedHardware hardware;
 
@@ -79,8 +79,8 @@ TEST_CASE("Toggle values of single pins", "[unit][mcp23x17]")
                          hal::device_id::eMcp23s17PinInPB6,
                          hal::device_id::eMcp23s17PinInPB7};
 
-        std::vector<std::shared_ptr<hal::gpio::IPinOutput>> outputs;
-        std::vector<std::shared_ptr<hal::gpio::IPinInput>> inputs;
+        std::vector<hal::ScopedDevice<hal::gpio::IPinOutput>> outputs;
+        std::vector<hal::ScopedDevice<hal::gpio::IPinInput>> inputs;
 
         for (const auto& cId : outputIds)
             outputs.emplace_back(hal::getDevice<hal::gpio::IPinOutput>(cId));
@@ -88,7 +88,7 @@ TEST_CASE("Toggle values of single pins", "[unit][mcp23x17]")
         for (const auto& cId : inputIds)
             inputs.emplace_back(hal::getDevice<hal::gpio::IPinInput>(cId));
 
-        SECTION("Multiple toggling")
+        SECTION("1.1. Multiple toggling")
         {
             bool setValue = true;
             constexpr int cTestIterations = 100;
@@ -109,7 +109,7 @@ TEST_CASE("Toggle values of single pins", "[unit][mcp23x17]")
             }
         }
 
-        SECTION("Set one pin to 1 and rest to 0, check all")
+        SECTION("1.2. Set one pin to 1 and rest to 0, check all")
         {
             for (std::size_t i = 0; i < outputs.size(); ++i) {
                 for (std::size_t j = 0; j < outputs.size(); ++j) {
@@ -125,11 +125,5 @@ TEST_CASE("Toggle values of single pins", "[unit][mcp23x17]")
                 }
             }
         }
-
-        for (auto& output : outputs)
-            hal::returnDevice(output);
-
-        for (auto& input : inputs)
-            hal::returnDevice(input);
     }
 }

@@ -1,7 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////
 ///
 /// @file
-/// @author Grzegorz Heldt
 /// @author Kuba Sejdak
 /// @copyright BSD 2-Clause License
 ///
@@ -33,4 +32,24 @@
 
 #pragma once
 
+#include "hal/ScopedDevice.hpp"
 #include "product/factory.hpp"
+
+namespace hal {
+
+/// Returns scoped device handle associated with the given device id and given board id.
+/// @tparam DeviceType      Type of the device to be returned.
+/// @tparam BoardId         Type of the board id where demanded device is created.
+/// @param id               Identifier of the device to be returned.
+/// @return Scoped device handle casted to the given type T and associated with the given device id.
+/// @note If there is no such id registered in the board or handle has been retrieved maximal times, then nullptr
+///       will be returned.
+/// @note Caller has to use the correct T type in order to get the valid handle.
+/// @note Handle returned from this function will be automatically returned to HAL once last owner destroys its copy.
+template <typename DeviceType, typename BoardId>
+ScopedDevice<DeviceType> getScopedDevice(BoardId id)
+{
+    return ScopedDevice<DeviceType>(getDevice<DeviceType>(id));
+}
+
+} // namespace hal

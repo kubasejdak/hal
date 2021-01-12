@@ -43,7 +43,7 @@ TEST_CASE("1. Set & get RTC time with std::tm", "[unit][rtc]")
 {
     hal::ScopedHardware hardware;
 
-    auto rtc = hal::getDevice<hal::time::IRtc>(hal::device_id::eM41T82Rtc);
+    auto rtc = hal::getScopedDevice<hal::time::IRtc>(hal::device_id::eM41T82Rtc);
     std::tm tmSet{};
 
     SECTION("1.1. 13:46:05 26.12.2020")
@@ -91,15 +91,13 @@ TEST_CASE("1. Set & get RTC time with std::tm", "[unit][rtc]")
     constexpr int cAllowedDiffSec = 3;
     REQUIRE(timeGet >= timeSet);
     REQUIRE(timeGet <= (timeSet + cAllowedDiffSec));
-
-    hal::returnDevice(rtc);
 }
 
 TEST_CASE("2. Set RTC with std::tm and get with std::time_t", "[unit][rtc]")
 {
     hal::ScopedHardware hardware;
 
-    auto rtc = hal::getDevice<hal::time::IRtc>(hal::device_id::eM41T82Rtc);
+    auto rtc = hal::getScopedDevice<hal::time::IRtc>(hal::device_id::eM41T82Rtc);
     std::tm tmSet{};
 
     SECTION("2.1. 18:13:25 04.05.2013")
@@ -146,15 +144,13 @@ TEST_CASE("2. Set RTC with std::tm and get with std::time_t", "[unit][rtc]")
     constexpr int cAllowedDiffSec = 3;
     REQUIRE(timeGet >= timeSet);
     REQUIRE(timeGet <= (timeSet + cAllowedDiffSec));
-
-    hal::returnDevice(rtc);
 }
 
 TEST_CASE("3. Set RTC with std::time_t and get with std::tm", "[unit][rtc]")
 {
     hal::ScopedHardware hardware;
 
-    auto rtc = hal::getDevice<hal::time::IRtc>(hal::device_id::eM41T82Rtc);
+    auto rtc = hal::getScopedDevice<hal::time::IRtc>(hal::device_id::eM41T82Rtc);
     std::tm tmSet{};
 
     SECTION("3.1. 17:08:11 10.02.2017")
@@ -202,15 +198,13 @@ TEST_CASE("3. Set RTC with std::time_t and get with std::tm", "[unit][rtc]")
     constexpr int cAllowedDiffSec = 3;
     REQUIRE(timeGet >= timeSet);
     REQUIRE(timeGet <= (timeSet + cAllowedDiffSec));
-
-    hal::returnDevice(rtc);
 }
 
 TEST_CASE("4. Set & get RTC with std::time_t", "[unit][rtc]")
 {
     hal::ScopedHardware hardware;
 
-    auto rtc = hal::getDevice<hal::time::IRtc>(hal::device_id::eM41T82Rtc);
+    auto rtc = hal::getScopedDevice<hal::time::IRtc>(hal::device_id::eM41T82Rtc);
     std::tm tmSet{};
 
     SECTION("4.1. 23:59:59 28.02.2019")
@@ -257,15 +251,13 @@ TEST_CASE("4. Set & get RTC with std::time_t", "[unit][rtc]")
     constexpr int cAllowedDiffSec = 3;
     REQUIRE(timeGet >= timeSet);
     REQUIRE(timeGet <= (timeSet + cAllowedDiffSec));
-
-    hal::returnDevice(rtc);
 }
 
 TEST_CASE("5. Invalid RTC arguments", "[unit][rtc]")
 {
     hal::ScopedHardware hardware;
 
-    auto rtc = hal::getDevice<hal::time::IRtc>(hal::device_id::eM41T82Rtc);
+    auto rtc = hal::getScopedDevice<hal::time::IRtc>(hal::device_id::eM41T82Rtc);
 
     SECTION("5.1. Invalid std::tm value")
     {
@@ -288,6 +280,4 @@ TEST_CASE("5. Invalid RTC arguments", "[unit][rtc]")
         auto error = rtc->setTime(time);
         REQUIRE(error == hal::Error::eInvalidArgument);
     }
-
-    hal::returnDevice(rtc);
 }
