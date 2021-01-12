@@ -42,7 +42,10 @@ namespace device_id {
 // clang-format off
 /// Represents identifiers of the devices provided by the middleware board.
 enum MiddlewareId {
-    eDevice1
+    eTestDeviceSingle1,
+    eTestDeviceSingle2,
+    eTestDeviceShared1,
+    eTestDeviceShared2
 };
 // clang-format on
 

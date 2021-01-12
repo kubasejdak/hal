@@ -48,7 +48,7 @@
 class UartEndpoint {
 public:
     UartEndpoint()
-        : m_uart(hal::getDevice<hal::uart::IUart>(hal::device_id::eUart0))
+        : m_uart(hal::getScopedDevice<hal::uart::IUart>(hal::device_id::eUart0))
     {
         configurePort(hal::uart::Baudrate::e115200);
     }
@@ -57,11 +57,7 @@ public:
 
     UartEndpoint(UartEndpoint&&) = delete;
 
-    virtual ~UartEndpoint()
-    {
-        m_uart->close();
-        hal::returnDevice(m_uart);
-    }
+    virtual ~UartEndpoint() { m_uart->close(); }
 
     UartEndpoint& operator=(const UartEndpoint&) = delete;
 
@@ -119,7 +115,7 @@ private:
 
 protected:
     static constexpr auto m_cTimeout{5s};
-    std::shared_ptr<hal::uart::IUart> m_uart; // NOLINT
+    hal::ScopedDevice<hal::uart::IUart> m_uart; // NOLINT
 };
 
 class IUartClient : public UartEndpoint {
@@ -292,17 +288,17 @@ private:
     std::string m_checksumReceiver;
 };
 
-TEST_CASE("Transfers with daemon server", "[unit][hal][uart]")
+TEST_CASE("1. Transfers with daemon server", "[unit][hal][uart]")
 {
     hal::ScopedHardware hardware;
 
-    SECTION("Synchronous transmission")
+    SECTION("1.1. Synchronous transmission")
     {
         SynchronousClient client;
         client.run();
     }
 
-    SECTION("Asynchronous transmission")
+    SECTION("1.2. Asynchronous transmission")
     {
         AsynchronousClient client;
         client.run();

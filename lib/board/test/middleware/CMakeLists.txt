@@ -13,5 +13,5 @@ target_link_libraries(test-middleware-public
 
 target_link_libraries(test-middleware-private
     PUBLIC test-middleware-public hal-public
-    PRIVATE hal-private
+    PRIVATE hal-private test-device
 )

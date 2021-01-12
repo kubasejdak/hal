@@ -37,33 +37,39 @@
 
 #include <catch2/catch.hpp>
 
-TEST_CASE("Toggle values of single pins", "[unit][gpio]")
+TEST_CASE("1. Toggle values of single pins", "[unit][gpio]")
 {
     hal::ScopedHardware hardware;
     REQUIRE(hardware.initialized());
 
-    std::vector<std::shared_ptr<hal::gpio::IPinOutput>> outputs;
-    std::vector<std::shared_ptr<hal::gpio::IPinInput>> inputs;
+    auto outputIds = {hal::device_id::ePortAPin0,
+                      hal::device_id::ePortAPin1,
+                      hal::device_id::ePortAPin2,
+                      hal::device_id::ePortAPin3,
+                      hal::device_id::ePortAPin4,
+                      hal::device_id::ePortAPin5,
+                      hal::device_id::ePortAPin6,
+                      hal::device_id::ePortAPin7};
 
-    outputs.emplace_back(hal::getDevice<hal::gpio::IPinOutput>(hal::device_id::PlatformGpioId::ePortAPin0));
-    outputs.emplace_back(hal::getDevice<hal::gpio::IPinOutput>(hal::device_id::PlatformGpioId::ePortAPin1));
-    outputs.emplace_back(hal::getDevice<hal::gpio::IPinOutput>(hal::device_id::PlatformGpioId::ePortAPin2));
-    outputs.emplace_back(hal::getDevice<hal::gpio::IPinOutput>(hal::device_id::PlatformGpioId::ePortAPin3));
-    outputs.emplace_back(hal::getDevice<hal::gpio::IPinOutput>(hal::device_id::PlatformGpioId::ePortAPin4));
-    outputs.emplace_back(hal::getDevice<hal::gpio::IPinOutput>(hal::device_id::PlatformGpioId::ePortAPin5));
-    outputs.emplace_back(hal::getDevice<hal::gpio::IPinOutput>(hal::device_id::PlatformGpioId::ePortAPin6));
-    outputs.emplace_back(hal::getDevice<hal::gpio::IPinOutput>(hal::device_id::PlatformGpioId::ePortAPin7));
+    auto inputIds = {hal::device_id::ePortBPin0,
+                     hal::device_id::ePortBPin1,
+                     hal::device_id::ePortBPin2,
+                     hal::device_id::ePortBPin3,
+                     hal::device_id::ePortBPin4,
+                     hal::device_id::ePortBPin5,
+                     hal::device_id::ePortBPin6,
+                     hal::device_id::ePortBPin7};
 
-    inputs.emplace_back(hal::getDevice<hal::gpio::IPinInput>(hal::device_id::PlatformGpioId::ePortBPin0));
-    inputs.emplace_back(hal::getDevice<hal::gpio::IPinInput>(hal::device_id::PlatformGpioId::ePortBPin1));
-    inputs.emplace_back(hal::getDevice<hal::gpio::IPinInput>(hal::device_id::PlatformGpioId::ePortBPin2));
-    inputs.emplace_back(hal::getDevice<hal::gpio::IPinInput>(hal::device_id::PlatformGpioId::ePortBPin3));
-    inputs.emplace_back(hal::getDevice<hal::gpio::IPinInput>(hal::device_id::PlatformGpioId::ePortBPin4));
-    inputs.emplace_back(hal::getDevice<hal::gpio::IPinInput>(hal::device_id::PlatformGpioId::ePortBPin5));
-    inputs.emplace_back(hal::getDevice<hal::gpio::IPinInput>(hal::device_id::PlatformGpioId::ePortBPin6));
-    inputs.emplace_back(hal::getDevice<hal::gpio::IPinInput>(hal::device_id::PlatformGpioId::ePortBPin7));
+    std::vector<hal::ScopedDevice<hal::gpio::IPinOutput>> outputs;
+    std::vector<hal::ScopedDevice<hal::gpio::IPinInput>> inputs;
 
-    SECTION("Multiple toggling")
+    for (const auto& cId : outputIds)
+        outputs.emplace_back(hal::getDevice<hal::gpio::IPinOutput>(cId));
+
+    for (const auto& cId : inputIds)
+        inputs.emplace_back(hal::getDevice<hal::gpio::IPinInput>(cId));
+
+    SECTION("1.1. Multiple toggling")
     {
         bool setValue = true;
         constexpr int cTestIterations = 100;
@@ -84,7 +90,7 @@ TEST_CASE("Toggle values of single pins", "[unit][gpio]")
         }
     }
 
-    SECTION("Set first and last bit outputs to low, check all")
+    SECTION("1.2. Set first and last bit outputs to low, check all")
     {
         // Set all outputs to high.
         for (auto& output : outputs) {
@@ -114,7 +120,7 @@ TEST_CASE("Toggle values of single pins", "[unit][gpio]")
         }
     }
 
-    SECTION("Toggle only one pin at a time")
+    SECTION("1.3. Toggle only one pin at a time")
     {
         for (std::size_t i = 0; i < outputs.size(); ++i) {
             for (std::size_t j = 0; j < outputs.size(); ++j) {
@@ -133,10 +139,4 @@ TEST_CASE("Toggle values of single pins", "[unit][gpio]")
             }
         }
     }
-
-    for (auto& output : outputs)
-        hal::returnDevice(output);
-
-    for (auto& input : inputs)
-        hal::returnDevice(input);
 }

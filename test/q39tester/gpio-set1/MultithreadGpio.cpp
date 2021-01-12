@@ -50,8 +50,8 @@ static void noiseThreadAFunc(bool& stop,
                              osal::Semaphore& semA,
                              osal::Semaphore& semB)
 {
-    auto output = hal::getDevice<hal::gpio::IPinOutput>(outputId);
-    auto input = hal::getDevice<hal::gpio::IPinInput>(inputId);
+    auto output = hal::getScopedDevice<hal::gpio::IPinOutput>(outputId);
+    auto input = hal::getScopedDevice<hal::gpio::IPinInput>(inputId);
 
     // Synchronize startup.
     if (auto error = output->off())
@@ -79,9 +79,6 @@ static void noiseThreadAFunc(bool& stop,
     // Cleanup.
     if (auto error = output->off())
         REQUIRE(!error);
-
-    hal::returnDevice(input);
-    hal::returnDevice(output);
 }
 
 static void noiseThreadBFunc(bool& stop,
@@ -90,8 +87,8 @@ static void noiseThreadBFunc(bool& stop,
                              osal::Semaphore& semA,
                              osal::Semaphore& semB)
 {
-    auto input = hal::getDevice<hal::gpio::IPinInput>(inputId);
-    auto output = hal::getDevice<hal::gpio::IPinOutput>(outputId);
+    auto input = hal::getScopedDevice<hal::gpio::IPinInput>(inputId);
+    auto output = hal::getScopedDevice<hal::gpio::IPinOutput>(outputId);
 
     // Synchronize startup.
     if (auto error = output->off())
@@ -119,9 +116,6 @@ static void noiseThreadBFunc(bool& stop,
     // Cleanup.
     if (auto error = output->off())
         REQUIRE(!error);
-
-    hal::returnDevice(output);
-    hal::returnDevice(input);
 }
 
 static bool isCounterOverflow(bool countUp, std::uint8_t counter)
@@ -140,8 +134,8 @@ static void triggerThreadFunc(bool& stop,
                               osal::Semaphore& triggerSem,
                               osal::Semaphore& counterSem)
 {
-    auto triggerOutput = hal::getDevice<hal::gpio::IPinOutput>(triggerOutputId);
-    auto counterInput = hal::getDevice<hal::gpio::IPortInput<std::uint8_t>>(counterInputId);
+    auto triggerOutput = hal::getScopedDevice<hal::gpio::IPinOutput>(triggerOutputId);
+    auto counterInput = hal::getScopedDevice<hal::gpio::IPortInput<std::uint8_t>>(counterInputId);
 
     // Synchronize startup.
     if (auto error = triggerOutput->off())
@@ -185,9 +179,6 @@ static void triggerThreadFunc(bool& stop,
         triggerValue = !triggerValue;
         prevCounter = counter;
     }
-
-    hal::returnDevice(counterInput);
-    hal::returnDevice(triggerOutput);
 }
 
 static void counterThreadFunc(bool& stop,
@@ -196,8 +187,8 @@ static void counterThreadFunc(bool& stop,
                               osal::Semaphore& triggerSem,
                               osal::Semaphore& counterSem)
 {
-    auto triggerInput = hal::getDevice<hal::gpio::IPinInput>(triggerInputId);
-    auto counterOutput = hal::getDevice<hal::gpio::IPortOutput<std::uint8_t>>(counterOutputId);
+    auto triggerInput = hal::getScopedDevice<hal::gpio::IPinInput>(triggerInputId);
+    auto counterOutput = hal::getScopedDevice<hal::gpio::IPortOutput<std::uint8_t>>(counterOutputId);
 
     // Synchronize startup.
     if (auto error = counterOutput->set(0x00))
@@ -232,12 +223,9 @@ static void counterThreadFunc(bool& stop,
         expectedTriggerValue = !expectedTriggerValue;
         prevCounter = counter;
     }
-
-    hal::returnDevice(counterOutput);
-    hal::returnDevice(triggerInput);
 }
 
-TEST_CASE("Multithread ping-pong and counter setting", "[unit][mcp23x17]")
+TEST_CASE("3. Multithread ping-pong and counter setting", "[unit][mcp23x17]")
 {
     hal::ScopedHardware hardware;
 

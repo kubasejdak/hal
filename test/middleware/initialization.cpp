@@ -35,7 +35,7 @@
 
 #include <catch2/catch.hpp>
 
-TEST_CASE("1. Typical hardware init flow", "[unit][middleware]")
+TEST_CASE("1.1. Typical hardware init flow", "[unit][middleware]")
 {
     auto error = hal::Hardware::init();
     REQUIRE(!error);
@@ -50,15 +50,15 @@ TEST_CASE("1. Typical hardware init flow", "[unit][middleware]")
     REQUIRE(!error);
 }
 
-TEST_CASE("2. Typical hardware init flow with ScopedHardware", "[unit][middleware]")
+TEST_CASE("1.2. Typical hardware init flow with ScopedHardware", "[unit][middleware]")
 {
     hal::ScopedHardware hardware;
     REQUIRE(hardware.initialized());
 }
 
-TEST_CASE("3. Wrong Hardware states", "[unit][middleware]")
+TEST_CASE("1.3. Wrong Hardware states", "[unit][middleware]")
 {
-    SECTION("3.1. Hardware not initialized")
+    SECTION("1.3.1. Hardware not initialized")
     {
         auto error = hal::Hardware::attach();
         REQUIRE(error == hal::Error::eWrongState);
@@ -82,7 +82,7 @@ TEST_CASE("3. Wrong Hardware states", "[unit][middleware]")
         REQUIRE(!error);
     }
 
-    SECTION("3.2. Hardware not attached")
+    SECTION("1.3.2. Hardware not attached")
     {
         auto error = hal::Hardware::init();
         REQUIRE(!error);
@@ -103,7 +103,7 @@ TEST_CASE("3. Wrong Hardware states", "[unit][middleware]")
         REQUIRE(!error);
     }
 
-    SECTION("3.2. Hardware not detached")
+    SECTION("1.3.3. Hardware not detached")
     {
         auto error = hal::Hardware::init();
         REQUIRE(!error);

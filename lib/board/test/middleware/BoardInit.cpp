@@ -30,6 +30,7 @@
 ///
 /////////////////////////////////////////////////////////////////////////////////////
 
+#include "TestDevice.hpp"
 #include "hal/Board.hpp"
 #include "hal/Error.hpp"
 #include "middleware/DeviceId.hpp"
@@ -48,6 +49,10 @@ std::shared_ptr<Device> getDeviceImpl<device_id::MiddlewareId>(device_id::Middle
 template <>
 std::error_code Board<device_id::MiddlewareId>::initImpl()
 {
+    m_devices[device_id::eTestDeviceSingle1] = std::make_shared<test::TestDevice>(SharingPolicy::eSingle);
+    m_devices[device_id::eTestDeviceSingle2] = std::make_shared<test::TestDevice>(SharingPolicy::eSingle);
+    m_devices[device_id::eTestDeviceShared1] = std::make_shared<test::TestDevice>(SharingPolicy::eShared);
+    m_devices[device_id::eTestDeviceShared2] = std::make_shared<test::TestDevice>(SharingPolicy::eShared);
     return Error::eOk;
 }
 
