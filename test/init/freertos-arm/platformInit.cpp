@@ -32,58 +32,65 @@
 
 #include "platformInit.hpp"
 
-#include <stm32f4xx_gpio.h>
-#include <stm32f4xx_rcc.h>
-#include <stm32f4xx_usart.h>
+#include <stm32f4xx.h>
 
-#include <cstddef>
 #include <cstdint>
+#include <type_traits>
+
+// NOLINTNEXTLINE(fuchsia-statically-constructed-objects,cppcoreguidelines-avoid-non-const-global-variables)
+UART_HandleTypeDef uart{};
+
+extern "C" {
+
+void HAL_MspInit()
+{
+    __HAL_RCC_SYSCFG_CLK_ENABLE(); // NOLINT
+    __HAL_RCC_PWR_CLK_ENABLE();    // NOLINT
+}
+
+void HAL_UART_MspInit(UART_HandleTypeDef* /*unused*/)
+{
+    __HAL_RCC_GPIOC_CLK_ENABLE(); // NOLINT
+
+    GPIO_InitTypeDef config{};
+    config.Pin = GPIO_PIN_10;
+    config.Mode = GPIO_MODE_AF_PP;
+    config.Pull = GPIO_PULLUP;
+    config.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+    config.Alternate = GPIO_AF8_UART4;
+    HAL_GPIO_Init(GPIOC, &config); // NOLINT
+}
+
+} // extern "C"
 
 int consolePrint(const char* message, std::size_t size)
 {
-    for (std::size_t i = 0; i < size; ++i) {
-        while (USART_GetFlagStatus(UART4, USART_FLAG_TC) == RESET) { // NOLINT
-        }
-        USART_SendData(UART4, message[i]); // NOLINT
-    }
-
-    return size;
+    constexpr std::uint32_t cTimeout = 1'000;
+    auto result = HAL_UART_Transmit(&uart, std::remove_const_t<std::uint8_t*>(message), size, cTimeout);
+    return (result == HAL_OK) ? int(size) : 0;
 }
 
-static void consoleInitGpio()
+static bool consoleInitUart()
 {
-    RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOC, ENABLE);
-    GPIO_PinAFConfig(GPIOC, GPIO_PinSource10, GPIO_AF_UART4); // NOLINT
+    __HAL_RCC_UART4_CLK_ENABLE(); // NOLINT
 
-    GPIO_InitTypeDef config{};
-    config.GPIO_Pin = GPIO_Pin_10;
-    config.GPIO_Mode = GPIO_Mode_AF;
-    config.GPIO_OType = GPIO_OType_PP;
-    config.GPIO_PuPd = GPIO_PuPd_UP;
-    config.GPIO_Speed = GPIO_Speed_100MHz;
-    GPIO_Init(GPIOC, &config); // NOLINT
-}
-
-static void consoleInitUart()
-{
-    RCC_APB1PeriphClockCmd(RCC_APB1Periph_UART4, ENABLE);
-
-    USART_InitTypeDef config{};
+    uart.Instance = UART4; // NOLINT
     constexpr std::uint32_t cConsoleBaudrate = 115200;
-    config.USART_BaudRate = cConsoleBaudrate;
-    config.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
-    config.USART_Mode = USART_Mode_Tx;
-    config.USART_Parity = USART_Parity_No;
-    config.USART_StopBits = USART_StopBits_1;
-    config.USART_WordLength = USART_WordLength_8b;
-    USART_Init(UART4, &config); // NOLINT
-    USART_Cmd(UART4, ENABLE);   // NOLINT
+    uart.Init.BaudRate = cConsoleBaudrate;
+    uart.Init.WordLength = UART_WORDLENGTH_8B;
+    uart.Init.StopBits = UART_STOPBITS_1;
+    uart.Init.Parity = UART_PARITY_NONE;
+    uart.Init.Mode = UART_MODE_TX;
+    uart.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+    uart.Init.OverSampling = UART_OVERSAMPLING_16;
+    auto result = HAL_UART_Init(&uart);
+    return result == HAL_OK;
 }
 
 bool platformInit()
 {
-    consoleInitGpio();
-    consoleInitUart();
+    if (HAL_Init() != HAL_OK)
+        return false;
 
-    return true;
+    return consoleInitUart();
 }
