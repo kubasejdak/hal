@@ -32,7 +32,7 @@
 
 #pragma once
 
-#include <utils/Logger.hpp>
+#include <utils/logger/Logger.hpp>
 
 #ifdef NDEBUG
 constexpr auto cDefaultLogLevel = spdlog::level::off;

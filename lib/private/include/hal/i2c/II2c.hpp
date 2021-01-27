@@ -37,7 +37,7 @@
 
 #include <osal/Mutex.hpp>
 #include <osal/Timeout.hpp>
-#include <utils/GlobalRegistry.hpp>
+#include <utils/registry/GlobalRegistry.hpp>
 
 #include <cstdint>
 #include <system_error>
@@ -208,6 +208,6 @@ private:
 };
 
 /// Represents GlobalRegistry of II2c instances.
-using Registry = utils::GlobalRegistry<II2c>;
+using Registry = utils::registry::GlobalRegistry<II2c>;
 
 } // namespace hal::i2c

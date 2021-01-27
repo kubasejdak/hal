@@ -36,7 +36,8 @@
 #include "hal/i2c/ScopedI2c.hpp"
 #include "hal/utils/logger.hpp"
 
-#include <utils/bits.hpp>
+#include <utils/bits/endianness.hpp>
+#include <utils/bits/numerics.hpp>
 
 #include <cassert>
 #include <limits>
@@ -68,7 +69,7 @@ GenericEeprom::GenericEeprom(std::shared_ptr<i2c::II2c> i2c,
     , m_address(address)
     , m_writeDelay(writeDelay, true)
 {
-    m_initialized = utils::isPowerOf2(pageSize) && i2c::verifyAddress(addressingMode, m_address);
+    m_initialized = utils::bits::isPowerOf2(pageSize) && i2c::verifyAddress(addressingMode, m_address);
     if (!m_initialized) {
         GenericEepromLogger::critical("Failed to create generic EEPROM: bad parameters");
         assert(false);
@@ -172,7 +173,7 @@ std::error_code GenericEeprom::drvRead(std::uint32_t address,
         }
 
         // Write only the address, don't send the STOP. STOP will be sent after the read.
-        auto addressArray = utils::toBytesArray(utils::toBigEndian<std::uint16_t>(readAddress));
+        auto addressArray = utils::bits::toBytesArray(utils::bits::toBigEndian<std::uint16_t>(readAddress));
         if (auto error = m_i2c->write(deviceAddress, addressArray.data(), addressArray.size(), false, timeout)) {
             GenericEepromLogger::warn("Failed to read: I2C write() returned err={} (timeout={} ms)",
                                       error.message(),
@@ -211,7 +212,7 @@ GenericEeprom::writePage(std::uint32_t address, const std::uint8_t* bytes, std::
     GenericEepromLogger::trace("Write page: address={:#x}, size={:#x}", address, size);
 
     auto [deviceAddress, writeAddress] = normalizeAddresses(m_address, address);
-    auto addressArray = utils::toBytesArray(utils::toBigEndian<std::uint16_t>(writeAddress));
+    auto addressArray = utils::bits::toBytesArray(utils::bits::toBigEndian<std::uint16_t>(writeAddress));
 
     GenericEepromLogger::trace("Normalized write: deviceAddress={:#x}, writeAddress={:#x}",
                                deviceAddress,
