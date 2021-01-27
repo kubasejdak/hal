@@ -37,7 +37,7 @@
 
 #include <osal/Mutex.hpp>
 #include <osal/Timeout.hpp>
-#include <utils/GlobalRegistry.hpp>
+#include <utils/registry/GlobalRegistry.hpp>
 
 #include <system_error>
 
@@ -235,6 +235,6 @@ private:
 };
 
 /// Represents GlobalRegistry of ISpi instances.
-using Registry = utils::GlobalRegistry<ISpi>;
+using Registry = utils::registry::GlobalRegistry<ISpi>;
 
 } // namespace hal::spi

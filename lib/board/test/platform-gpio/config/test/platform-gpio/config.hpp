@@ -32,12 +32,12 @@
 
 #pragma once
 
-#include <utils/property.hpp>
+#include <utils/types/property.hpp>
 
 ADD_PROPERTY_2(RaspberryPi, GpioA, "gpio0");
 
 namespace hal::config {
 
-constexpr auto cPlatformGpioA = utils::cPropertyValue<utils::PropertyType<MainBoard>, GpioA>;
+constexpr auto cPlatformGpioA = utils::types::cPropertyValue<utils::types::PropertyType<MainBoard>, GpioA>;
 
 } // namespace hal::config

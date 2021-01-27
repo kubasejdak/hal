@@ -22,5 +22,5 @@ target_link_libraries(test-platform-gpio-private
 )
 
 target_link_libraries(test-platform-gpio-config
-    INTERFACE utils::property
+    INTERFACE utils::types
 )

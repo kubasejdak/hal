@@ -37,7 +37,7 @@
 #include "hal/types.hpp"
 
 #include <osal/Timeout.hpp>
-#include <utils/GlobalRegistry.hpp>
+#include <utils/registry/GlobalRegistry.hpp>
 
 #include <system_error>
 
@@ -213,6 +213,6 @@ private:
 };
 
 /// Represents GlobalRegistry of IUart instances.
-using Registry = utils::GlobalRegistry<IUart>;
+using Registry = utils::registry::GlobalRegistry<IUart>;
 
 } // namespace hal::uart

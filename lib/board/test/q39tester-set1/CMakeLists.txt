@@ -22,5 +22,5 @@ target_link_libraries(test-q39tester-set1-private
 )
 
 target_link_libraries(test-q39tester-set1-config
-    INTERFACE utils::property
+    INTERFACE utils::types
 )

@@ -22,5 +22,5 @@ target_link_libraries(sbc-raspberrypi-private
 )
 
 target_link_libraries(sbc-raspberrypi-config
-    INTERFACE utils::property
+    INTERFACE utils::types
 )
