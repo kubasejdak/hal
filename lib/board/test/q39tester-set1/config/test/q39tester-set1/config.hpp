@@ -44,6 +44,7 @@ ADD_PROPERTY_2(RaspberryPi, Mcp23S17, (SpiConfig{"spi0.0", "gpio-stub", hal::gpi
 ADD_PROPERTY_2(RaspberryPi, Mcp23017, "i2c1");
 ADD_PROPERTY_2(RaspberryPi, GenericEeprom, "i2c1");
 ADD_PROPERTY_2(RaspberryPi, M41T82, "i2c1");
+ADD_PROPERTY_2(RaspberryPi, SHT3xDIS, "i2c1");
 
 namespace hal::config {
 
@@ -52,5 +53,6 @@ constexpr auto cQ39TesterSet1Mcp23S17 = utils::types::cPropertyValue<MainBoardTy
 constexpr auto cQ39TesterSet1Mcp23017 = utils::types::cPropertyValue<MainBoardType, Mcp23017>;
 constexpr auto cQ39TesterSet1GenericEeprom = utils::types::cPropertyValue<MainBoardType, GenericEeprom>;
 constexpr auto cQ39TesterSet1M41T82 = utils::types::cPropertyValue<MainBoardType, M41T82>;
+constexpr auto cQ39TesterSet1SHT3xDIS = utils::types::cPropertyValue<MainBoardType, SHT3xDIS>;
 
 } // namespace hal::config

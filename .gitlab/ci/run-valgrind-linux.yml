@@ -86,3 +86,15 @@ RtcSet1_Linux_ARM_Valgrind:
   variables:
     AppArtifact: "RtcSet1_Linux_ARM_GCC_Debug_Build"
     App: "rtc-set1"
+
+SensorSet1_Linux_ARM_Valgrind:
+  extends: .Run_Valgrind_Linux_ARM
+  tags:
+    - raspberrypi
+    - q39tester
+    - sht3x-dis
+  needs:
+    - SensorSet1_Linux_ARM_GCC_Debug_Build
+  variables:
+    AppArtifact: "SensorSet1_Linux_ARM_GCC_Debug_Build"
+    App: "sensor-set1"

@@ -4,7 +4,7 @@
 /// @author Kuba Sejdak
 /// @copyright BSD 2-Clause License
 ///
-/// Copyright (c) 2020-2021, Kuba Sejdak <kuba.sejdak@gmail.com>
+/// Copyright (c) 2021-2021, Kuba Sejdak <kuba.sejdak@gmail.com>
 /// All rights reserved.
 ///
 /// Redistribution and use in source and binary forms, with or without
@@ -30,60 +30,36 @@
 ///
 /////////////////////////////////////////////////////////////////////////////////////
 
-#pragma once
+#define CATCH_CONFIG_RUNNER
+#define CATCH_CONFIG_DEFAULT_REPORTER "verbose" // NOLINT
 
-#include <utils/logger/Logger.hpp>
+#include "VerboseReporter.hpp"
+#include "platformInit.hpp"
 
-#ifdef NDEBUG
-constexpr auto cDefaultLogLevel = spdlog::level::off;
+#include <osal/init.hpp>
+
+#include <catch2/catch.hpp>
+
+#include <cstdlib>
+
+// NOLINTNEXTLINE
+int appMain(int argc, char* argv[])
+{
+    if (!platformInit())
+        return EXIT_FAILURE;
+
+    if (!osal::init())
+        return EXIT_FAILURE;
+
+#ifdef TEST_TAGS
+    (void) argc;
+
+    std::array<char*, 2> argvTags{};
+    argvTags[0] = argv[0];
+    argvTags[1] = const_cast<char*>(TEST_TAGS);
+
+    return Catch::Session().run(argvTags.size(), argvTags.data());
 #else
-constexpr auto cDefaultLogLevel = spdlog::level::err;
+    return Catch::Session().run(argc, argv);
 #endif
-
-namespace hal {
-namespace gpio {
-
-REGISTER_LOGGER(LinuxGpioLogger, "LinuxGpio", cDefaultLogLevel);
-REGISTER_LOGGER(Mcp23x17Logger, "IMcp23x17", cDefaultLogLevel);
-REGISTER_LOGGER(Mcp23S17Logger, "Mcp23S17", cDefaultLogLevel);
-REGISTER_LOGGER(Mcp23017Logger, "Mcp23017", cDefaultLogLevel);
-
-} // namespace gpio
-
-namespace i2c {
-
-REGISTER_LOGGER(I2cLogger, "I2C", cDefaultLogLevel);
-
-} // namespace i2c
-
-namespace sensor {
-
-REGISTER_LOGGER(Sht3xLogger, "SHT3x-DIS", cDefaultLogLevel);
-
-} // namespace sensor
-
-namespace spi {
-
-REGISTER_LOGGER(SpiLogger, "SPI", cDefaultLogLevel);
-
-} // namespace spi
-
-namespace storage {
-
-REGISTER_LOGGER(GenericEepromLogger, "GenericEeprom", cDefaultLogLevel);
-
-} // namespace storage
-
-namespace time {
-
-REGISTER_LOGGER(M41T82Logger, "M41T82", cDefaultLogLevel);
-REGISTER_LOGGER(RtcLogger, "RTC", cDefaultLogLevel);
-
-} // namespace time
-
-namespace uart {
-
-REGISTER_LOGGER(LinuxUartLogger, "LinuxUart", cDefaultLogLevel);
-
-} // namespace uart
-} // namespace hal
+}

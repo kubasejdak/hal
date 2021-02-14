@@ -4,7 +4,7 @@
 /// @author Kuba Sejdak
 /// @copyright BSD 2-Clause License
 ///
-/// Copyright (c) 2020-2021, Kuba Sejdak <kuba.sejdak@gmail.com>
+/// Copyright (c) 2021-2021, Kuba Sejdak <kuba.sejdak@gmail.com>
 /// All rights reserved.
 ///
 /// Redistribution and use in source and binary forms, with or without
@@ -32,58 +32,33 @@
 
 #pragma once
 
-#include <utils/logger/Logger.hpp>
+#include "Sht3xDisSensor.hpp"
+#include "hal/sensor/ITemperatureSensor.hpp"
 
-#ifdef NDEBUG
-constexpr auto cDefaultLogLevel = spdlog::level::off;
-#else
-constexpr auto cDefaultLogLevel = spdlog::level::err;
-#endif
+#include <memory>
+#include <system_error>
 
-namespace hal {
-namespace gpio {
+namespace hal::sensor {
 
-REGISTER_LOGGER(LinuxGpioLogger, "LinuxGpio", cDefaultLogLevel);
-REGISTER_LOGGER(Mcp23x17Logger, "IMcp23x17", cDefaultLogLevel);
-REGISTER_LOGGER(Mcp23S17Logger, "Mcp23S17", cDefaultLogLevel);
-REGISTER_LOGGER(Mcp23017Logger, "Mcp23017", cDefaultLogLevel);
+/// Represents the SHT3x-DIS driver of the ITemperatureSensor interface.
+class Sht3xDisTemperature : public ITemperatureSensor {
+public:
+    /// Constructor.
+    /// @param sensor               Sensor which will provide the measurements.
+    explicit Sht3xDisTemperature(std::shared_ptr<Sht3xDisSensor> sensor);
 
-} // namespace gpio
+    /// @see ITemperatureSensor::minValue().
+    [[nodiscard]] float minValue() const override { return -40.0F; } // NOLINT
 
-namespace i2c {
+    /// @see ITemperatureSensor::maxValue().
+    [[nodiscard]] float maxValue() const override { return 125.0F; } // NOLINT
 
-REGISTER_LOGGER(I2cLogger, "I2C", cDefaultLogLevel);
+private:
+    /// @see ITemperatureSensor::drvRead().
+    std::error_code drvRead(float& temperature) override;
 
-} // namespace i2c
+private:
+    std::shared_ptr<Sht3xDisSensor> m_sensor;
+};
 
-namespace sensor {
-
-REGISTER_LOGGER(Sht3xLogger, "SHT3x-DIS", cDefaultLogLevel);
-
-} // namespace sensor
-
-namespace spi {
-
-REGISTER_LOGGER(SpiLogger, "SPI", cDefaultLogLevel);
-
-} // namespace spi
-
-namespace storage {
-
-REGISTER_LOGGER(GenericEepromLogger, "GenericEeprom", cDefaultLogLevel);
-
-} // namespace storage
-
-namespace time {
-
-REGISTER_LOGGER(M41T82Logger, "M41T82", cDefaultLogLevel);
-REGISTER_LOGGER(RtcLogger, "RTC", cDefaultLogLevel);
-
-} // namespace time
-
-namespace uart {
-
-REGISTER_LOGGER(LinuxUartLogger, "LinuxUart", cDefaultLogLevel);
-
-} // namespace uart
-} // namespace hal
+} // namespace hal::sensor
