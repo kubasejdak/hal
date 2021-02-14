@@ -18,7 +18,7 @@ target_link_libraries(test-q39tester-set1-public
 
 target_link_libraries(test-q39tester-set1-private
     PUBLIC test-q39tester-set1-public hal-public
-    PRIVATE hal-private product-config gpio-mcp23x17 eeprom-generic rtc-m41t82
+    PRIVATE hal-private product-config gpio-mcp23x17 eeprom-generic rtc-m41t82 sensor-sht3xdis
 )
 
 target_link_libraries(test-q39tester-set1-config

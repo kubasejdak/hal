@@ -83,3 +83,12 @@ RtcSet1_Coverage:
     - m41t82
   variables:
     App: "q39tester/rtc-set1"
+
+SensorSet1_Coverage:
+  extends: .Linux_ARM_GCC_Coverage
+  tags:
+    - raspberrypi
+    - q39tester
+    - sht3x-dis
+  variables:
+    App: "q39tester/sensor-set1"

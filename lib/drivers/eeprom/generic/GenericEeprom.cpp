@@ -92,6 +92,7 @@ GenericEeprom::GenericEeprom(std::shared_ptr<i2c::II2c> i2c,
     GenericEepromLogger::info("  address        : {:#x}", address);
     GenericEepromLogger::info("  size           : {:#x}", getSize());
     GenericEepromLogger::info("  pageSize       : {:#x}", getPageSize());
+    GenericEepromLogger::info("  writeDelay     : {} ms", writeDelay.count());
 }
 
 GenericEeprom::~GenericEeprom()

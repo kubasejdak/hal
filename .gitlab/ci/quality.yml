@@ -76,6 +76,11 @@ RtcSet1_Linux_ARM_Clang_Tidy:
   variables:
     App: "q39tester/rtc-set1"
 
+SensorSet1_Linux_ARM_Clang_Tidy:
+  extends: .Clang_Tidy_Linux_ARM
+  variables:
+    App: "q39tester/sensor-set1"
+
 Coverage_Total:
   stage: quality
   only:
@@ -90,6 +95,7 @@ Coverage_Total:
     - PlatformGpio_Coverage
     - PlatformUart_Coverage
     - RtcSet1_Coverage
+    - SensorSet1_Coverage
   artifacts:
     name: "${CI_JOB_NAME}_${CI_JOB_ID}"
     expire_in: 2 weeks
@@ -106,6 +112,7 @@ Coverage_Total:
            -a ../PlatformGpio_Coverage/coverage/coverage.info \
            -a ../PlatformUart_Coverage/coverage/coverage.info \
            -a ../RtcSet1_Coverage/coverage/coverage.info \
+           -a ../SensorSet1_Coverage/coverage/coverage.info \
            -o coverage.info
     - sed -i "s|SF:|SF:${CI_PROJECT_DIR}/|g" coverage.info
     - genhtml coverage.info -o html

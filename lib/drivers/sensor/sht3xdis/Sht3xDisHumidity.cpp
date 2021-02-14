@@ -4,7 +4,7 @@
 /// @author Kuba Sejdak
 /// @copyright BSD 2-Clause License
 ///
-/// Copyright (c) 2020-2021, Kuba Sejdak <kuba.sejdak@gmail.com>
+/// Copyright (c) 2021-2021, Kuba Sejdak <kuba.sejdak@gmail.com>
 /// All rights reserved.
 ///
 /// Redistribution and use in source and binary forms, with or without
@@ -30,60 +30,24 @@
 ///
 /////////////////////////////////////////////////////////////////////////////////////
 
-#pragma once
+#include "Sht3xDisHumidity.hpp"
 
-#include <utils/logger/Logger.hpp>
+#include <utility>
 
-#ifdef NDEBUG
-constexpr auto cDefaultLogLevel = spdlog::level::off;
-#else
-constexpr auto cDefaultLogLevel = spdlog::level::err;
-#endif
+namespace hal::sensor {
 
-namespace hal {
-namespace gpio {
+Sht3xDisHumidity::Sht3xDisHumidity(std::shared_ptr<Sht3xDisSensor> sensor)
+    : m_sensor(std::move(sensor))
+{}
 
-REGISTER_LOGGER(LinuxGpioLogger, "LinuxGpio", cDefaultLogLevel);
-REGISTER_LOGGER(Mcp23x17Logger, "IMcp23x17", cDefaultLogLevel);
-REGISTER_LOGGER(Mcp23S17Logger, "Mcp23S17", cDefaultLogLevel);
-REGISTER_LOGGER(Mcp23017Logger, "Mcp23017", cDefaultLogLevel);
+std::error_code Sht3xDisHumidity::drvRead(float& relativeHumidity)
+{
+    Sht3xMeasurement measurement{};
+    auto error = m_sensor->getMeasurement(measurement);
+    if (!error)
+        relativeHumidity = measurement.relativeHumidity;
 
-} // namespace gpio
+    return error;
+}
 
-namespace i2c {
-
-REGISTER_LOGGER(I2cLogger, "I2C", cDefaultLogLevel);
-
-} // namespace i2c
-
-namespace sensor {
-
-REGISTER_LOGGER(Sht3xLogger, "SHT3x-DIS", cDefaultLogLevel);
-
-} // namespace sensor
-
-namespace spi {
-
-REGISTER_LOGGER(SpiLogger, "SPI", cDefaultLogLevel);
-
-} // namespace spi
-
-namespace storage {
-
-REGISTER_LOGGER(GenericEepromLogger, "GenericEeprom", cDefaultLogLevel);
-
-} // namespace storage
-
-namespace time {
-
-REGISTER_LOGGER(M41T82Logger, "M41T82", cDefaultLogLevel);
-REGISTER_LOGGER(RtcLogger, "RTC", cDefaultLogLevel);
-
-} // namespace time
-
-namespace uart {
-
-REGISTER_LOGGER(LinuxUartLogger, "LinuxUart", cDefaultLogLevel);
-
-} // namespace uart
-} // namespace hal
+} // namespace hal::sensor

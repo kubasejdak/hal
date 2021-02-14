@@ -2,6 +2,7 @@ set(MODULES
     eeprom
     gpio
     rtc
+    sensor
 )
 
 foreach (MODULE IN LISTS MODULES)

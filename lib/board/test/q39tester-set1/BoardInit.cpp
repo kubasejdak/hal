@@ -35,6 +35,9 @@
 #include "Mcp23017.hpp"
 #include "Mcp23S17.hpp"
 #include "Mcp23x17Common.hpp"
+#include "Sht3xDisHumidity.hpp"
+#include "Sht3xDisSensor.hpp"
+#include "Sht3xDisTemperature.hpp"
 #include "hal/Board.hpp"
 #include "hal/Error.hpp"
 #include "hal/gpio/GpioPort.hpp"
@@ -211,12 +214,25 @@ static void initRtc(std::map<device_id::Q39TesterSet1Id, std::shared_ptr<Device>
     // clang-format on
 }
 
+static void initSensor(std::map<device_id::Q39TesterSet1Id, std::shared_ptr<Device>>& devices)
+{
+    // clang-format off
+    auto i2c = i2c::Registry::get(config::cQ39TesterSet1SHT3xDIS);
+    constexpr std::uint16_t cSensorAddr = 0x44;
+    auto sht3xdis = std::make_shared<sensor::Sht3xDisSensor>(i2c, cSensorAddr);
+
+    devices[device_id::eSht3xDisHumidity] = std::make_shared<sensor::Sht3xDisHumidity>(sht3xdis);
+    devices[device_id::eSht3xDisTemperature] = std::make_shared<sensor::Sht3xDisTemperature>(sht3xdis);
+    // clang-format on
+}
+
 template <>
 std::error_code Board<device_id::Q39TesterSet1Id>::initImpl()
 {
     initGpio(m_devices);
     initStorage(m_devices);
     initRtc(m_devices);
+    initSensor(m_devices);
 
     return Error::eOk;
 }

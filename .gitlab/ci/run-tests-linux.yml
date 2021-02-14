@@ -94,3 +94,15 @@ RtcSet1_Linux_ARM_UT:
   variables:
     AppArtifact: "RtcSet1_Linux_ARM_GCC_Debug_Build"
     App: "rtc-set1"
+
+SensorSet1_Linux_ARM_UT:
+  extends: .Run_Test_Linux_ARM
+  tags:
+    - raspberrypi
+    - q39tester
+    - sht3x-dis
+  needs:
+    - SensorSet1_Linux_ARM_GCC_Debug_Build
+  variables:
+    AppArtifact: "SensorSet1_Linux_ARM_GCC_Debug_Build"
+    App: "sensor-set1"
