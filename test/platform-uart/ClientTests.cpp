@@ -99,7 +99,8 @@ private:
             REQUIRE(!error);
 
             line += byte[0];
-        } while (byte[0] != '\n');
+        }
+        while (byte[0] != '\n');
 
         return line;
     }
@@ -221,13 +222,13 @@ private:
 
 class AsynchronousClient : public IUartClient {
 private:
-    void threadSender(int size)
+    void threadSender(std::size_t size)
     {
         SHA256 sha256;
         auto toSend = size;
         while (toSend != 0) {
-            constexpr int cMinPacketSize = 1;
-            constexpr int cMaxPacketSize = 32;
+            constexpr std::size_t cMinPacketSize = 1;
+            constexpr std::size_t cMaxPacketSize = 32;
             auto packetSize = std::min(generateRandomNumber<>(cMinPacketSize, cMaxPacketSize), toSend);
 
             hal::BytesVector sendData;
@@ -244,7 +245,7 @@ private:
         m_checksumSender = sha256.getHash();
     }
 
-    void threadReceiver(int size)
+    void threadReceiver(std::size_t size)
     {
         SHA256 sha256;
         auto toReceive = size;
@@ -264,8 +265,8 @@ private:
 
     void testCase() override
     {
-        constexpr int cMinDataSize = 1;
-        constexpr int cMaxDataSize = 16 * 1024;
+        constexpr std::size_t cMinDataSize = 1;
+        constexpr std::size_t cMaxDataSize = 16 * 1024;
         auto size = generateRandomNumber<>(cMinDataSize, cMaxDataSize);
 
         nlohmann::json request = {{"type", "data"}, {"size", size}};

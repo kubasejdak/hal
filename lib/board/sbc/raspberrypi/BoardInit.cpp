@@ -55,7 +55,7 @@ std::error_code Board<device_id::RaspberryPiId>::initImpl()
     // clang-format off
     auto cGpio0Lines      = {4, 5, 6, 12, 13, 16, 17, 18, 20, 21, 22, 23, 24, 25, 26, 27}; // NOLINT
     auto cGpio0Directions = {0, 0, 0,  1,  0,  1,  0,  1,  1,  1,  0,  1,  1,  1,  0,  0};
-    gpio::Registry<std::uint32_t>::init({{"gpio0", gpio::LinuxGpio("gpio0", "pinctrl-bcm2835", cGpio0Lines, cGpio0Directions)},
+    gpio::Registry<std::uint32_t>::init({{"gpio0", gpio::LinuxGpio("gpio0", "pinctrl-bcm2711", cGpio0Lines, cGpio0Directions)},
                                          {"gpio-stub", gpio::GpioPortStub<std::uint32_t>()}});
 
     spi::Registry::init({{"spi0.0", spi::LinuxSpi("/dev/spidev0.0")},

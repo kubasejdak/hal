@@ -7,7 +7,7 @@ for SRC_PATH in "$@"; do
     ALL_SOURCES=$(find "${SRC_PATH}" -iname "*.h" -o -iname "*.hpp" -o -iname "*.c" -o -iname "*.cpp")
     TO_CHECK_SOURCES=$(echo "${ALL_SOURCES}" | sed '/FreeRTOSConfig.h/d')
 
-    echo "${TO_CHECK_SOURCES}" | xargs clang-format-11 -style=file -fallback-style=none -i
+    echo "${TO_CHECK_SOURCES}" | xargs clang-format-12 -style=file -fallback-style=none -i
 done
 
 echo "Done."

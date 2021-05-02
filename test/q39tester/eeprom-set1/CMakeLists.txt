@@ -8,7 +8,7 @@ target_include_directories(appeeprom-set1
     PRIVATE .
 )
 
-conan_get(REQUIRES catch2/2.13.3)
+conan_get(REQUIRES catch2/2.13.6)
 find_package(Catch2 REQUIRED)
 
 target_compile_definitions(appeeprom-set1

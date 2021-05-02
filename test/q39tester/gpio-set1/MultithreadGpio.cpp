@@ -71,7 +71,8 @@ static void noiseThreadAFunc(bool& stop,
             osal::thread::yield();
             if (auto error = input->get(readValue))
                 REQUIRE(!error);
-        } while (!stop && (readValue != setValue));
+        }
+        while (!stop && (readValue != setValue));
 
         setValue = !setValue;
     }
@@ -105,7 +106,8 @@ static void noiseThreadBFunc(bool& stop,
             osal::thread::yield();
             if (auto error = input->get(readValue))
                 REQUIRE(!error);
-        } while (!stop && (readValue != expectedValue));
+        }
+        while (!stop && (readValue != expectedValue));
 
         if (auto error = output->set(expectedValue))
             REQUIRE(!error);
@@ -166,7 +168,8 @@ static void triggerThreadFunc(bool& stop,
                 REQUIRE((counter == expectedCounter || counter == prevCounter));
 
             osal::thread::yield();
-        } while (counter != expectedCounter);
+        }
+        while (counter != expectedCounter);
 
         if (isCounterOverflow(countUp, counter)) {
             countUp = !countUp;

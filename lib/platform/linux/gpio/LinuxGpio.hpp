@@ -94,8 +94,8 @@ private:
     static constexpr int m_cGpioOutput{0};
 
     gpiod_chip* m_chip;
-    std::map<int, gpiod_line*> m_lines;
-    std::map<int, int> m_directions;
+    std::map<unsigned int, gpiod_line*> m_lines;
+    std::map<unsigned int, unsigned int> m_directions;
 };
 
 } // namespace hal::gpio
