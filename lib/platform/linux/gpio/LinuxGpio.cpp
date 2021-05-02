@@ -82,11 +82,11 @@ LinuxGpio::LinuxGpio(std::string_view name,
 
 LinuxGpio::LinuxGpio(LinuxGpio&& other) noexcept
     : IGpioPort<std::uint32_t>(std::move(other))
+    , m_chip(other.m_chip)
+    , m_lines(std::move(other.m_lines))
+    , m_directions(std::move(other.m_directions))
 {
-    m_chip = other.m_chip;
     other.m_chip = nullptr;
-    m_lines = std::move(other.m_lines);
-    m_directions = std::move(other.m_directions);
 }
 
 LinuxGpio::~LinuxGpio()

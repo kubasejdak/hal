@@ -1,6 +1,6 @@
 Clang_Format:
   stage: quality
-  image: kubasejdak/clang:11
+  image: kubasejdak/clang:12
   tags:
     - linux
   needs: []
@@ -36,15 +36,15 @@ Clang_Format:
 
 .Clang_Tidy_Linux:
   extends: .Clang_Tidy
-  image: kubasejdak/clang:11
+  image: kubasejdak/clang:12
   variables:
-    Toolchain: "clang-11"
+    Toolchain: "clang-12"
 
 .Clang_Tidy_Linux_ARM:
   extends: .Clang_Tidy
-  image: kubasejdak/arm-linux-gnueabihf-clang:11
+  image: kubasejdak/arm-linux-gnueabihf-clang:12
   variables:
-    Toolchain: "arm-linux-gnueabihf-clang-11"
+    Toolchain: "arm-linux-gnueabihf-clang-12"
 
 EepromSet1_Linux_ARM_Clang_Tidy:
   extends: .Clang_Tidy_Linux_ARM
