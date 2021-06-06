@@ -36,10 +36,10 @@ function(add_lcov_coverage)
 
     add_custom_target(coverage
         COMMAND ${CMAKE_COMMAND} -E make_directory ${COVERAGE_OUTPUT_PATH}
-        COMMAND ${LCOV_BIN} -c -i -d . -o ${COVERAGE_OUTPUT_PATH}/base.info
-        COMMAND ${LCOV_BIN} -c -d . -o ${COVERAGE_OUTPUT_PATH}/coverage.info
-        COMMAND ${LCOV_BIN} -a ${COVERAGE_OUTPUT_PATH}/base.info -a ${COVERAGE_OUTPUT_PATH}/coverage.info -o ${COVERAGE_OUTPUT_PATH}/coverage.info
-        COMMAND ${LCOV_BIN} -r ${COVERAGE_OUTPUT_PATH}/coverage.info ${COVERAGE_IGNORE} -o ${COVERAGE_OUTPUT_PATH}/coverage.info
+        COMMAND ${LCOV_BIN} --gcov-tool ${CMAKE_GCOV} -c -i -d . -o ${COVERAGE_OUTPUT_PATH}/base.info
+        COMMAND ${LCOV_BIN} --gcov-tool ${CMAKE_GCOV} -c -d . -o ${COVERAGE_OUTPUT_PATH}/coverage.info
+        COMMAND ${LCOV_BIN} --gcov-tool ${CMAKE_GCOV} -a ${COVERAGE_OUTPUT_PATH}/base.info -a ${COVERAGE_OUTPUT_PATH}/coverage.info -o ${COVERAGE_OUTPUT_PATH}/coverage.info
+        COMMAND ${LCOV_BIN} --gcov-tool ${CMAKE_GCOV} -r ${COVERAGE_OUTPUT_PATH}/coverage.info ${COVERAGE_IGNORE} -o ${COVERAGE_OUTPUT_PATH}/coverage.info
     )
 
     add_custom_target(coverage-report
