@@ -5,7 +5,7 @@
 [Describe the environment (software & hardware) used when the bug happened.]
  
  - Project and pipeline/commit/tag: [e.g. osal/b02a2d7604cbebaa969cb96dbf5ff62bb25ce9c8, hal/v1.0.1]
- - Product: [e.g. DC33]
+ - Product: [e.g. Dashboard]
 
 ### How often does it happen?
 [e.g. It crashed 50% of times, 4/10 times, always, only once.]
