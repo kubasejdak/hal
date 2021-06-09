@@ -53,7 +53,7 @@ class LinuxGpio final : public IGpioPort<std::uint32_t> {
 public:
     /// Constructor.
     /// @param name                 Name of the GPIO instance handled by this object.
-    /// @param gpiochipName         Name of the GPIO chip (as seen by libgpiod) to be used by this object.
+    /// @param gpiochipName         Name of the GPIO chip (e.g. gpiochip0) to be used by this object.
     /// @param offsets              List of numerical identifiers of the GPIO lines handled by this object.
     /// @param directions           List of directions for each GPIO line handled by this object.
     LinuxGpio(std::string_view name,
