@@ -62,7 +62,7 @@ public:
     PinInput(std::shared_ptr<IGpioPort<WidthType>> port,
              Pin pin,
              bool negated = false,
-             SharingPolicy sharingPolicy = SharingPolicy::eSingle)
+             SharingPolicy sharingPolicy = SharingPolicy::eShared)
         : IPinInput(sharingPolicy)
         , m_port(std::move(port))
         , m_mask(WidthType{1} << static_cast<WidthType>(pin))

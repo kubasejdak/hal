@@ -66,7 +66,7 @@ public:
     PortInput(std::shared_ptr<IGpioPort<WidthTypeUnderlying>> port,
               WidthTypeUnderlying mask,
               ModifierCallback modifier = nullptr,
-              SharingPolicy sharingPolicy = SharingPolicy::eSingle)
+              SharingPolicy sharingPolicy = SharingPolicy::eShared)
         : IPortInput<WidthType>(sharingPolicy)
         , m_port(std::move(port))
         , m_mask(mask)
