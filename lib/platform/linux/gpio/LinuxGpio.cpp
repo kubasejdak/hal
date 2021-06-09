@@ -49,7 +49,7 @@ LinuxGpio::LinuxGpio(std::string_view name,
                      std::string_view gpiochipName,
                      const std::vector<int>& offsets,
                      const std::vector<int>& directions)
-    : m_chip(gpiod_chip_open_by_label(gpiochipName.data()))
+    : m_chip(gpiod_chip_open_by_name(gpiochipName.data()))
 {
     assert(m_chip != nullptr);
     assert(offsets.size() == directions.size());
