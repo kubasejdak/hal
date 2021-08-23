@@ -65,7 +65,7 @@ public:
     /// @note This constructor is deleted, because GenericEeprom is not meant to be copy-constructed.
     GenericEeprom(const GenericEeprom&) = delete;
 
-    /// Copy constructor.
+    /// Move constructor.
     /// @note This constructor is deleted, because GenericEeprom is not meant to be move-constructed.
     GenericEeprom(GenericEeprom&&) noexcept = delete;
 
