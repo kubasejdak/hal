@@ -8,10 +8,10 @@ target_include_directories(test-middleware-public
 )
 
 target_link_libraries(test-middleware-public
-    INTERFACE hal-public
+    INTERFACE hal::public
 )
 
 target_link_libraries(test-middleware-private
-    PUBLIC test-middleware-public hal-public
-    PRIVATE hal-private test-device
+    PUBLIC test-middleware-public hal::public
+    PRIVATE hal::private test-device
 )
