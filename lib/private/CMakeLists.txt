@@ -2,6 +2,7 @@ add_library(hal-private
     II2c.cpp
     ISpi.cpp
 )
+add_library(hal::private ALIAS hal-private)
 
 target_include_directories(hal-private
     PUBLIC include

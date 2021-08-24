@@ -7,6 +7,7 @@ add_library(hal-public EXCLUDE_FROM_ALL
     ITemperatureSensor.cpp
     IUart.cpp
 )
+add_library(hal::public ALIAS hal-public)
 
 target_include_directories(hal-public
     PUBLIC include

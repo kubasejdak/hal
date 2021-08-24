@@ -12,12 +12,12 @@ target_include_directories(test-uart-set1-public
 )
 
 target_link_libraries(test-uart-set1-public
-    INTERFACE hal-public
+    INTERFACE hal::public
 )
 
 if (PLATFORM STREQUAL linux)
     target_link_libraries(test-uart-set1-private
-        PUBLIC test-uart-set1-public hal-public
-        PRIVATE hal-private uart
+        PUBLIC test-uart-set1-public hal::public
+        PRIVATE hal::private hal::uart
     )
 endif ()
