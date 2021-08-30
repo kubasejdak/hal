@@ -6,13 +6,12 @@ Clang_Format:
   needs: []
   script:
     - tools/check-clang-format.sh lib test
+    - git diff --color > clang-format.patch
     - |
-      git update-index -q --refresh
-      git diff-index --quiet HEAD
-      if [ ${?} -ne 0 ]; then
-          echo "The following bad source code formatting was detected:"
-          git --no-pager diff
-          exit 1
+      if [[ `wc -l < clang-format.patch` != "0" ]]; then
+        cat clang-format.patch
+        git checkout -- .
+        exit 1
       fi
 
 .Clang_Tidy:

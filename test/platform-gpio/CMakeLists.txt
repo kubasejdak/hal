@@ -9,7 +9,7 @@ target_include_directories(appplatform-gpio
     PRIVATE .
 )
 
-conan_get(REQUIRES catch2/2.13.6)
+conan_get(REQUIRES catch2/2.13.7)
 find_package(Catch2 REQUIRED)
 
 target_compile_definitions(appplatform-gpio

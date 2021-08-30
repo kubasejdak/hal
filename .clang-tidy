@@ -1,7 +1,7 @@
 ---
 Checks:                '*,
                         -*-vararg,
-                        -altera-struct-pack-align,
+                        -altera-*,
                         -concurrency-mt-unsafe,
                         -cppcoreguidelines-pro-bounds-array-to-pointer-decay,
                         -cppcoreguidelines-pro-bounds-constant-array-index,
