@@ -8,7 +8,7 @@ target_include_directories(appplatform-uart
     PRIVATE .
 )
 
-conan_get(REQUIRES catch2/2.13.6 nlohmann_json/3.9.1)
+conan_get(REQUIRES catch2/2.13.7 nlohmann_json/3.10.2)
 find_package(Catch2 REQUIRED)
 find_package(nlohmann_json REQUIRED)
 

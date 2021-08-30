@@ -11,9 +11,9 @@ stages:
   - deploy
 
 include:
-  - "/.gitlab/ci/build-tests-linux.yml"
+  - "/.gitlab/ci/build-linux.yml"
   - "/.gitlab/ci/coverage-linux.yml"
   - "/.gitlab/ci/deploy.yml"
   - "/.gitlab/ci/quality.yml"
-  - "/.gitlab/ci/run-tests-linux.yml"
-  - "/.gitlab/ci/run-valgrind-linux.yml"
+  - "/.gitlab/ci/test-linux.yml"
+  - "/.gitlab/ci/valgrind-linux.yml"
