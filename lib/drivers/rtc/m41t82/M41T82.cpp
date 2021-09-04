@@ -30,7 +30,7 @@
 ///
 /////////////////////////////////////////////////////////////////////////////////////
 
-#include "M41T82.hpp"
+#include "hal/time/M41T82.hpp"
 
 #include "hal/Error.hpp"
 #include "hal/i2c/ScopedI2c.hpp"

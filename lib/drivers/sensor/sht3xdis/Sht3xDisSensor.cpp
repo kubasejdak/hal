@@ -30,7 +30,7 @@
 ///
 /////////////////////////////////////////////////////////////////////////////////////
 
-#include "Sht3xDisSensor.hpp"
+#include "hal/sensor/Sht3xDisSensor.hpp"
 
 #include "hal/i2c/ScopedI2c.hpp"
 #include "hal/utils/logger.hpp"

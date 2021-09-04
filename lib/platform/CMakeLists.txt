@@ -1,1 +1,1 @@
-add_subdirectory(${HAL_PLATFORM})
+add_subdirectory(${HAL_PLATFORM}/lib)

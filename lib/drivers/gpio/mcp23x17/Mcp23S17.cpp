@@ -30,7 +30,7 @@
 ///
 /////////////////////////////////////////////////////////////////////////////////////
 
-#include "Mcp23S17.hpp"
+#include "hal/gpio/Mcp23S17.hpp"
 
 #include "hal/Error.hpp"
 #include "hal/spi/ScopedSpi.hpp"

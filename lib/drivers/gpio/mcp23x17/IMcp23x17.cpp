@@ -30,7 +30,7 @@
 ///
 /////////////////////////////////////////////////////////////////////////////////////
 
-#include "IMcp23x17.hpp"
+#include "hal/gpio/IMcp23x17.hpp"
 
 #include "hal/Error.hpp"
 #include "hal/utils/logger.hpp"
