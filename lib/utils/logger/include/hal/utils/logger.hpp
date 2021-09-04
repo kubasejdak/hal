@@ -43,30 +43,17 @@ constexpr auto cDefaultLogLevel = spdlog::level::err;
 namespace hal {
 namespace gpio {
 
-REGISTER_LOGGER(LinuxGpioLogger, "LinuxGpio", cDefaultLogLevel);
 REGISTER_LOGGER(Mcp23x17Logger, "IMcp23x17", cDefaultLogLevel);
 REGISTER_LOGGER(Mcp23S17Logger, "Mcp23S17", cDefaultLogLevel);
 REGISTER_LOGGER(Mcp23017Logger, "Mcp23017", cDefaultLogLevel);
 
 } // namespace gpio
 
-namespace i2c {
-
-REGISTER_LOGGER(I2cLogger, "I2C", cDefaultLogLevel);
-
-} // namespace i2c
-
 namespace sensor {
 
 REGISTER_LOGGER(Sht3xLogger, "SHT3x-DIS", cDefaultLogLevel);
 
 } // namespace sensor
-
-namespace spi {
-
-REGISTER_LOGGER(SpiLogger, "SPI", cDefaultLogLevel);
-
-} // namespace spi
 
 namespace storage {
 
@@ -77,13 +64,6 @@ REGISTER_LOGGER(GenericEepromLogger, "GenericEeprom", cDefaultLogLevel);
 namespace time {
 
 REGISTER_LOGGER(M41T82Logger, "M41T82", cDefaultLogLevel);
-REGISTER_LOGGER(RtcLogger, "RTC", cDefaultLogLevel);
 
 } // namespace time
-
-namespace uart {
-
-REGISTER_LOGGER(LinuxUartLogger, "LinuxUart", cDefaultLogLevel);
-
-} // namespace uart
 } // namespace hal
