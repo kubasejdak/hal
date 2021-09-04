@@ -1,21 +1,25 @@
-add_library(board-public INTERFACE)
-add_library(board-private INTERFACE)
-add_library(board-config INTERFACE)
+add_library(hal-board-interface INTERFACE)
+add_library(hal::board-interface ALIAS hal-board-interface)
+add_library(hal-board INTERFACE)
+add_library(hal::board ALIAS hal-board)
+add_library(hal-board-config INTERFACE)
+add_library(hal::board-config ALIAS hal-board-config)
+
+target_include_directories(hal-board-interface
+    INTERFACE include
+)
 
 foreach (BOARD_PATH IN LISTS HAL_BOARDS)
     add_subdirectory(${BOARD_PATH})
 
     string(REPLACE "/" "-" BOARD "${BOARD_PATH}")
-    target_link_libraries(board-public
-        INTERFACE ${BOARD}-public
-    )
-    target_link_libraries(board-private
-        INTERFACE ${BOARD}-private
+    target_link_libraries(hal-board
+        INTERFACE hal::${BOARD}
     )
 
-    if (TARGET ${BOARD}-config)
-        target_link_libraries(board-config
-            INTERFACE ${BOARD}-config
+    if (TARGET hal::${BOARD}-config)
+        target_link_libraries(hal-board-config
+            INTERFACE hal::${BOARD}-config
         )
     endif ()
 endforeach ()

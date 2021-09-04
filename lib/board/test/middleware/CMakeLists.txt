@@ -1,17 +1,13 @@
-add_library(test-middleware-public INTERFACE)
-add_library(test-middleware-private EXCLUDE_FROM_ALL
+add_library(hal-test-middleware EXCLUDE_FROM_ALL
     BoardInit.cpp
 )
+add_library(hal::test-middleware ALIAS hal-test-middleware)
 
-target_include_directories(test-middleware-public
-    INTERFACE include
+target_include_directories(hal-test-middleware
+    PUBLIC include
 )
 
-target_link_libraries(test-middleware-public
-    INTERFACE hal::public
-)
-
-target_link_libraries(test-middleware-private
-    PUBLIC test-middleware-public hal::public
-    PRIVATE hal::private test-device
+target_link_libraries(hal-test-middleware
+    PUBLIC hal::interfaces
+    PRIVATE hal::board-interface hal::test-device
 )

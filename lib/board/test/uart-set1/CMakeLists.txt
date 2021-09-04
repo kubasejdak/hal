@@ -1,23 +1,19 @@
-add_library(test-uart-set1-public INTERFACE)
-add_library(test-uart-set1-private EXCLUDE_FROM_ALL)
+add_library(hal-test-uart-set1 EXCLUDE_FROM_ALL)
+add_library(hal::test-uart-set1 ALIAS hal-test-uart-set1)
 
 if (PLATFORM STREQUAL linux)
-    target_sources(test-uart-set1-private
+    target_sources(hal-test-uart-set1
         PRIVATE BoardInit.cpp
     )
 endif ()
 
-target_include_directories(test-uart-set1-public
-    INTERFACE include
-)
-
-target_link_libraries(test-uart-set1-public
-    INTERFACE hal::public
+target_include_directories(hal-test-uart-set1
+    PUBLIC include
 )
 
 if (PLATFORM STREQUAL linux)
-    target_link_libraries(test-uart-set1-private
-        PUBLIC test-uart-set1-public hal::public
-        PRIVATE hal::private hal::uart
+    target_link_libraries(hal-test-uart-set1
+        PUBLIC hal::interfaces
+        PRIVATE hal::board-interface hal::uart
     )
 endif ()

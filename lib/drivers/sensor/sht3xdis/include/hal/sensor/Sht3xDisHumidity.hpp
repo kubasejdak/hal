@@ -4,7 +4,7 @@
 /// @author Kuba Sejdak
 /// @copyright BSD 2-Clause License
 ///
-/// Copyright (c) 2020-2021, Kuba Sejdak <kuba.sejdak@gmail.com>
+/// Copyright (c) 2021-2021, Kuba Sejdak <kuba.sejdak@gmail.com>
 /// All rights reserved.
 ///
 /// Redistribution and use in source and binary forms, with or without
@@ -30,50 +30,29 @@
 ///
 /////////////////////////////////////////////////////////////////////////////////////
 
-#include "hal/Board.hpp"
-#include "hal/Error.hpp"
-#include "hal/gpio/GpioPortStub.hpp"
-#include "hal/gpio/LinuxGpio.hpp"
-#include "hal/i2c/LinuxI2c.hpp"
-#include "hal/spi/LinuxSpi.hpp"
-#include "sbc/raspberrypi/DeviceId.hpp"
+#pragma once
 
-namespace hal {
-namespace detail {
+#include "hal/sensor/IHumiditySensor.hpp"
+#include "hal/sensor/Sht3xDisSensor.hpp"
 
-template <>
-std::shared_ptr<Device> getDeviceImpl<device_id::RaspberryPiId>(device_id::RaspberryPiId id)
-{
-    return CurrentBoardVersion<device_id::RaspberryPiId>::get()->getDevice(id);
-}
+#include <memory>
+#include <system_error>
 
-} // namespace detail
+namespace hal::sensor {
 
-template <>
-std::error_code Board<device_id::RaspberryPiId>::initImpl()
-{
-    // clang-format off
-    auto cGpio0Lines      = {4, 5, 6, 12, 13, 16, 17, 18, 20, 21, 22, 23, 24, 25, 26, 27}; // NOLINT
-    auto cGpio0Directions = {0, 0, 0,  1,  0,  1,  0,  1,  1,  1,  0,  1,  1,  1,  0,  0};
-    gpio::Registry<std::uint32_t>::init({{"gpio0", gpio::LinuxGpio("gpio0", "gpiochip0", cGpio0Lines, cGpio0Directions)},
-                                         {"gpio-stub", gpio::GpioPortStub<std::uint32_t>()}});
+/// Represents the SHT3x-DIS driver of the IHumiditySensor interface.
+class Sht3xDisHumidity : public IHumiditySensor {
+public:
+    /// Constructor.
+    /// @param sensor               Sensor which will provide the measurements.
+    explicit Sht3xDisHumidity(std::shared_ptr<Sht3xDisSensor> sensor);
 
-    spi::Registry::init({{"spi0.0", spi::LinuxSpi("/dev/spidev0.0")},
-                         {"spi0.1", spi::LinuxSpi("/dev/spidev0.1")}});
-    i2c::Registry::init({{"i2c1", i2c::LinuxI2c("/dev/i2c-1")}});
-    // clang-format on
+private:
+    /// @see IHumiditySensor::drvRead().
+    std::error_code drvRead(float& relativeHumidity) override;
 
-    return Error::eOk;
-}
+private:
+    std::shared_ptr<Sht3xDisSensor> m_sensor;
+};
 
-template <>
-std::error_code Board<device_id::RaspberryPiId>::deinitImpl()
-{
-    i2c::Registry::clear();
-    spi::Registry::clear();
-    gpio::Registry<std::uint32_t>::clear();
-
-    return Error::eOk;
-}
-
-} // namespace hal
+} // namespace hal::sensor

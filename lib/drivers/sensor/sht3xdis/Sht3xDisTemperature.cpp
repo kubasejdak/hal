@@ -30,7 +30,7 @@
 ///
 /////////////////////////////////////////////////////////////////////////////////////
 
-#include "Sht3xDisTemperature.hpp"
+#include "hal/sensor/Sht3xDisTemperature.hpp"
 
 #include <utility>
 

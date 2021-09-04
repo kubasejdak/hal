@@ -30,9 +30,9 @@
 ///
 /////////////////////////////////////////////////////////////////////////////////////
 
-#include <TestDevice.hpp>
 #include <hal/Hardware.hpp>
 #include <hal/factory.hpp>
+#include <hal/test/TestDevice.hpp>
 
 #include <catch2/catch.hpp>
 

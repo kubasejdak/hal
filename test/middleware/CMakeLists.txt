@@ -24,5 +24,5 @@ target_compile_definitions(Catch2::Catch2
 
 target_link_libraries(appmiddleware
     PUBLIC platform-init
-    PRIVATE Catch2::Catch2 osal::cpp hal test-device
+    PRIVATE Catch2::Catch2 osal::cpp hal hal::test-device
 )

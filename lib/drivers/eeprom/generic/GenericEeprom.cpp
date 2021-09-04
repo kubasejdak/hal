@@ -30,7 +30,7 @@
 ///
 /////////////////////////////////////////////////////////////////////////////////////
 
-#include "GenericEeprom.hpp"
+#include "hal/storage/GenericEeprom.hpp"
 
 #include "hal/Error.hpp"
 #include "hal/i2c/ScopedI2c.hpp"

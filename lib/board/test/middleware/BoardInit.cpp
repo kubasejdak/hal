@@ -30,9 +30,9 @@
 ///
 /////////////////////////////////////////////////////////////////////////////////////
 
-#include "TestDevice.hpp"
 #include "hal/Board.hpp"
 #include "hal/Error.hpp"
+#include "hal/test/TestDevice.hpp"
 #include "middleware/DeviceId.hpp"
 
 namespace hal {

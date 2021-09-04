@@ -6,10 +6,10 @@ add_library(hal-sensor-sht3xdis EXCLUDE_FROM_ALL
 add_library(hal::sensor-sht3xdis ALIAS hal-sensor-sht3xdis)
 
 target_include_directories(hal-sensor-sht3xdis
-    PUBLIC .
+    PUBLIC include
 )
 
 target_link_libraries(hal-sensor-sht3xdis
-    PUBLIC hal::public hal::private osal::cpp
+    PUBLIC hal::interfaces osal::cpp
     PRIVATE hal::logger
 )

@@ -30,7 +30,7 @@
 ///
 /////////////////////////////////////////////////////////////////////////////////////
 
-#include "Mcp23017.hpp"
+#include "hal/gpio/Mcp23017.hpp"
 
 #include "hal/Error.hpp"
 #include "hal/i2c/ScopedI2c.hpp"

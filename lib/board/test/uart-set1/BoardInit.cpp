@@ -30,10 +30,10 @@
 ///
 /////////////////////////////////////////////////////////////////////////////////////
 
-#include "LinuxUart.hpp"
 #include "hal/Board.hpp"
 #include "hal/Error.hpp"
 #include "hal/uart/IUart.hpp"
+#include "hal/uart/LinuxUart.hpp"
 #include "test/uart-set1/DeviceId.hpp"
 
 namespace hal {
