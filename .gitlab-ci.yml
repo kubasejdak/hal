@@ -1,6 +1,26 @@
 variables:
   GIT_SUBMODULE_STRATEGY: recursive
 
+.Submodule_Checkout:
+  variables:
+    GIT_DEPTH: 0
+  before_script:
+    - |
+      if [ "${CI_PIPELINE_SOURCE}" == "pipeline" ]; then
+          if [ "${TRIGGER_SOURCE_PROJECT}" == "embeddedlinux/libs/hal-interfaces" ]; then
+              SUBMODULE_PATH="lib/interfaces"
+          elif [ "${TRIGGER_SOURCE_PROJECT}" == "embeddedlinux/libs/hal-boards" ]; then
+              SUBMODULE_PATH="lib/boards"
+          elif [ "${TRIGGER_SOURCE_PROJECT}" == "embeddedlinux/libs/hal-linux" ]; then
+              SUBMODULE_PATH="lib/platform/linux"
+          fi
+
+          cd ${SUBMODULE_PATH}
+          echo "Checking out: ${SUBMODULE_PATH} ${TRIGGER_SOURCE_COMMIT}"
+          git checkout ${TRIGGER_SOURCE_COMMIT}
+          cd -
+      fi
+
 stages:
   - build-GCC
   - build-Clang

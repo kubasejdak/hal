@@ -11,7 +11,7 @@
   extends: .Run_Test
   image: kubasejdak/gcc:latest
   tags:
-    - linux
+    - cet_build
 
 .Run_Test_Linux_ARM:
   extends: .Run_Test

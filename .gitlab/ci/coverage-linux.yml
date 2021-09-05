@@ -1,4 +1,5 @@
 .Linux_Coverage:
+  extends: .Submodule_Checkout
   stage: coverage
   only:
     - master
@@ -33,7 +34,7 @@
   extends: .Linux_Coverage
   image: kubasejdak/gcc:latest
   tags:
-    - linux
+    - cet_build
   variables:
     Toolchain: "gcc-11"
 
