@@ -11,7 +11,7 @@
   extends: .Run_Valgrind
   image: kubasejdak/gcc:latest
   tags:
-    - linux
+    - cet_build
 
 .Run_Valgrind_Linux_ARM:
   extends: .Run_Valgrind

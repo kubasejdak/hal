@@ -4,7 +4,7 @@ pages:
     - master
   image: kubasejdak/gcc:latest
   tags:
-    - linux
+    - cet_build
   needs:
     - Coverage_Total
   artifacts:
