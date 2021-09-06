@@ -1,9 +1,7 @@
 pages:
   stage: deploy
   rules:
-    - if: $CI_COMMIT_BRANCH == ${CI_DEFAULT_BRANCH} || $CI_COMMIT_BRANCH == "develop"
-#  rules:
-#    - if: '${CI_COMMIT_REF_NAME} == ${CI_DEFAULT_BRANCH}'
+    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE" == "pipeline"
   image: kubasejdak/gcc:latest
   tags:
     - cet_build
