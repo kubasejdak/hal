@@ -20,7 +20,7 @@ Clang_Format:
   extends: .Submodule_Checkout
   stage: quality
   tags:
-    - linux
+    - cet_build
   needs: []
   artifacts:
     name: "${CI_JOB_NAME}_${CI_JOB_ID}"
@@ -85,8 +85,8 @@ SensorSet1_Linux_ARM_Clang_Tidy:
 
 Coverage_Total:
   stage: quality
-  only:
-    - master
+  rules:
+    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE != "pipeline"
   image: kubasejdak/gcc:latest
   tags:
     - cet_build
