@@ -6,9 +6,9 @@ Clang_Format:
     - cet_build
   needs: []
   script:
+    - git add .
     - tools/check-clang-format.sh lib test
     - git diff --color > clang-format.patch
-    - sed -i '/Subproject commit/d' ./clang-format.patch
     - |
       if [[ `wc -l < clang-format.patch` != "0" ]]; then
         cat clang-format.patch
