@@ -32,32 +32,14 @@
 
 #pragma once
 
-namespace hal::gpio::mcp23x17 {
+#include <utils/logger/Logger.hpp>
 
-// clang-format off
-/// Represents used register addresses of the BANK0 mode in the MCP23x17 device.
-enum Bank0 {
-    eIODIRA = 0x00,
-    eIODIRB = 0x01,
-    eIOCON = 0x0a,
-    eGPIOA = 0x12,
-    eGPIOB = 0x13
-};
-// clang-format on
+namespace hal {
 
-// clang-format off
-/// Represents flag for setting individual bits of the IOCON register in the MCP23x17 device.
-enum IOCON {
-    eHAEN = (1U << 3U)
-};
-// clang-format on
+#ifdef NDEBUG
+constexpr auto cDefaultLogLevel = spdlog::level::off;
+#else
+constexpr auto cDefaultLogLevel = spdlog::level::err;
+#endif
 
-// clang-format off
-/// Represents id of the 8-bit port in the MCP23x17 device.
-enum class Port {
-    eGpioA,
-    eGpioB
-};
-// clang-format on
-
-} // namespace hal::gpio::mcp23x17
+} // namespace hal
