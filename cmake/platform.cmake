@@ -1,6 +1,6 @@
 include(FetchContent)
 FetchContent_Declare(platform
-    GIT_REPOSITORY  https://gitlab.com/kubasejdak-libs/platform.git
+    GIT_REPOSITORY  https://gitlab.com/embeddedlinux/libs/platform.git
     GIT_TAG         origin/master
 )
 
