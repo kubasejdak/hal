@@ -9,13 +9,13 @@
 
 .Run_Test_Linux:
   extends: .Run_Test
-  image: kubasejdak/gcc:latest
+  image: ${DOCKER_IMAGE_GCC}
   tags:
     - cet_build
 
 .Run_Test_Linux_ARM:
   extends: .Run_Test
-  image: kubasejdak/arm-tests:latest
+  image: ${DOCKER_IMAGE_ARM_TESTS}
   tags:
     - raspberrypi
 
