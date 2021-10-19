@@ -14,7 +14,7 @@
     - cd ${CI_JOB_NAME}
 
     # Build application.
-    - cmake .. -DPLATFORM=linux -DAPP=${App} -DTOOLCHAIN=${Toolchain} -DCOVERAGE=ON
+    - cmake .. -DAPP=${App} -DTOOLCHAIN=${Toolchain} -DCOVERAGE=ON
     - make ${MakeParams}
     - if [ ! -z "${BeforeRun}" ]; then ${BeforeRun}; sleep 1; fi
     - bin/$(basename ${App}) [unit]
@@ -23,20 +23,20 @@
 
 .Linux_ARM_GCC_Coverage:
   extends: .Linux_Coverage
-  image: kubasejdak/arm-tests:latest
+  image: ${DOCKER_IMAGE_ARM_TESTS}
   tags:
     - raspberrypi
   variables:
     MakeParams: "-j 4"
-    Toolchain: "gcc-10"
+    Toolchain: "gcc"
 
 .Linux_GCC_Coverage:
   extends: .Linux_Coverage
-  image: kubasejdak/gcc:latest
+  image: ${DOCKER_IMAGE_GCC}
   tags:
     - cet_build
   variables:
-    Toolchain: "gcc-11"
+    Toolchain: "gcc"
 
 EepromSet1_Coverage:
   extends: .Linux_ARM_GCC_Coverage

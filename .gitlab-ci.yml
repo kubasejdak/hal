@@ -1,5 +1,10 @@
 variables:
   GIT_SUBMODULE_STRATEGY: recursive
+  DOCKER_IMAGE_GCC: embeddedlinux/gcc:11
+  DOCKER_IMAGE_CLANG: embeddedlinux/clang:12
+  DOCKER_IMAGE_ARM_LINUX_GCC: embeddedlinux/arm-linux-gnueabihf-gcc:10
+  DOCKER_IMAGE_ARM_LINUX_CLANG: embeddedlinux/arm-linux-gnueabihf-clang:12
+  DOCKER_IMAGE_ARM_TESTS: embeddedlinux/arm-tests:latest
 
 .Submodule_Checkout:
   variables:

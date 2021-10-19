@@ -9,13 +9,13 @@
 
 .Run_Valgrind_Linux:
   extends: .Run_Valgrind
-  image: kubasejdak/gcc:latest
+  image: ${DOCKER_IMAGE_GCC}
   tags:
     - cet_build
 
 .Run_Valgrind_Linux_ARM:
   extends: .Run_Valgrind
-  image: kubasejdak/arm-tests:latest
+  image: ${DOCKER_IMAGE_ARM_TESTS}
   tags:
     - raspberrypi
 

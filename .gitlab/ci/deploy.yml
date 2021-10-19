@@ -2,7 +2,7 @@ pages:
   stage: deploy
   rules:
     - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE != "pipeline"
-  image: kubasejdak/gcc:latest
+  image: ${DOCKER_IMAGE_GCC}
   tags:
     - cet_build
   needs:
@@ -20,6 +20,6 @@ pages:
     - mkdir ${CI_JOB_NAME}
     - cd ${CI_JOB_NAME}
 
-    - cmake .. -DPLATFORM=linux -DAPP=middleware
+    - cmake .. -DAPP=middleware
     - make doxygen
     - mv docs/* ../public/docs
