@@ -67,9 +67,9 @@ private:
     static void createBoards();
 
 private:
-    // clang-format off
     /// Represents the internal state of the Hardware.
-    enum class State {
+    enum class State
+    {
         eUninitialized,
         eAttached,
         eDetached
@@ -78,11 +78,11 @@ private:
     /// Represents type of the board managed by Hardware. Base boards have to always be present and initialized.
     /// Removable boards can be destroyed and re-initialized at any time in runtime.
     /// @note Base boards are usually the ones containing the CPU.
-    enum class Type {
+    enum class Type
+    {
         eBase,
         eRemovable
     };
-    // clang-format on
 
     static inline State m_state = State::eUninitialized; // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
     static inline std::multimap<Type, IBoard&> m_boards; // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)

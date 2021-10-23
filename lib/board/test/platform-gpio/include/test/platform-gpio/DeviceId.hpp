@@ -40,7 +40,8 @@ namespace hal {
 namespace device_id {
 
 /// Represents identifiers of the devices provided by the platform-gpio board.
-enum PlatformGpioId {
+enum PlatformGpioId
+{
     // Port A.
     ePortAPin0,
     ePortAPin1,

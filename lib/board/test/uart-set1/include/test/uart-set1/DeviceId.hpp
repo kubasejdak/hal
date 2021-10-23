@@ -39,12 +39,11 @@
 namespace hal {
 namespace device_id {
 
-// clang-format off
 /// Represents identifiers of the devices provided by the uart-set1 board.
-enum UartSet1Id {
+enum UartSet1Id
+{
     eUart0
 };
-// clang-format on
 
 } // namespace device_id
 

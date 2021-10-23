@@ -206,24 +206,20 @@ static void initStorage(std::map<device_id::Q39TesterSet1Id, std::shared_ptr<Dev
 
 static void initRtc(std::map<device_id::Q39TesterSet1Id, std::shared_ptr<Device>>& devices)
 {
-    // clang-format off
     auto i2c = i2c::Registry::get(config::cQ39TesterSet1M41T82);
     constexpr std::uint16_t cRtcAddr = 0x68;
 
     devices[device_id::eM41T82Rtc] = std::make_shared<time::M41T82>(i2c, cRtcAddr);
-    // clang-format on
 }
 
 static void initSensor(std::map<device_id::Q39TesterSet1Id, std::shared_ptr<Device>>& devices)
 {
-    // clang-format off
     auto i2c = i2c::Registry::get(config::cQ39TesterSet1SHT3xDIS);
     constexpr std::uint16_t cSensorAddr = 0x44;
     auto sht3xdis = std::make_shared<sensor::Sht3xDisSensor>(i2c, cSensorAddr);
 
     devices[device_id::eSht3xDisHumidity] = std::make_shared<sensor::Sht3xDisHumidity>(sht3xdis);
     devices[device_id::eSht3xDisTemperature] = std::make_shared<sensor::Sht3xDisTemperature>(sht3xdis);
-    // clang-format on
 }
 
 template <>

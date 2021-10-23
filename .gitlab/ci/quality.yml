@@ -25,6 +25,7 @@ Clang_Format:
   artifacts:
     name: "${CI_JOB_NAME}_${CI_JOB_ID}"
     expire_in: 2 weeks
+    when: always
     paths:
       - ${CI_JOB_NAME}/errors.yml
       - ${CI_JOB_NAME}/compile_commands.json

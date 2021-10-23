@@ -2,6 +2,8 @@
 Checks:                '*,
                         -*-vararg,
                         -altera-*,
+                        -bugprone-easily-swappable-parameters,
+                        -bugprone-implicit-widening-of-multiplication-result,
                         -concurrency-mt-unsafe,
                         -cppcoreguidelines-pro-bounds-array-to-pointer-decay,
                         -cppcoreguidelines-pro-bounds-constant-array-index,

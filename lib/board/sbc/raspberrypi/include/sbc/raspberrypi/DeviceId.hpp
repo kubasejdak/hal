@@ -39,11 +39,9 @@
 namespace hal {
 namespace device_id {
 
-// clang-format off
 /// Represents identifiers of the devices provided by the sbc/raspberrypi board.
-enum RaspberryPiId {
-};
-// clang-format on
+enum RaspberryPiId
+{};
 
 } // namespace device_id
 
