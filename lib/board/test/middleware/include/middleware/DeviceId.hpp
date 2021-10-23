@@ -39,15 +39,14 @@
 namespace hal {
 namespace device_id {
 
-// clang-format off
 /// Represents identifiers of the devices provided by the middleware board.
-enum MiddlewareId {
+enum MiddlewareId
+{
     eTestDeviceSingle1,
     eTestDeviceSingle2,
     eTestDeviceShared1,
     eTestDeviceShared2
 };
-// clang-format on
 
 } // namespace device_id
 

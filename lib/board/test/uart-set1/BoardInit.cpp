@@ -50,11 +50,9 @@ std::shared_ptr<Device> getDeviceImpl<device_id::UartSet1Id>(device_id::UartSet1
 template <>
 std::error_code Board<device_id::UartSet1Id>::initImpl()
 {
-    // clang-format off
     uart::Registry::init({{"uart0", uart::LinuxUart("/dev/ttyUSB0")}});
 
     m_devices[device_id::eUart0] = uart::Registry::get("uart0");
-    // clang-format on
 
     return Error::eOk;
 }
