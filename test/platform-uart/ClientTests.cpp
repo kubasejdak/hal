@@ -44,6 +44,7 @@
 #include <algorithm>
 #include <chrono>
 #include <random>
+#include <tuple>
 
 class UartEndpoint {
 public:
@@ -92,15 +93,16 @@ private:
     std::string readline()
     {
         std::string line;
-        hal::BytesVector byte;
+        std::optional<hal::BytesVector> byte;
+        std::error_code error;
 
         do {
-            auto error = m_uart->read(byte, 1, m_cTimeout);
+            std::tie(byte, error) = m_uart->read(1, m_cTimeout).toTuple();
             REQUIRE(!error);
 
-            line += byte[0];
+            line += byte->at(0);
         }
-        while (byte[0] != '\n');
+        while (byte->at(0) != '\n');
 
         return line;
     }
@@ -206,13 +208,12 @@ private:
 
             hal::BytesVector sendData;
             generateRandomData(packetSize, sendData);
-            auto error = m_uart->write(sendData);
-            REQUIRE(!error);
+            auto writeError = m_uart->write(sendData);
+            REQUIRE(!writeError);
 
-            hal::BytesVector receiveData;
-            error = m_uart->read(receiveData, packetSize, m_cTimeout);
-            REQUIRE(!error);
-            REQUIRE(receiveData.size() == packetSize);
+            auto [receiveData, readError] = m_uart->read(packetSize, m_cTimeout);
+            REQUIRE(!readError);
+            REQUIRE(receiveData->size() == packetSize);
             REQUIRE(sendData == receiveData);
 
             size -= packetSize;
@@ -250,14 +251,13 @@ private:
         SHA256 sha256;
         auto toReceive = size;
         while (toReceive != 0) {
-            hal::BytesVector receiveData;
-            auto error = m_uart->read(receiveData, 1, m_cTimeout);
+            auto [receiveData, error] = m_uart->read(1, m_cTimeout);
             if (error != hal::Error::eOk) {
                 REQUIRE(!error);
             }
 
-            sha256.add(receiveData.data(), receiveData.size());
-            toReceive -= receiveData.size();
+            sha256.add(receiveData->data(), receiveData->size());
+            toReceive -= receiveData->size();
         }
 
         m_checksumReceiver = sha256.getHash();

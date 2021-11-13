@@ -100,14 +100,13 @@ TEST_CASE("2. Write whole first page of EEPROM", "[unit][eeprom]")
         // Write whole first page.
         std::vector<std::uint8_t> writeBlock(cPageSize);
         getRandomData(writeBlock);
-        auto error = eeprom->write(address, writeBlock, cTimeout);
-        REQUIRE(!error);
+        auto writeError = eeprom->write(address, writeBlock, cTimeout);
+        REQUIRE(!writeError);
 
         // Read and verify whole first page.
-        std::vector<std::uint8_t> readBlock;
-        error = eeprom->read(address, readBlock, writeBlock.size(), cTimeout);
-        REQUIRE(!error);
-        REQUIRE(readBlock == writeBlock);
+        auto [readBlock, readError] = eeprom->read(address, writeBlock.size(), cTimeout);
+        REQUIRE(!readError);
+        REQUIRE(*readBlock == writeBlock);
     }
 }
 
@@ -134,14 +133,13 @@ TEST_CASE("3. Write whole last page of EEPROM", "[unit][eeprom]")
         // Write whole last page.
         std::vector<std::uint8_t> writeBlock(cPageSize);
         getRandomData(writeBlock);
-        auto error = eeprom->write(address, writeBlock, cTimeout);
-        REQUIRE(!error);
+        auto writeError = eeprom->write(address, writeBlock, cTimeout);
+        REQUIRE(!writeError);
 
         // Read and verify whole last page.
-        std::vector<std::uint8_t> readBlock;
-        error = eeprom->read(address, readBlock, writeBlock.size(), cTimeout);
-        REQUIRE(!error);
-        REQUIRE(readBlock == writeBlock);
+        auto [readBlock, readError] = eeprom->read(address, writeBlock.size(), cTimeout);
+        REQUIRE(!readError);
+        REQUIRE(*readBlock == writeBlock);
     }
 }
 
@@ -172,31 +170,30 @@ TEST_CASE("4. Write page at page intersection in EEPROM", "[unit][eeprom]")
 
     for (const auto& eeprom : eeproms) {
         // Fill first and second page with pattern.
-        auto error = eeprom->write(address, cWriteBlock1, cTimeout);
-        REQUIRE(!error);
+        auto writeError = eeprom->write(address, cWriteBlock1, cTimeout);
+        REQUIRE(!writeError);
 
-        error = eeprom->write(address + cPageSize, cWriteBlock2, cTimeout);
-        REQUIRE(!error);
+        writeError = eeprom->write(address + cPageSize, cWriteBlock2, cTimeout);
+        REQUIRE(!writeError);
 
         // Fill block with size equal to the page size with pattern at the intersection of first and second page.
-        error = eeprom->write(address + (cPageSize / 2), cWriteBlock3, cTimeout);
-        REQUIRE(!error);
+        writeError = eeprom->write(address + (cPageSize / 2), cWriteBlock3, cTimeout);
+        REQUIRE(!writeError);
 
-        std::vector<std::uint8_t> readBlock;
-        error = eeprom->read(address, readBlock, 2 * cPageSize, cTimeout);
-        REQUIRE(!error);
+        auto [readBlock, readError] = eeprom->read(address, 2 * cPageSize, cTimeout);
+        REQUIRE(!readError);
 
         // Verify first pattern.
         for (std::size_t i = 0; i < (cPageSize / 2); ++i)
-            REQUIRE(readBlock[i] == cPattern1);
+            REQUIRE(readBlock->at(i) == cPattern1);
 
         // Verify third pattern.
         for (std::size_t i = cPageSize / 2; i < cPageSize + (cPageSize / 2); ++i)
-            REQUIRE(readBlock[i] == cPattern3);
+            REQUIRE(readBlock->at(i) == cPattern3);
 
         // Verify second pattern.
         for (std::size_t i = cPageSize + (cPageSize / 2); i < (2 * cPageSize); ++i)
-            REQUIRE(readBlock[i] == cPattern2);
+            REQUIRE(readBlock->at(i) == cPattern2);
     }
 }
 
@@ -225,31 +222,30 @@ TEST_CASE("5. Write page at page intersection in EEPROM with device address chan
 
     for (const auto& eeprom : eeproms) {
         // Fill first and second page with pattern.
-        auto error = eeprom->write(address, cWriteBlock1, cTimeout);
-        REQUIRE(!error);
+        auto writeError = eeprom->write(address, cWriteBlock1, cTimeout);
+        REQUIRE(!writeError);
 
-        error = eeprom->write(address + cPageSize, cWriteBlock2, cTimeout);
-        REQUIRE(!error);
+        writeError = eeprom->write(address + cPageSize, cWriteBlock2, cTimeout);
+        REQUIRE(!writeError);
 
         // Fill block with size equal to the page size with pattern at the intersection of first and second page.
-        error = eeprom->write(address + (cPageSize / 2), cWriteBlock3, cTimeout);
-        REQUIRE(!error);
+        writeError = eeprom->write(address + (cPageSize / 2), cWriteBlock3, cTimeout);
+        REQUIRE(!writeError);
 
-        std::vector<std::uint8_t> readBlock;
-        error = eeprom->read(address, readBlock, 2 * cPageSize, cTimeout);
-        REQUIRE(!error);
+        auto [readBlock, readError] = eeprom->read(address, 2 * cPageSize, cTimeout);
+        REQUIRE(!readError);
 
         // Verify first pattern.
         for (std::size_t i = 0; i < (cPageSize / 2); ++i)
-            REQUIRE(readBlock[i] == cPattern1);
+            REQUIRE(readBlock->at(i) == cPattern1);
 
         // Verify third pattern.
         for (std::size_t i = cPageSize / 2; i < cPageSize + (cPageSize / 2); ++i)
-            REQUIRE(readBlock[i] == cPattern3);
+            REQUIRE(readBlock->at(i) == cPattern3);
 
         // Verify second pattern.
         for (std::size_t i = cPageSize + (cPageSize / 2); i < (2 * cPageSize); ++i)
-            REQUIRE(readBlock[i] == cPattern2);
+            REQUIRE(readBlock->at(i) == cPattern2);
     }
 }
 
@@ -269,14 +265,13 @@ TEST_CASE("6. Write whole page of EEPROM with device address change", "[unit][ee
         std::vector<std::uint8_t> writeBlock(cPageSize);
         getRandomData(writeBlock);
         const std::size_t cAddress = cSize - cPageSize;
-        auto error = eeprom->write(cAddress, writeBlock, cTimeout);
-        REQUIRE(!error);
+        auto writeError = eeprom->write(cAddress, writeBlock, cTimeout);
+        REQUIRE(!writeError);
 
         // Read and verify whole page.
-        std::vector<std::uint8_t> readBlock;
-        error = eeprom->read(cAddress, readBlock, writeBlock.size(), cTimeout);
-        REQUIRE(!error);
-        REQUIRE(readBlock == writeBlock);
+        auto [readBlock, readError] = eeprom->read(cAddress, writeBlock.size(), cTimeout);
+        REQUIRE(!readError);
+        REQUIRE(*readBlock == writeBlock);
     }
 }
 
@@ -297,24 +292,23 @@ TEST_CASE("7. Write every second byte separately in EEPROM", "[unit][eeprom]")
     for (const auto& eeprom : eeproms) {
         // Clear page.
         std::uint32_t address = cSize / 2;
-        auto error = eeprom->write(address, cWriteBlock, cTimeout);
-        REQUIRE(!error);
+        auto writeError = eeprom->write(address, cWriteBlock, cTimeout);
+        REQUIRE(!writeError);
 
         // Fill page with pattern (every second byte is a next integral number).
         for (std::uint16_t i = 0; i < cPageSize; i += 2) {
             auto value = static_cast<std::uint8_t>(i / 2);
-            error = eeprom->write(address + i, &value, sizeof(value), cTimeout);
-            REQUIRE(!error);
+            writeError = eeprom->write(address + i, &value, sizeof(value), cTimeout);
+            REQUIRE(!writeError);
         }
 
         // Read and verify page.
         for (std::uint16_t i = 0; i < cPageSize; ++i) {
             auto expectedValue = static_cast<std::uint8_t>((i % 2) != 0 ? cPattern : (i / 2));
             std::uint8_t readValue{};
-            std::size_t actualReadSize{};
-            error = eeprom->read(address + i, &readValue, sizeof(readValue), cTimeout, actualReadSize);
+            auto [actualReadSize, error] = eeprom->read(address + i, &readValue, sizeof(readValue), cTimeout);
             REQUIRE(!error);
-            REQUIRE(actualReadSize == sizeof(readValue));
+            REQUIRE(*actualReadSize == sizeof(readValue));
             REQUIRE(readValue == expectedValue);
         }
     }
@@ -328,12 +322,11 @@ TEST_CASE("8. Read bytes when address exceeds EEPROM size", "[unit][eeprom]")
 
     // Read bytes starting from one page after the end of EEPROM.
     const std::size_t cAddress = eeprom->getSize() + eeprom->getPageSize();
-    std::vector<std::uint8_t> readBlock;
     constexpr std::size_t cReadSize = 13;
     constexpr auto cTimeout = 100ms;
-    auto error = eeprom->read(cAddress, readBlock, cReadSize, cTimeout);
+    auto [readBlock, error] = eeprom->read(cAddress, cReadSize, cTimeout);
     REQUIRE(error == hal::Error::eInvalidArgument);
-    REQUIRE(readBlock.empty());
+    REQUIRE(!readBlock);
 }
 
 TEST_CASE("9. Read bytes when address plus size exceeds EEPROM size", "[unit][eeprom]")
@@ -345,11 +338,10 @@ TEST_CASE("9. Read bytes when address plus size exceeds EEPROM size", "[unit][ee
     // Read bytes from address, which summed with the readBlock size gives one byte after the of EEPROM.
     constexpr std::size_t cReadSize = 13;
     const std::size_t cAddress = eeprom->getSize() - (cReadSize - 1);
-    std::vector<std::uint8_t> readBlock;
     constexpr auto cTimeout = 100ms;
-    auto error = eeprom->read(cAddress, readBlock, cReadSize, cTimeout);
+    auto [readBlock, error] = eeprom->read(cAddress, cReadSize, cTimeout);
     REQUIRE(error == hal::Error::eInvalidArgument);
-    REQUIRE(readBlock.empty());
+    REQUIRE(!readBlock);
 }
 
 TEST_CASE("10. Write bytes when address exceeds EEPROM size", "[unit][eeprom]")

@@ -46,21 +46,20 @@ TEST_CASE("1. Check if humidity values make sense", "[unit][sensor]")
 
     auto humidity = hal::getScopedDevice<hal::sensor::IHumiditySensor>(hal::device_id::eSht3xDisHumidity);
 
-    float relativeHumidity{};
-    auto error = humidity->read(relativeHumidity);
+    auto [relativeHumidity, error] = humidity->read();
     REQUIRE(!error);
     REQUIRE(humidity->minValue() >= 0.0F);
     REQUIRE(humidity->maxValue() <= 100.0F);
-    REQUIRE(relativeHumidity >= humidity->minValue());
-    REQUIRE(relativeHumidity <= humidity->maxValue());
+    REQUIRE(*relativeHumidity >= humidity->minValue());
+    REQUIRE(*relativeHumidity <= humidity->maxValue());
 
-    std::printf("Humidity: %2.2f %%\n", relativeHumidity);
+    std::printf("Humidity: %2.2f %%\n", *relativeHumidity);
 
     // These values should be valid for tests performed in typical home environment.
     constexpr auto cMinHumidity = 10.0F;
     constexpr auto cMaxHumidity = 80.0F;
-    REQUIRE(relativeHumidity >= cMinHumidity);
-    REQUIRE(relativeHumidity <= cMaxHumidity);
+    REQUIRE(*relativeHumidity >= cMinHumidity);
+    REQUIRE(*relativeHumidity <= cMaxHumidity);
 }
 
 TEST_CASE("2. Check if temperature values make sense", "[unit][sensor]")
@@ -69,17 +68,16 @@ TEST_CASE("2. Check if temperature values make sense", "[unit][sensor]")
 
     auto temperature = hal::getScopedDevice<hal::sensor::ITemperatureSensor>(hal::device_id::eSht3xDisTemperature);
 
-    float temperatureValue{};
-    auto error = temperature->read(temperatureValue);
+    auto [temperatureValue, error] = temperature->read();
     REQUIRE(!error);
-    REQUIRE(temperatureValue >= temperature->minValue());
-    REQUIRE(temperatureValue <= temperature->maxValue());
+    REQUIRE(*temperatureValue >= temperature->minValue());
+    REQUIRE(*temperatureValue <= temperature->maxValue());
 
-    std::printf("Temperature: %2.2f °C\n", temperatureValue);
+    std::printf("Temperature: %2.2f °C\n", *temperatureValue);
 
     // These values should be valid for tests performed in typical home environment.
     constexpr auto cMinTemperature = 10.0F;
     constexpr auto cMaxTemperature = 35.0F;
-    REQUIRE(temperatureValue >= cMinTemperature);
-    REQUIRE(temperatureValue <= cMaxTemperature);
+    REQUIRE(*temperatureValue >= cMinTemperature);
+    REQUIRE(*temperatureValue <= cMaxTemperature);
 }

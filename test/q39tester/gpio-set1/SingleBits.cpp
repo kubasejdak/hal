@@ -99,10 +99,9 @@ TEST_CASE("1. Toggle values of single pins", "[unit][mcp23x17]")
                 }
 
                 for (auto& input : inputs) {
-                    bool getValue{};
-                    auto error = input->get(getValue);
+                    auto [getValue, error] = input->get();
                     REQUIRE(!error);
-                    REQUIRE(getValue == setValue);
+                    REQUIRE(*getValue == setValue);
                 }
 
                 setValue = !setValue;
@@ -118,10 +117,9 @@ TEST_CASE("1. Toggle values of single pins", "[unit][mcp23x17]")
                 }
 
                 for (std::size_t j = 0; j < outputs.size(); ++j) {
-                    bool getValue{};
-                    auto error = inputs[j]->get(getValue);
+                    auto [getValue, error] = inputs[j]->get();
                     REQUIRE(!error);
-                    REQUIRE(getValue == (i == j));
+                    REQUIRE(*getValue == (i == j));
                 }
             }
         }

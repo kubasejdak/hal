@@ -69,8 +69,11 @@ static void noiseThreadAFunc(bool& stop,
         bool readValue{};
         do {
             osal::thread::yield();
-            if (auto error = input->get(readValue))
+            auto [value, error] = input->get();
+            if (error)
                 REQUIRE(!error);
+
+            readValue = *value;
         }
         while (!stop && (readValue != setValue));
 
@@ -104,8 +107,11 @@ static void noiseThreadBFunc(bool& stop,
         bool readValue{};
         do {
             osal::thread::yield();
-            if (auto error = input->get(readValue))
+            auto [value, error] = input->get();
+            if (error)
                 REQUIRE(!error);
+
+            readValue = *value;
         }
         while (!stop && (readValue != expectedValue));
 
@@ -161,9 +167,11 @@ static void triggerThreadFunc(bool& stop,
         auto expectedCounter = prevCounter + (countUp ? 1 : -1);
         std::uint8_t counter{};
         do {
-            if (auto error = counterInput->get(counter))
+            auto [value, error] = counterInput->get();
+            if (error)
                 REQUIRE(!error);
 
+            counter = *value;
             if ((counter != expectedCounter && counter != prevCounter))
                 REQUIRE((counter == expectedCounter || counter == prevCounter));
 
@@ -206,17 +214,19 @@ static void counterThreadFunc(bool& stop,
 
     while (!stop) {
         bool triggerValue{};
-        if (auto error = triggerInput->get(triggerValue))
+        auto [value, error] = triggerInput->get();
+        if (error)
             REQUIRE(!error);
 
+        triggerValue = *value;
         if (triggerValue != expectedTriggerValue) {
             osal::thread::yield();
             continue;
         }
 
         auto counter = prevCounter + (countUp ? 1 : -1);
-        if (auto error = counterOutput->set(counter))
-            REQUIRE(!error);
+        if (auto setError = counterOutput->set(counter))
+            REQUIRE(!setError);
 
         osal::thread::yield();
 

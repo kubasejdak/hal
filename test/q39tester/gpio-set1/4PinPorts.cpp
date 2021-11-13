@@ -84,20 +84,18 @@ TEST_CASE("2. Set all combinations of pin patterns", "[unit][mcp23x17]")
 
             // Verify normal pattern.
             for (auto& input : normalInputs) {
-                std::uint8_t getValue{};
-                auto error = input->get(getValue);
+                auto [getValue, error] = input->get();
                 REQUIRE(!error);
                 auto expectedValue = pattern & cPatternMask;
-                REQUIRE(getValue == expectedValue);
+                REQUIRE(*getValue == expectedValue);
             }
 
             // Verify inverted pattern.
             for (auto& input : invertedInputs) {
-                std::uint8_t getValue{};
-                auto error = input->get(getValue);
+                auto [getValue, error] = input->get();
                 REQUIRE(!error);
                 auto expectedValue = std::uint8_t(~pattern) & cPatternMask;
-                REQUIRE(getValue == expectedValue);
+                REQUIRE(*getValue == expectedValue);
             }
         }
     }
