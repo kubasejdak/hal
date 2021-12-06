@@ -14,7 +14,7 @@
     - cd ${CI_JOB_NAME}
 
     # Build application.
-    - cmake .. -DAPP=${App} -DTOOLCHAIN=${Toolchain} -DCOVERAGE=ON
+    - cmake .. -DAPP=${App} -DTOOLCHAIN=${Toolchain} -DUSE_CONAN=ON -DCOVERAGE=ON
     - make ${MakeParams}
     - if [ ! -z "${BeforeRun}" ]; then ${BeforeRun}; sleep 1; fi
     - bin/$(basename ${App}) [unit]

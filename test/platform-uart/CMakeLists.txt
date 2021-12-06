@@ -8,28 +8,16 @@ target_include_directories(appplatform-uart
     PRIVATE .
 )
 
-conan_get(REQUIRES catch2/2.13.7 nlohmann_json/3.10.2)
-find_package(Catch2 REQUIRED)
-find_package(nlohmann_json REQUIRED)
-
 add_subdirectory(${CMAKE_SOURCE_DIR}/external/hash ${CMAKE_BINARY_DIR}/external/hash)
 
 target_compile_definitions(appplatform-uart
     # This is required to selectively run Catch2 tests using tags on platforms, where cmd line arguments are not available.
-    PRIVATE $<$<BOOL:${TEST_TAGS}>:TEST_TAGS="${TEST_TAGS}">
-)
-
-target_compile_definitions(Catch2::Catch2
-    INTERFACE CATCH_CONFIG_DISABLE_EXCEPTIONS $<$<STREQUAL:${PLATFORM},freertos-arm>:CATCH_CONFIG_NO_POSIX_SIGNALS>
-)
-
-target_compile_definitions(nlohmann_json::nlohmann_json
-    INTERFACE JSON_NOEXCEPTION
+    PRIVATE $<$<BOOL:${TEST_TAGS}>:TEST_TAGS="${TEST_TAGS}"> CATCH_CONFIG_DISABLE_EXCEPTIONS $<$<STREQUAL:${PLATFORM},freertos-arm>:CATCH_CONFIG_NO_POSIX_SIGNALS> JSON_NOEXCEPTION
 )
 
 target_link_libraries(appplatform-uart
     PUBLIC platform-init
-    PRIVATE Catch2::Catch2 osal::cpp hal nlohmann_json::nlohmann_json hash
+    PRIVATE osal::cpp hal hash
 )
 
 file(COPY ${CMAKE_CURRENT_LIST_DIR}/daemon DESTINATION ${CMAKE_BINARY_DIR}/bin)
