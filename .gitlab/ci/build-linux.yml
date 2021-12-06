@@ -13,7 +13,7 @@
     - cd ${CI_JOB_NAME}
 
     # Build application.
-    - cmake .. -DTOOLCHAIN=${Toolchain} -DAPP=${App} -DCMAKE_BUILD_TYPE=${BuildType}
+    - cmake .. -DTOOLCHAIN=${Toolchain} -DAPP=${App} -DUSE_CONAN=ON -DCMAKE_BUILD_TYPE=${BuildType}
     - make
 
 .Build_Test_Linux_ARM_Clang:

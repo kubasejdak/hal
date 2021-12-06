@@ -1,13 +1,13 @@
 include(${CMAKE_CURRENT_LIST_DIR}/conan-wrapper.cmake)
 
-function(conan_init)
+option(USE_CONAN "Automatically use conan to install required dependencies" OFF)
+
+function(conan_init_profile)
     # Value for settings.os.
     set(CONAN_OS                ${CMAKE_SYSTEM_NAME})
-    string(REPLACE "Darwin" "Macos" CONAN_OS ${CONAN_OS})
 
     # Value for settings.os_build.
-    set(CONAN_HOST_OS       ${CMAKE_HOST_SYSTEM_NAME})
-    string(REPLACE "Darwin" "Macos" CONAN_HOST_OS ${CONAN_HOST_OS})
+    set(CONAN_HOST_OS           ${CMAKE_HOST_SYSTEM_NAME})
 
     # Value for settings.arch.
     if (NOT DEFINED CONAN_ARCH)
@@ -41,13 +41,6 @@ function(conan_init)
     string(REPLACE "." ";" VERSION_LIST ${CMAKE_CXX_COMPILER_VERSION})
     list(GET VERSION_LIST 0 CONAN_COMPILER_MAJOR)
 
-    # Value for settings.compiler.libcxx.
-    if (CONAN_OS STREQUAL Macos AND CONAN_COMPILER STREQUAL clang)
-        set(CONAN_LIBCXX        libc++)
-    else ()
-        set(CONAN_LIBCXX        libstdc++11)
-    endif ()
-
     # Values for env.CFLAGS, env.CXXFLAGS and env.LDFLAGS.
     string(TOUPPER ${CMAKE_BUILD_TYPE} BUILD_TYPE)
     set(CONAN_C_FLAGS           "${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_${BUILD_TYPE}}")
@@ -57,25 +50,3 @@ function(conan_init)
     message(STATUS "Configuring '${CMAKE_BINARY_DIR}/conan-profile'")
     configure_file(${CMAKE_SOURCE_DIR}/tools/profile.in ${CMAKE_BINARY_DIR}/conan-profile)
 endfunction ()
-
-include(CMakeParseArguments)
-
-macro(conan_get)
-    set(OPTIONS                 "")
-    set(ONE_VALUE_ARGS          "")
-    set(MULTI_VALUE_ARGS        REQUIRES OPTIONS ENV)
-    cmake_parse_arguments(CONAN_GET "${OPTIONS}" "${ONE_VALUE_ARGS}" "${MULTI_VALUE_ARGS}" ${ARGN})
-
-    set(CMAKE_SYSTEM_NAME_TMP   ${CMAKE_SYSTEM_NAME})
-    set(CMAKE_SYSTEM_NAME       ${CMAKE_HOST_SYSTEM_NAME})
-    conan_cmake_run(
-        REQUIRES                ${CONAN_GET_REQUIRES}
-        OPTIONS                 ${CONAN_GET_OPTIONS}
-        PROFILE                 ${CMAKE_BINARY_DIR}/conan-profile
-        BUILD                   missing
-        GENERATORS              cmake_find_package cmake_paths
-    )
-    set(CMAKE_SYSTEM_NAME       ${CMAKE_SYSTEM_NAME_TMP})
-
-    include(${CMAKE_CURRENT_BINARY_DIR}/conan_paths.cmake)
-endmacro ()
