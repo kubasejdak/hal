@@ -40,8 +40,7 @@ namespace hal {
 namespace device_id {
 
 /// Represents identifiers of the devices provided by the sbc/raspberrypi board.
-enum RaspberryPiId
-{};
+enum RaspberryPiId {};
 
 } // namespace device_id
 

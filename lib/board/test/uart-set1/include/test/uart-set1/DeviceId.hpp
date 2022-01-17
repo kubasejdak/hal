@@ -40,8 +40,7 @@ namespace hal {
 namespace device_id {
 
 /// Represents identifiers of the devices provided by the uart-set1 board.
-enum UartSet1Id
-{
+enum UartSet1Id {
     eUart0
 };
 

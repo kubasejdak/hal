@@ -40,8 +40,7 @@ namespace hal {
 namespace device_id {
 
 /// Represents identifiers of the devices provided by the q39tester-set1 board.
-enum Q39TesterSet1Id
-{
+enum Q39TesterSet1Id {
     ////////////////////////////////////////////////////////////////////
     // GPIO.
     ////////////////////////////////////////////////////////////////////

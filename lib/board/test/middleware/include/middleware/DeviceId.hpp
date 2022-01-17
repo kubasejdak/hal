@@ -40,8 +40,7 @@ namespace hal {
 namespace device_id {
 
 /// Represents identifiers of the devices provided by the middleware board.
-enum MiddlewareId
-{
+enum MiddlewareId {
     eTestDeviceSingle1,
     eTestDeviceSingle2,
     eTestDeviceShared1,

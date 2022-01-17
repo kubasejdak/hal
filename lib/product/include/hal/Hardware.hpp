@@ -68,8 +68,7 @@ private:
 
 private:
     /// Represents the internal state of the Hardware.
-    enum class State
-    {
+    enum class State {
         eUninitialized,
         eAttached,
         eDetached
@@ -78,8 +77,7 @@ private:
     /// Represents type of the board managed by Hardware. Base boards have to always be present and initialized.
     /// Removable boards can be destroyed and re-initialized at any time in runtime.
     /// @note Base boards are usually the ones containing the CPU.
-    enum class Type
-    {
+    enum class Type {
         eBase,
         eRemovable
     };
