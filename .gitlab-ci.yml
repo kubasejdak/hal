@@ -4,7 +4,7 @@ variables:
   DOCKER_IMAGE_CLANG: embeddedlinux/clang:13
   DOCKER_IMAGE_ARM_LINUX_GCC: embeddedlinux/arm-linux-gnueabihf-gcc:10
   DOCKER_IMAGE_ARM_LINUX_CLANG: embeddedlinux/arm-linux-gnueabihf-clang:13
-  DOCKER_IMAGE_ARM_TESTS: embeddedlinux/arm-tests:latest
+  DOCKER_IMAGE_ARM_TESTS: embeddedlinux/arm-tests:10
 
 .Submodule_Checkout:
   variables:
