@@ -1,6 +1,19 @@
-include(${CMAKE_CURRENT_LIST_DIR}/conan-wrapper.cmake)
-
 option(USE_CONAN "Automatically use conan to install required dependencies" OFF)
+
+function(conan_init_wrapper)
+    include(FetchContent)
+    FetchContent_Declare(conan-wrapper
+        GIT_REPOSITORY  https://github.com/conan-io/cmake-conan.git
+        GIT_TAG         0.18.1
+    )
+
+    FetchContent_GetProperties(conan-wrapper)
+    if (NOT conan-wrapper_POPULATED)
+        FetchContent_Populate(conan-wrapper)
+    endif ()
+
+    include(${conan-wrapper_SOURCE_DIR}/conan.cmake)
+endfunction (conan_init_wrapper)
 
 function(conan_init_profile)
     # Value for settings.os.
