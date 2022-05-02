@@ -17,7 +17,6 @@
     - cmake .. --preset ${Preset} -DCOVERAGE=ON
     - make ${MakeParams}
     - if [ ! -z "${BeforeRun}" ]; then ${BeforeRun}; sleep 1; fi
-    - App=$(cmake -LA -N . | grep APP | cut -d '=' -f 2 | xargs basename)
     - bin/${App} [unit]
     - make coverage
     - sed -i "s|SF:${CI_PROJECT_DIR}/|SF:|g" coverage/coverage.info
@@ -44,6 +43,7 @@ EepromSet1_Coverage:
     - at24cm02
   variables:
     Preset: "eeprom-set1-linux-gcc-debug"
+    App: "eeprom-set1"
 
 GpioSet1_Coverage:
   extends: .Linux_ARM_GCC_Coverage
@@ -54,11 +54,13 @@ GpioSet1_Coverage:
     - mcp23s17
   variables:
     Preset: "gpio-set1-linux-gcc-debug"
+    App: "gpio-set1"
 
 Middleware_Coverage:
   extends: .Linux_GCC_Coverage
   variables:
     Preset: "middleware-linux-gcc-debug"
+    App: "middleware"
 
 PlatformGpio_Coverage:
   extends: .Linux_ARM_GCC_Coverage
@@ -67,6 +69,7 @@ PlatformGpio_Coverage:
     - gpio
   variables:
     Preset: "platform-gpio-linux-gcc-debug"
+    App: "platform-gpio"
 
 PlatformUart_Coverage:
   extends: .Linux_ARM_GCC_Coverage
@@ -76,6 +79,7 @@ PlatformUart_Coverage:
   variables:
     Preset: "platform-uart-linux-gcc-debug"
     BeforeRun: "bin/daemon/run.py"
+    App: "platform-uart"
 
 RtcSet1_Coverage:
   extends: .Linux_ARM_GCC_Coverage
@@ -85,6 +89,7 @@ RtcSet1_Coverage:
     - m41t82
   variables:
     Preset: "rtc-set1-linux-gcc-debug"
+    App: "rtc-set1"
 
 SensorSet1_Coverage:
   extends: .Linux_ARM_GCC_Coverage
@@ -94,3 +99,4 @@ SensorSet1_Coverage:
     - sht3x-dis
   variables:
     Preset: "sensor-set1-linux-gcc-debug"
+    App: "sensor-set1"
