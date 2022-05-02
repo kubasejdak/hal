@@ -14,10 +14,10 @@
     - cd ${CI_JOB_NAME}
 
     # Build application.
-    - cmake .. -DAPP=${App} -DTOOLCHAIN=${Toolchain} -DUSE_CONAN=ON -DCOVERAGE=ON
+    - cmake .. --preset ${Preset} -DCOVERAGE=ON
     - make ${MakeParams}
     - if [ ! -z "${BeforeRun}" ]; then ${BeforeRun}; sleep 1; fi
-    - bin/$(basename ${App}) [unit]
+    - bin/$(basename ${Preset}) [unit]
     - make coverage
     - sed -i "s|SF:${CI_PROJECT_DIR}/|SF:|g" coverage/coverage.info
 
@@ -28,15 +28,12 @@
     - raspberrypi
   variables:
     MakeParams: "-j 4"
-    Toolchain: "gcc"
 
 .Linux_GCC_Coverage:
   extends: .Linux_Coverage
   image: ${DOCKER_IMAGE_GCC}
   tags:
     - cet_build
-  variables:
-    Toolchain: "gcc"
 
 EepromSet1_Coverage:
   extends: .Linux_ARM_GCC_Coverage
@@ -45,7 +42,7 @@ EepromSet1_Coverage:
     - q39tester
     - at24cm02
   variables:
-    App: "q39tester/eeprom-set1"
+    Preset: "eeprom-set1-linux-gcc-debug"
 
 GpioSet1_Coverage:
   extends: .Linux_ARM_GCC_Coverage
@@ -55,12 +52,12 @@ GpioSet1_Coverage:
     - mcp23017
     - mcp23s17
   variables:
-    App: "q39tester/gpio-set1"
+    Preset: "gpio-set1-linux-gcc-debug"
 
 Middleware_Coverage:
   extends: .Linux_GCC_Coverage
   variables:
-    App: "middleware"
+    Preset: "middleware-linux-gcc-debug"
 
 PlatformGpio_Coverage:
   extends: .Linux_ARM_GCC_Coverage
@@ -68,7 +65,7 @@ PlatformGpio_Coverage:
     - raspberrypi
     - gpio
   variables:
-    App: "platform-gpio"
+    Preset: "platform-gpio-linux-gcc-debug"
 
 PlatformUart_Coverage:
   extends: .Linux_ARM_GCC_Coverage
@@ -76,7 +73,7 @@ PlatformUart_Coverage:
     - raspberrypi
     - uart
   variables:
-    App: "platform-uart"
+    Preset: "platform-uart-linux-gcc-debug"
     BeforeRun: "bin/daemon/run.py"
 
 RtcSet1_Coverage:
@@ -86,7 +83,7 @@ RtcSet1_Coverage:
     - q39tester
     - m41t82
   variables:
-    App: "q39tester/rtc-set1"
+    Preset: "rtc-set1-linux-gcc-debug"
 
 SensorSet1_Coverage:
   extends: .Linux_ARM_GCC_Coverage
@@ -95,4 +92,4 @@ SensorSet1_Coverage:
     - q39tester
     - sht3x-dis
   variables:
-    App: "q39tester/sensor-set1"
+    Preset: "sensor-set1-linux-gcc-debug"

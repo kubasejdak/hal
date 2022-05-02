@@ -34,55 +34,51 @@ Clang_Format:
     - cd ${CI_JOB_NAME}
 
     # Check build.
-    - cmake .. -DTOOLCHAIN=${Toolchain} -DAPP=${App} -DUSE_CONAN=ON
+    - cmake .. --preset ${Preset}
     - ../tools/check-clang-tidy.sh
 
 .Clang_Tidy_Linux:
   extends: .Clang_Tidy
   image: ${DOCKER_IMAGE_CLANG}
-  variables:
-    Toolchain: "clang"
 
 .Clang_Tidy_Linux_ARM:
   extends: .Clang_Tidy
   image: ${DOCKER_IMAGE_ARM_LINUX_CLANG}
-  variables:
-    Toolchain: "arm-linux-gnueabihf-clang"
 
 EepromSet1_Linux_ARM_Clang_Tidy:
   extends: .Clang_Tidy_Linux_ARM
   variables:
-    App: "q39tester/eeprom-set1"
+    Preset: "eeprom-set1-linux-arm-clang-debug"
 
 GpioSet1_Linux_ARM_Clang_Tidy:
   extends: .Clang_Tidy_Linux_ARM
   variables:
-    App: "q39tester/gpio-set1"
+    Preset: "gpio-set1-linux-arm-clang-debug"
 
 Middleware_Linux_Clang_Tidy:
   extends: .Clang_Tidy_Linux
   variables:
-    App: "middleware"
+    Preset: "middleware-linux-clang-debug"
 
 PlatformGpio_Linux_ARM_Clang_Tidy:
   extends: .Clang_Tidy_Linux_ARM
   variables:
-    App: "platform-gpio"
+    Preset: "platform-gpio-linux-arm-clang-debug"
 
 PlatformUart_Linux_ARM_Clang_Tidy:
   extends: .Clang_Tidy_Linux_ARM
   variables:
-    App: "platform-uart"
+    Preset: "platform-uart-linux-arm-clang-debug"
 
 RtcSet1_Linux_ARM_Clang_Tidy:
   extends: .Clang_Tidy_Linux_ARM
   variables:
-    App: "q39tester/rtc-set1"
+    Preset: "rtc-set1-linux-arm-clang-debug"
 
 SensorSet1_Linux_ARM_Clang_Tidy:
   extends: .Clang_Tidy_Linux_ARM
   variables:
-    App: "q39tester/sensor-set1"
+    Preset: "sensor-set1-linux-arm-clang-debug"
 
 Coverage_Total:
   stage: quality

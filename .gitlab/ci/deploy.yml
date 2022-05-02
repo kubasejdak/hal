@@ -20,6 +20,6 @@ pages:
     - mkdir ${CI_JOB_NAME}
     - cd ${CI_JOB_NAME}
 
-    - cmake .. -DAPP=middleware
+    - cmake .. --preset middleware-linux-gcc-debug
     - make doxygen
     - mv docs/* ../public/docs

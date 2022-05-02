@@ -13,257 +13,217 @@
     - cd ${CI_JOB_NAME}
 
     # Build application.
-    - cmake .. -DTOOLCHAIN=${Toolchain} -DAPP=${App} -DUSE_CONAN=ON -DCMAKE_BUILD_TYPE=${BuildType}
+    - cmake .. --preset ${Preset}
     - make
 
 .Build_Test_Linux_ARM_Clang:
   extends: .Build_Test_Linux
   stage: build-Clang
   image: ${DOCKER_IMAGE_ARM_LINUX_CLANG}
-  variables:
-    Toolchain: "arm-linux-gnueabihf-clang"
 
 .Build_Test_Linux_ARM_GCC:
   extends: .Build_Test_Linux
   stage: build-GCC
   image: ${DOCKER_IMAGE_ARM_LINUX_GCC}
-  variables:
-    Toolchain: "arm-linux-gnueabihf-gcc"
 
 .Build_Test_Linux_Clang:
   extends: .Build_Test_Linux
   stage: build-Clang
   image: ${DOCKER_IMAGE_CLANG}
-  variables:
-    Toolchain: "clang"
 
 .Build_Test_Linux_GCC:
   extends: .Build_Test_Linux
   stage: build-GCC
   image: ${DOCKER_IMAGE_GCC}
-  variables:
-    Toolchain: "gcc"
 
 EepromSet1_Linux_ARM_Clang_Debug_Build:
   extends: .Build_Test_Linux_ARM_Clang
   variables:
-    App: "q39tester/eeprom-set1"
-    BuildType: "Debug"
+    Preset: "eeprom-set1-linux-arm-clang-debug"
 
 EepromSet1_Linux_ARM_Clang_Release_Build:
   extends: .Build_Test_Linux_ARM_Clang
   rules:
     - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE != "pipeline"
   variables:
-    App: "q39tester/eeprom-set1"
-    BuildType: "Release"
+    Preset: "eeprom-set1-linux-arm-clang-release"
 
 EepromSet1_Linux_ARM_GCC_Debug_Build:
   extends: .Build_Test_Linux_ARM_GCC
   variables:
-    App: "q39tester/eeprom-set1"
-    BuildType: "Debug"
+    Preset: "eeprom-set1-linux-arm-gcc-debug"
 
 EepromSet1_Linux_ARM_GCC_Release_Build:
   extends: .Build_Test_Linux_ARM_GCC
   rules:
     - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE != "pipeline"
   variables:
-    App: "q39tester/eeprom-set1"
-    BuildType: "Release"
+    Preset: "eeprom-set1-linux-arm-gcc-release"
 
 GpioSet1_Linux_ARM_Clang_Debug_Build:
   extends: .Build_Test_Linux_ARM_Clang
   variables:
-    App: "q39tester/gpio-set1"
-    BuildType: "Debug"
+    Preset: "gpio-set1-linux-arm-clang-debug"
 
 GpioSet1_Linux_ARM_Clang_Release_Build:
   extends: .Build_Test_Linux_ARM_Clang
   rules:
     - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE != "pipeline"
   variables:
-    App: "q39tester/gpio-set1"
-    BuildType: "Release"
+    Preset: "gpio-set1-linux-arm-clang-release"
 
 GpioSet1_Linux_ARM_GCC_Debug_Build:
   extends: .Build_Test_Linux_ARM_GCC
   variables:
-    App: "q39tester/gpio-set1"
-    BuildType: "Debug"
+    Preset: "gpio-set1-linux-arm-gcc-debug"
 
 GpioSet1_Linux_ARM_GCC_Release_Build:
   extends: .Build_Test_Linux_ARM_GCC
   rules:
     - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE != "pipeline"
   variables:
-    App: "q39tester/gpio-set1"
-    BuildType: "Release"
+    Preset: "gpio-set1-linux-arm-gcc-release"
 
 Middleware_Linux_ARM_Clang_Debug_Build:
   extends: .Build_Test_Linux_ARM_Clang
   variables:
-    App: "middleware"
-    BuildType: "Debug"
+    Preset: "middleware-linux-arm-clang-debug"
 
 Middleware_Linux_ARM_Clang_Release_Build:
   extends: .Build_Test_Linux_ARM_Clang
   rules:
     - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE != "pipeline"
   variables:
-    App: "middleware"
-    BuildType: "Release"
+    Preset: "middleware-linux-arm-clang-release"
 
 Middleware_Linux_ARM_GCC_Debug_Build:
   extends: .Build_Test_Linux_ARM_GCC
   variables:
-    App: "middleware"
-    BuildType: "Debug"
+    Preset: "middleware-linux-arm-gcc-debug"
 
 Middleware_Linux_ARM_GCC_Release_Build:
   extends: .Build_Test_Linux_ARM_GCC
   rules:
     - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE != "pipeline"
   variables:
-    App: "middleware"
-    BuildType: "Release"
+    Preset: "middleware-linux-arm-gcc-release"
 
 Middleware_Linux_Clang_Debug_Build:
   extends: .Build_Test_Linux_Clang
   variables:
-    App: "middleware"
-    BuildType: "Debug"
+    Preset: "middleware-linux-clang-debug"
 
 Middleware_Linux_Clang_Release_Build:
   extends: .Build_Test_Linux_Clang
   rules:
     - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE != "pipeline"
   variables:
-    App: "middleware"
-    BuildType: "Release"
+    Preset: "middleware-linux-clang-release"
 
 Middleware_Linux_GCC_Debug_Build:
   extends: .Build_Test_Linux_GCC
   variables:
-    App: "middleware"
-    BuildType: "Debug"
+    Preset: "middleware-linux-gcc-debug"
 
 Middleware_Linux_GCC_Release_Build:
   extends: .Build_Test_Linux_GCC
   rules:
     - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE != "pipeline"
   variables:
-    App: "middleware"
-    BuildType: "Release"
+    Preset: "middleware-linux-gcc-release"
 
 PlatformGpio_Linux_ARM_Clang_Debug_Build:
   extends: .Build_Test_Linux_ARM_Clang
   variables:
-    App: "platform-gpio"
-    BuildType: "Debug"
+    Preset: "platform-gpio-linux-arm-clang-debug"
 
 PlatformGpio_Linux_ARM_Clang_Release_Build:
   extends: .Build_Test_Linux_ARM_Clang
   rules:
     - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE != "pipeline"
   variables:
-    App: "platform-gpio"
-    BuildType: "Release"
+    Preset: "platform-gpio-linux-arm-clang-release"
 
 PlatformGpio_Linux_ARM_GCC_Debug_Build:
   extends: .Build_Test_Linux_ARM_GCC
   variables:
-    App: "platform-gpio"
-    BuildType: "Debug"
+    Preset: "platform-gpio-linux-arm-gcc-debug"
 
 PlatformGpio_Linux_ARM_GCC_Release_Build:
   extends: .Build_Test_Linux_ARM_GCC
   rules:
     - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE != "pipeline"
   variables:
-    App: "platform-gpio"
-    BuildType: "Release"
+    Preset: "platform-gpio-linux-arm-gcc-release"
 
 PlatformUart_Linux_ARM_Clang_Debug_Build:
   extends: .Build_Test_Linux_ARM_Clang
   variables:
-    App: "platform-uart"
-    BuildType: "Debug"
+    Preset: "platform-uart-linux-arm-clang-debug"
 
 PlatformUart_Linux_ARM_Clang_Release_Build:
   extends: .Build_Test_Linux_ARM_Clang
   rules:
     - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE != "pipeline"
   variables:
-    App: "platform-uart"
-    BuildType: "Release"
+    Preset: "platform-uart-linux-arm-clang-release"
 
 PlatformUart_Linux_ARM_GCC_Debug_Build:
   extends: .Build_Test_Linux_ARM_GCC
   variables:
-    App: "platform-uart"
-    BuildType: "Debug"
+    Preset: "platform-uart-linux-arm-gcc-debug"
 
 PlatformUart_Linux_ARM_GCC_Release_Build:
   extends: .Build_Test_Linux_ARM_GCC
   rules:
     - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE != "pipeline"
   variables:
-    App: "platform-uart"
-    BuildType: "Release"
+    Preset: "platform-uart-linux-arm-gcc-release"
 
 RtcSet1_Linux_ARM_Clang_Debug_Build:
   extends: .Build_Test_Linux_ARM_Clang
   variables:
-    App: "q39tester/rtc-set1"
-    BuildType: "Debug"
+    Preset: "rtc-set1-linux-arm-clang-debug"
 
 RtcSet1_Linux_ARM_Clang_Release_Build:
   extends: .Build_Test_Linux_ARM_Clang
   rules:
     - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE != "pipeline"
   variables:
-    App: "q39tester/rtc-set1"
-    BuildType: "Release"
+    Preset: "rtc-set1-linux-arm-clang-release"
 
 RtcSet1_Linux_ARM_GCC_Debug_Build:
   extends: .Build_Test_Linux_ARM_GCC
   variables:
-    App: "q39tester/rtc-set1"
-    BuildType: "Debug"
+    Preset: "rtc-set1-linux-arm-gcc-debug"
 
 RtcSet1_Linux_ARM_GCC_Release_Build:
   extends: .Build_Test_Linux_ARM_GCC
   rules:
     - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE != "pipeline"
   variables:
-    App: "q39tester/rtc-set1"
-    BuildType: "Release"
+    Preset: "rtc-set1-linux-arm-gcc-release"
 
 SensorSet1_Linux_ARM_Clang_Debug_Build:
   extends: .Build_Test_Linux_ARM_Clang
   variables:
-    App: "q39tester/sensor-set1"
-    BuildType: "Debug"
+    Preset: "sensor-set1-linux-arm-clang-debug"
 
 SensorSet1_Linux_ARM_Clang_Release_Build:
   extends: .Build_Test_Linux_ARM_Clang
   rules:
     - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE != "pipeline"
   variables:
-    App: "q39tester/sensor-set1"
-    BuildType: "Release"
+    Preset: "sensor-set1-linux-arm-clang-release"
 
 SensorSet1_Linux_ARM_GCC_Debug_Build:
   extends: .Build_Test_Linux_ARM_GCC
   variables:
-    App: "q39tester/sensor-set1"
-    BuildType: "Debug"
+    Preset: "sensor-set1-linux-arm-gcc-debug"
 
 SensorSet1_Linux_ARM_GCC_Release_Build:
   extends: .Build_Test_Linux_ARM_GCC
   rules:
     - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE != "pipeline"
   variables:
-    App: "q39tester/sensor-set1"
-    BuildType: "Release"
+    Preset: "sensor-set1-linux-arm-gcc-release"
