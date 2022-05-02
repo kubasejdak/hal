@@ -17,7 +17,8 @@
     - cmake .. --preset ${Preset} -DCOVERAGE=ON
     - make ${MakeParams}
     - if [ ! -z "${BeforeRun}" ]; then ${BeforeRun}; sleep 1; fi
-    - bin/$(basename ${Preset}) [unit]
+    - App=$(cmake -LA -N . | grep APP | cut -d '=' -f 2 | xargs basename)
+    - bin/${App} [unit]
     - make coverage
     - sed -i "s|SF:${CI_PROJECT_DIR}/|SF:|g" coverage/coverage.info
 
