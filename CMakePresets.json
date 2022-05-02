@@ -1,0 +1,414 @@
+{
+  "version": 3,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 22,
+    "patch": 3
+  },
+  "configurePresets": [
+    {
+      "name": "linux",
+      "hidden": true,
+      "cacheVariables": {
+        "PLATFORM": "linux",
+        "USE_CONAN": "ON"
+      }
+    },
+    {
+      "name": "linux-gcc",
+      "hidden": true,
+      "inherits": "linux"
+    },
+    {
+      "name": "linux-clang",
+      "hidden": true,
+      "inherits": "linux",
+      "cacheVariables": {
+        "TOOLCHAIN": "clang"
+      }
+    },
+    {
+      "name": "linux-arm-gcc",
+      "hidden": true,
+      "inherits": "linux",
+      "cacheVariables": {
+        "TOOLCHAIN": "arm-linux-gnueabihf-gcc"
+      }
+    },
+    {
+      "name": "linux-arm-clang",
+      "hidden": true,
+      "inherits": "linux",
+      "cacheVariables": {
+        "TOOLCHAIN": "arm-linux-gnueabihf-clang"
+      }
+    },
+    {
+      "name": "debug",
+      "hidden": true,
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
+    },
+    {
+      "name": "release",
+      "hidden": true,
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release"
+      }
+    },
+    {
+      "name": "eeprom-set1",
+      "hidden": true,
+      "cacheVariables": {
+        "APP": "q39tester/eeprom-set1"
+      }
+    },
+    {
+      "name": "gpio-set1",
+      "hidden": true,
+      "cacheVariables": {
+        "APP": "q39tester/gpio-set1"
+      }
+    },
+    {
+      "name": "middleware",
+      "hidden": true,
+      "cacheVariables": {
+        "APP": "middleware"
+      }
+    },
+    {
+      "name": "platform-gpio",
+      "hidden": true,
+      "cacheVariables": {
+        "APP": "platform-gpio"
+      }
+    },
+    {
+      "name": "platform-uart",
+      "hidden": true,
+      "cacheVariables": {
+        "APP": "platform-uart"
+      }
+    },
+    {
+      "name": "rtc-set1",
+      "hidden": true,
+      "cacheVariables": {
+        "APP": "q39tester/rtc-set1"
+      }
+    },
+    {
+      "name": "sensor-set1",
+      "hidden": true,
+      "cacheVariables": {
+        "APP": "q39tester/sensor-set1"
+      }
+    },
+    {
+      "name": "eeprom-set1-linux-arm-gcc-debug",
+      "inherits": [
+        "eeprom-set1",
+        "linux-arm-gcc",
+        "debug"
+      ]
+    },
+    {
+      "name": "eeprom-set1-linux-arm-gcc-release",
+      "inherits": [
+        "eeprom-set1",
+        "linux-arm-gcc",
+        "release"
+      ]
+    },
+    {
+      "name": "eeprom-set1-linux-arm-clang-debug",
+      "inherits": [
+        "eeprom-set1",
+        "linux-arm-clang",
+        "debug"
+      ]
+    },
+    {
+      "name": "eeprom-set1-linux-arm-clang-release",
+      "inherits": [
+        "eeprom-set1",
+        "linux-arm-clang",
+        "release"
+      ]
+    },
+    {
+      "name": "eeprom-set1-linux-gcc-debug",
+      "inherits": [
+        "eeprom-set1",
+        "linux-gcc",
+        "debug"
+      ]
+    },
+    {
+      "name": "gpio-set1-linux-arm-gcc-debug",
+      "inherits": [
+        "gpio-set1",
+        "linux-arm-gcc",
+        "debug"
+      ]
+    },
+    {
+      "name": "gpio-set1-linux-arm-gcc-release",
+      "inherits": [
+        "gpio-set1",
+        "linux-arm-gcc",
+        "release"
+      ]
+    },
+    {
+      "name": "gpio-set1-linux-arm-clang-debug",
+      "inherits": [
+        "gpio-set1",
+        "linux-arm-clang",
+        "debug"
+      ]
+    },
+    {
+      "name": "gpio-set1-linux-arm-clang-release",
+      "inherits": [
+        "gpio-set1",
+        "linux-arm-clang",
+        "release"
+      ]
+    },
+    {
+      "name": "gpio-set1-linux-gcc-debug",
+      "inherits": [
+        "gpio-set1",
+        "linux-gcc",
+        "debug"
+      ]
+    },
+    {
+      "name": "middleware-linux-arm-gcc-debug",
+      "inherits": [
+        "middleware",
+        "linux-arm-gcc",
+        "debug"
+      ]
+    },
+    {
+      "name": "middleware-linux-arm-gcc-release",
+      "inherits": [
+        "middleware",
+        "linux-arm-gcc",
+        "release"
+      ]
+    },
+    {
+      "name": "middleware-linux-arm-clang-debug",
+      "inherits": [
+        "middleware",
+        "linux-arm-clang",
+        "debug"
+      ]
+    },
+    {
+      "name": "middleware-linux-arm-clang-release",
+      "inherits": [
+        "middleware",
+        "linux-arm-clang",
+        "release"
+      ]
+    },
+    {
+      "name": "middleware-linux-gcc-debug",
+      "inherits": [
+        "middleware",
+        "linux-gcc",
+        "debug"
+      ]
+    },
+    {
+      "name": "middleware-linux-gcc-release",
+      "inherits": [
+        "middleware",
+        "linux-gcc",
+        "release"
+      ]
+    },
+    {
+      "name": "middleware-linux-clang-debug",
+      "inherits": [
+        "middleware",
+        "linux-clang",
+        "debug"
+      ]
+    },
+    {
+      "name": "middleware-linux-clang-release",
+      "inherits": [
+        "middleware",
+        "linux-clang",
+        "release"
+      ]
+    },
+    {
+      "name": "platform-gpio-linux-arm-gcc-debug",
+      "inherits": [
+        "platform-gpio",
+        "linux-arm-gcc",
+        "debug"
+      ]
+    },
+    {
+      "name": "platform-gpio-linux-arm-gcc-release",
+      "inherits": [
+        "platform-gpio",
+        "linux-arm-gcc",
+        "release"
+      ]
+    },
+    {
+      "name": "platform-gpio-linux-arm-clang-debug",
+      "inherits": [
+        "platform-gpio",
+        "linux-arm-clang",
+        "debug"
+      ]
+    },
+    {
+      "name": "platform-gpio-linux-arm-clang-release",
+      "inherits": [
+        "platform-gpio",
+        "linux-arm-clang",
+        "release"
+      ]
+    },
+    {
+      "name": "platform-gpio-linux-gcc-debug",
+      "inherits": [
+        "platform-gpio",
+        "linux-gcc",
+        "debug"
+      ]
+    },
+    {
+      "name": "platform-uart-linux-arm-gcc-debug",
+      "inherits": [
+        "platform-uart",
+        "linux-arm-gcc",
+        "debug"
+      ]
+    },
+    {
+      "name": "platform-uart-linux-arm-gcc-release",
+      "inherits": [
+        "platform-uart",
+        "linux-arm-gcc",
+        "release"
+      ]
+    },
+    {
+      "name": "platform-uart-linux-arm-clang-debug",
+      "inherits": [
+        "platform-uart",
+        "linux-arm-clang",
+        "debug"
+      ]
+    },
+    {
+      "name": "platform-uart-linux-arm-clang-release",
+      "inherits": [
+        "platform-uart",
+        "linux-arm-clang",
+        "release"
+      ]
+    },
+    {
+      "name": "platform-uart-linux-gcc-debug",
+      "inherits": [
+        "platform-uart",
+        "linux-gcc",
+        "debug"
+      ]
+    },
+    {
+      "name": "rtc-set1-linux-arm-gcc-debug",
+      "inherits": [
+        "rtc-set1",
+        "linux-arm-gcc",
+        "debug"
+      ]
+    },
+    {
+      "name": "rtc-set1-linux-arm-gcc-release",
+      "inherits": [
+        "rtc-set1",
+        "linux-arm-gcc",
+        "release"
+      ]
+    },
+    {
+      "name": "rtc-set1-linux-arm-clang-debug",
+      "inherits": [
+        "rtc-set1",
+        "linux-arm-clang",
+        "debug"
+      ]
+    },
+    {
+      "name": "rtc-set1-linux-arm-clang-release",
+      "inherits": [
+        "rtc-set1",
+        "linux-arm-clang",
+        "release"
+      ]
+    },
+    {
+      "name": "rtc-set1-linux-gcc-debug",
+      "inherits": [
+        "rtc-set1",
+        "linux-gcc",
+        "debug"
+      ]
+    },
+    {
+      "name": "sensor-set1-linux-arm-gcc-debug",
+      "inherits": [
+        "sensor-set1",
+        "linux-arm-gcc",
+        "debug"
+      ]
+    },
+    {
+      "name": "sensor-set1-linux-arm-gcc-release",
+      "inherits": [
+        "sensor-set1",
+        "linux-arm-gcc",
+        "release"
+      ]
+    },
+    {
+      "name": "sensor-set1-linux-arm-clang-debug",
+      "inherits": [
+        "sensor-set1",
+        "linux-arm-clang",
+        "debug"
+      ]
+    },
+    {
+      "name": "sensor-set1-linux-arm-clang-release",
+      "inherits": [
+        "sensor-set1",
+        "linux-arm-clang",
+        "release"
+      ]
+    },
+    {
+      "name": "sensor-set1-linux-gcc-debug",
+      "inherits": [
+        "sensor-set1",
+        "linux-gcc",
+        "debug"
+      ]
+    }
+  ]
+}
