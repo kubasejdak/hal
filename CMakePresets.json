@@ -32,7 +32,7 @@
       "hidden": true,
       "inherits": "linux",
       "cacheVariables": {
-        "TOOLCHAIN": "arm-linux-gnueabihf-gcc"
+        "TOOLCHAIN": "arm-none-linux-gnueabihf-gcc"
       }
     },
     {
@@ -40,7 +40,7 @@
       "hidden": true,
       "inherits": "linux",
       "cacheVariables": {
-        "TOOLCHAIN": "arm-linux-gnueabihf-clang"
+        "TOOLCHAIN": "arm-none-linux-gnueabihf-clang"
       }
     },
     {
