@@ -1,5 +1,6 @@
 AccessModifierOffset: -4
 AlignAfterOpenBracket: Align
+AlignArrayOfStructures: Left
 AlignConsecutiveAssignments: None
 AlignConsecutiveBitFields: Consecutive
 AlignConsecutiveDeclarations: None
@@ -38,7 +39,7 @@ BraceWrapping:
   BeforeLambdaBody: false
   BeforeWhile: true
   IndentBraces: false
-  SplitEmptyFunction: true
+  SplitEmptyFunction: false
   SplitEmptyRecord: false
   SplitEmptyNamespace: true
 BreakBeforeBinaryOperators: All
@@ -51,7 +52,6 @@ BreakStringLiterals: true
 ColumnLimit: 120
 CommentPragmas: '^ IWYU pragma:'
 CompactNamespaces: false
-ConstructorInitializerAllOnOneLineOrOnePerLine: false
 ConstructorInitializerIndentWidth: 4
 ContinuationIndentWidth: 4
 Cpp11BracedListStyle: true
@@ -69,7 +69,7 @@ IncludeCategories:
   - Regex:           '<([A-Za-z0-9\/_-])+>'
     Priority:        4
   # Headers in <> from specific external libraries.
-  - Regex:           '<(boost|catch2|fmt|spdlog|CLI|range)\/([A-Za-z0-9.\/_-])+>'
+  - Regex:           '<(boost|catch2|CLI|fmt|hash|nlohmann|range|spdlog)\/([A-Za-z0-9.\/_-])+>'
     Priority:        3
   # Headers in <> with extension.
   - Regex:           '<([A-Za-z0-9.\/_-])+>'
@@ -90,10 +90,10 @@ IndentWrappedFunctionNames: false
 InsertTrailingCommas: None
 KeepEmptyLinesAtTheStartOfBlocks: false
 Language: Cpp
-MacroBlockBegin: ''
-MacroBlockEnd: ''
 MaxEmptyLinesToKeep: 1
 NamespaceIndentation: None
+PPIndentWidth: 4
+PackConstructorInitializers: Never
 PenaltyBreakAssignment: 2
 PenaltyBreakBeforeFirstCallParameter: 19
 PenaltyBreakComment: 300
@@ -102,7 +102,11 @@ PenaltyBreakString: 1000
 PenaltyExcessCharacter: 1000000
 PenaltyReturnTypeOnItsOwnLine: 60
 PointerAlignment: Left
+QualifierAlignment: Custom
+QualifierOrder: ['static', 'constexpr', 'inline', 'const', 'volatile', 'type']
+ReferenceAlignment: Left
 ReflowComments: true
+SeparateDefinitionBlocks: Always
 ShortNamespaceLines: 0
 SortIncludes: CaseSensitive
 SortUsingDeclarations: true
@@ -125,6 +129,9 @@ SpacesInAngles: false
 SpacesInCStyleCastParentheses: false
 SpacesInConditionalStatement: false
 SpacesInContainerLiterals: false
+SpacesInLineCommentPrefix:
+  Minimum: 1
+  Maximum: -1
 SpacesInParentheses: false
 SpacesInSquareBrackets: false
 Standard: Latest

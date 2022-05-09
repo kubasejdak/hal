@@ -54,12 +54,18 @@ std::error_code Board<device_id::RaspberryPiId>::initImpl()
 {
     auto cGpio0Lines = {4, 5, 6, 12, 13, 16, 17, 18, 20, 21, 22, 23, 24, 25, 26, 27}; // NOLINT
     auto cGpio0Directions = {0, 0, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0};
-    gpio::Registry<std::uint32_t>::init(
-        {{"gpio0", gpio::LinuxGpio("gpio0", "gpiochip0", cGpio0Lines, cGpio0Directions)},
-         {"gpio-stub", gpio::GpioPortStub<std::uint32_t>()}});
+    gpio::Registry<std::uint32_t>::init({
+        {"gpio0",      gpio::LinuxGpio("gpio0", "gpiochip0", cGpio0Lines, cGpio0Directions)},
+        {"gpio-stub", gpio::GpioPortStub<std::uint32_t>()      }
+    });
 
-    spi::Registry::init({{"spi0.0", spi::LinuxSpi("/dev/spidev0.0")}, {"spi0.1", spi::LinuxSpi("/dev/spidev0.1")}});
-    i2c::Registry::init({{"i2c1", i2c::LinuxI2c("/dev/i2c-1")}});
+    spi::Registry::init({
+        {"spi0.0", spi::LinuxSpi("/dev/spidev0.0")},
+        {"spi0.1", spi::LinuxSpi("/dev/spidev0.1")}
+    });
+    i2c::Registry::init({
+        {"i2c1", i2c::LinuxI2c("/dev/i2c-1")}
+    });
 
     return Error::eOk;
 }

@@ -159,7 +159,9 @@ private:
     }
 
     [[nodiscard]] std::string indentation() const { return std::string(m_indentation, ' '); }
+
     void increaseIndentation() { m_indentation += cIndentationSize; }
+
     void decreaseIndentation() { m_indentation -= cIndentationSize; }
 
     void printStatus(std::size_t offset, bool success, bool finalStatus = false)
