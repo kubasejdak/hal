@@ -9,12 +9,14 @@ Checks:                '*,
                         -cppcoreguidelines-pro-bounds-constant-array-index,
                         -cppcoreguidelines-pro-bounds-pointer-arithmetic,
                         -fuchsia-*,
+                        -google-readability-casting,
                         -google-runtime-references,
                         -hicpp-no-array-decay,
                         -llvm-header-guard,
                         -llvmlibc-*,
                         -modernize-use-trailing-return-type,
                         -readability-function-cognitive-complexity,
+                        -readability-identifier-length,
                         -readability-redundant-access-specifiers'
 WarningsAsErrors:      '*'
 HeaderFilterRegex:     ''

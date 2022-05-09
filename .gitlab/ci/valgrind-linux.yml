@@ -5,7 +5,16 @@
   script:
     - cd ${AppArtifact}/bin
     - if [ ! -z "${BeforeRun}" ]; then ${BeforeRun}; sleep 1; fi
-    - valgrind --leak-check=full --show-leak-kinds=all --error-exitcode=123 ./${App} ${TestTags} || if [ $? -eq 123 ]; then exit 1; fi
+    - |
+      valgrind \
+      --leak-check=full \
+      --show-leak-kinds=definite,indirect,possible \
+      --fair-sched=yes \
+      --track-origins=yes \
+      --trace-children=yes \
+      --error-markers=errstart,errend \
+      --error-exitcode=123 \
+      ./${App} ${TestTags} || if [ $? -eq 123 ]; then exit 1; fi
 
 .Run_Valgrind_Linux:
   extends: .Run_Valgrind

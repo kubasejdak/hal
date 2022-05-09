@@ -34,12 +34,12 @@
 #include <hal/Hardware.hpp>
 #include <hal/factory.hpp>
 #include <hal/uart/IUart.hpp>
-#include <hash/sha256.h>
-#include <nlohmann/json.hpp>
 #include <osal/Thread.hpp>
 #include <osal/sleep.hpp>
 
 #include <catch2/catch.hpp>
+#include <hash/sha256.h>
+#include <nlohmann/json.hpp>
 
 #include <algorithm>
 #include <chrono>
@@ -146,7 +146,9 @@ public:
 
     void sendClose()
     {
-        nlohmann::json request = {{"type", "close"}};
+        nlohmann::json request = {
+            {"type", "close"}
+        };
         auto response = sendRequest(request);
         REQUIRE(response["type"] == "ack");
     }
@@ -156,14 +158,19 @@ public:
 private:
     void sendPing()
     {
-        nlohmann::json request = {{"type", "ping"}};
+        nlohmann::json request = {
+            {"type", "ping"}
+        };
         auto response = sendRequest(request);
         REQUIRE(response["type"] == "pong");
     }
 
     void sendSettings(hal::uart::Baudrate baudrate)
     {
-        nlohmann::json request = {{"type", "settings"}, {"baudrate", int(baudrate)}};
+        nlohmann::json request = {
+            {"type",     "settings"   },
+            {"baudrate", int(baudrate)}
+        };
         auto response = sendRequest(request);
         REQUIRE(response["type"] == "ack");
 
@@ -197,7 +204,10 @@ private:
         constexpr std::size_t cMaxDataSize = 16 * 1024;
         auto size = generateRandomNumber<>(cMinDataSize, cMaxDataSize);
 
-        nlohmann::json request = {{"type", "data"}, {"size", size}};
+        nlohmann::json request = {
+            {"type", "data"},
+            {"size", size  }
+        };
         auto response = sendRequest(request);
         REQUIRE(response["type"] == "ack");
 
@@ -269,7 +279,10 @@ private:
         constexpr std::size_t cMaxDataSize = 16 * 1024;
         auto size = generateRandomNumber<>(cMinDataSize, cMaxDataSize);
 
-        nlohmann::json request = {{"type", "data"}, {"size", size}};
+        nlohmann::json request = {
+            {"type", "data"},
+            {"size", size  }
+        };
         auto response = sendRequest(request);
         REQUIRE(response["type"] == "ack");
 

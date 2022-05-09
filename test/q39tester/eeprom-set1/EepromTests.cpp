@@ -88,13 +88,25 @@ TEST_CASE("2. Write whole first page of EEPROM", "[unit][eeprom]")
     const std::size_t cPageSize = eeproms.begin()->get()->getPageSize();
     std::uint32_t address{};
 
-    SECTION("2.1. First quarter") { address = 0; }
+    SECTION("2.1. First quarter")
+    {
+        address = 0;
+    }
 
-    SECTION("2.2. Second quarter") { address = std::numeric_limits<std::uint16_t>::max() + 1; }
+    SECTION("2.2. Second quarter")
+    {
+        address = std::numeric_limits<std::uint16_t>::max() + 1;
+    }
 
-    SECTION("2.3. Third quarter") { address = 2 * (std::numeric_limits<std::uint16_t>::max() + 1); }
+    SECTION("2.3. Third quarter")
+    {
+        address = 2 * (std::numeric_limits<std::uint16_t>::max() + 1);
+    }
 
-    SECTION("2.4. Fourth quarter") { address = 3 * (std::numeric_limits<std::uint16_t>::max() + 1); }
+    SECTION("2.4. Fourth quarter")
+    {
+        address = 3 * (std::numeric_limits<std::uint16_t>::max() + 1);
+    }
 
     for (const auto& eeprom : eeproms) {
         // Write whole first page.
@@ -121,13 +133,25 @@ TEST_CASE("3. Write whole last page of EEPROM", "[unit][eeprom]")
     const std::size_t cPageSize = eeproms.begin()->get()->getPageSize();
     std::uint32_t address{};
 
-    SECTION("3.1. First quarter") { address = (std::numeric_limits<std::uint16_t>::max() + 1) - cPageSize; }
+    SECTION("3.1. First quarter")
+    {
+        address = (std::numeric_limits<std::uint16_t>::max() + 1) - cPageSize;
+    }
 
-    SECTION("3.2. Second quarter") { address = 2 * (std::numeric_limits<std::uint16_t>::max() + 1) - cPageSize; }
+    SECTION("3.2. Second quarter")
+    {
+        address = 2 * (std::numeric_limits<std::uint16_t>::max() + 1) - cPageSize;
+    }
 
-    SECTION("3.3. Third quarter") { address = 3 * (std::numeric_limits<std::uint16_t>::max() + 1) - cPageSize; }
+    SECTION("3.3. Third quarter")
+    {
+        address = 3 * (std::numeric_limits<std::uint16_t>::max() + 1) - cPageSize;
+    }
 
-    SECTION("3.4. Fourth quarter") { address = 4 * (std::numeric_limits<std::uint16_t>::max() + 1) - cPageSize; }
+    SECTION("3.4. Fourth quarter")
+    {
+        address = 4 * (std::numeric_limits<std::uint16_t>::max() + 1) - cPageSize;
+    }
 
     for (const auto& eeprom : eeproms) {
         // Write whole last page.
@@ -160,13 +184,25 @@ TEST_CASE("4. Write page at page intersection in EEPROM", "[unit][eeprom]")
     const std::vector<std::uint8_t> cWriteBlock3(cPageSize, cPattern3);
     std::uint32_t address{};
 
-    SECTION("4.1. First quarter") { address = 0; }
+    SECTION("4.1. First quarter")
+    {
+        address = 0;
+    }
 
-    SECTION("4.2. Second quarter") { address = std::numeric_limits<std::uint16_t>::max() + 1; }
+    SECTION("4.2. Second quarter")
+    {
+        address = std::numeric_limits<std::uint16_t>::max() + 1;
+    }
 
-    SECTION("4.3. Third quarter") { address = 2 * (std::numeric_limits<std::uint16_t>::max() + 1); }
+    SECTION("4.3. Third quarter")
+    {
+        address = 2 * (std::numeric_limits<std::uint16_t>::max() + 1);
+    }
 
-    SECTION("4.4. Fourth quarter") { address = 3 * (std::numeric_limits<std::uint16_t>::max() + 1); }
+    SECTION("4.4. Fourth quarter")
+    {
+        address = 3 * (std::numeric_limits<std::uint16_t>::max() + 1);
+    }
 
     for (const auto& eeprom : eeproms) {
         // Fill first and second page with pattern.
@@ -214,11 +250,20 @@ TEST_CASE("5. Write page at page intersection in EEPROM with device address chan
     const std::vector<std::uint8_t> cWriteBlock3(cPageSize, cPattern3);
     std::uint32_t address{};
 
-    SECTION("5.1. First-second quarter") { address = (std::numeric_limits<std::uint16_t>::max() + 1) - cPageSize; }
+    SECTION("5.1. First-second quarter")
+    {
+        address = (std::numeric_limits<std::uint16_t>::max() + 1) - cPageSize;
+    }
 
-    SECTION("5.2. Second-third quarter") { address = 2 * (std::numeric_limits<std::uint16_t>::max() + 1) - cPageSize; }
+    SECTION("5.2. Second-third quarter")
+    {
+        address = 2 * (std::numeric_limits<std::uint16_t>::max() + 1) - cPageSize;
+    }
 
-    SECTION("5.3. Third-fourth quarter") { address = 3 * (std::numeric_limits<std::uint16_t>::max() + 1) - cPageSize; }
+    SECTION("5.3. Third-fourth quarter")
+    {
+        address = 3 * (std::numeric_limits<std::uint16_t>::max() + 1) - cPageSize;
+    }
 
     for (const auto& eeprom : eeproms) {
         // Fill first and second page with pattern.
