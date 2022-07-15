@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.21)
+cmake_minimum_required(VERSION 3.22)
 
 # Define application settings.
 if (NOT DEFINED APP)
@@ -40,7 +40,7 @@ if (COVERAGE)
     add_lcov_coverage(IGNORE ${CMAKE_CURRENT_SOURCE_DIR}/test/* */external/*)
 endif ()
 
-add_subdirectory(${platform_SOURCE_DIR}/app ${platform_BINARY_DIR})
+add_subdirectory(${platform_SOURCE_DIR}/lib ${platform_BINARY_DIR})
 add_subdirectory(${osal_SOURCE_DIR}/lib ${osal_BINARY_DIR})
 add_subdirectory(${utils_SOURCE_DIR}/lib ${utils_BINARY_DIR})
 

@@ -30,9 +30,10 @@
 ///
 /////////////////////////////////////////////////////////////////////////////////////
 
-#include "platformInit.hpp"
+#pragma once
 
-bool platformInit()
-{
-    return true;
-}
+namespace platform {
+
+bool init();
+
+} // namespace platform

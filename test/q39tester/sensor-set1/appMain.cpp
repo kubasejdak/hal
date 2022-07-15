@@ -4,7 +4,7 @@
 /// @author Kuba Sejdak
 /// @copyright BSD 2-Clause License
 ///
-/// Copyright (c) 2021-2022, Kuba Sejdak <kuba.sejdak@gmail.com>
+/// Copyright (c) 2019-2022, Kuba Sejdak <kuba.sejdak@gmail.com>
 /// All rights reserved.
 ///
 /// Redistribution and use in source and binary forms, with or without
@@ -33,8 +33,8 @@
 #define CATCH_CONFIG_RUNNER
 #define CATCH_CONFIG_DEFAULT_REPORTER "verbose" // NOLINT
 
-#include "VerboseReporter.hpp"
-#include "platformInit.hpp"
+#include "platform/VerboseReporter.hpp"
+#include "platform/init.hpp"
 
 #include <osal/init.hpp>
 
@@ -45,7 +45,7 @@
 // NOLINTNEXTLINE
 int appMain(int argc, char* argv[])
 {
-    if (!platformInit())
+    if (!platform::init())
         return EXIT_FAILURE;
 
     if (!osal::init())

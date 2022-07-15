@@ -1,19 +1,13 @@
-# Object library type is used to prevent compiler from removing unit test functions from the binary.
-add_library(appeeprom-set1 OBJECT EXCLUDE_FROM_ALL
+add_executable(eeprom-set1
     appMain.cpp
     EepromTests.cpp
 )
 
-target_include_directories(appeeprom-set1
-    PRIVATE .
-)
-
-target_compile_definitions(appeeprom-set1
+target_compile_definitions(eeprom-set1
     # This is required to selectively run Catch2 tests using tags on platforms, where cmd line arguments are not available.
     PRIVATE $<$<BOOL:${TEST_TAGS}>:TEST_TAGS="${TEST_TAGS}"> CATCH_CONFIG_DISABLE_EXCEPTIONS $<$<STREQUAL:${PLATFORM},freertos-arm>:CATCH_CONFIG_NO_POSIX_SIGNALS>
 )
 
-target_link_libraries(appeeprom-set1
-    PUBLIC platform-init
-    PRIVATE osal::cpp hal
+target_link_libraries(eeprom-set1
+    PRIVATE hal osal::cpp platform::init platform::main
 )
