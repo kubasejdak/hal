@@ -16,4 +16,4 @@ if (NOT DEFINED PLATFORM)
 endif ()
 
 # Setup platform toolchain file.
-include(${platform_SOURCE_DIR}/app/${PLATFORM}/toolchain.cmake)
+include(${platform_SOURCE_DIR}/lib/${PLATFORM}/toolchain.cmake)

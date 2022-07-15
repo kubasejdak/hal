@@ -30,7 +30,7 @@
 ///
 /////////////////////////////////////////////////////////////////////////////////////
 
-#include "platformInit.hpp"
+#include "platform/init.hpp"
 
 #include <stm32f4xx.h>
 
@@ -87,10 +87,14 @@ static bool consoleInitUart()
     return result == HAL_OK;
 }
 
-bool platformInit()
+namespace platform {
+
+bool init()
 {
     if (HAL_Init() != HAL_OK)
         return false;
 
     return consoleInitUart();
 }
+
+} // namespace platform
