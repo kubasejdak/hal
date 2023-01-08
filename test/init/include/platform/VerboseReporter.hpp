@@ -4,7 +4,7 @@
 /// @author Kuba Sejdak
 /// @copyright BSD 2-Clause License
 ///
-/// Copyright (c) 2019-2022, Kuba Sejdak <kuba.sejdak@gmail.com>
+/// Copyright (c) 2019-2023, Kuba Sejdak <kuba.sejdak@gmail.com>
 /// All rights reserved.
 ///
 /// Redistribution and use in source and binary forms, with or without
@@ -158,7 +158,11 @@ private:
         StreamingReporterBase::testRunEnded(testRunStats);
     }
 
-    [[nodiscard]] std::string indentation() const { return std::string(m_indentation, ' '); }
+    [[nodiscard]] std::string indentation() const
+    {
+        std::string indent(m_indentation, ' ');
+        return indent;
+    }
 
     void increaseIndentation() { m_indentation += cIndentationSize; }
 
