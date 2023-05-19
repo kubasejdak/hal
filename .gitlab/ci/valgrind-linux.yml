@@ -18,7 +18,7 @@
 
 .Run_Valgrind_Linux:
   extends: .Run_Valgrind
-  image: ${DOCKER_IMAGE_GCC}
+  image: ${DOCKER_IMAGE_VALGRIND}
   tags:
     - cet_build
 

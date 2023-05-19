@@ -1,10 +1,12 @@
 variables:
   GIT_SUBMODULE_STRATEGY: recursive
-  DOCKER_IMAGE_GCC: embeddedlinux/gcc:11-22.04
-  DOCKER_IMAGE_CLANG: embeddedlinux/clang:14-22.04
-  DOCKER_IMAGE_ARM_LINUX_GCC: embeddedlinux/arm-none-linux-gnueabihf-gcc:11-22.04
-  DOCKER_IMAGE_ARM_LINUX_CLANG: embeddedlinux/arm-none-linux-gnueabihf-clang:14-22.04
+  DOCKER_IMAGE_GCC: embeddedlinux/gcc2:11-22.04
+  DOCKER_IMAGE_CLANG: embeddedlinux/clang2:14-22.04
+  DOCKER_IMAGE_ARM_LINUX_GCC: embeddedlinux/arm-none-linux-gnueabihf-gcc2:11-22.04
+  DOCKER_IMAGE_ARM_LINUX_CLANG: embeddedlinux/arm-none-linux-gnueabihf-clang2:14-22.04
   DOCKER_IMAGE_ARM_TESTS: embeddedlinux/arm-tests:11-22.04
+  DOCKER_IMAGE_VALGRIND: embeddedlinux/valgrind:22.04
+  DOCKER_IMAGE_DOXYGEN: embeddedlinux/doxygen:22.04
 
 .Submodule_Checkout:
   variables:
