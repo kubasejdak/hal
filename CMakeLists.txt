@@ -9,17 +9,12 @@ include(test/${APP}/settings.cmake)
 
 include(cmake/conan.cmake)
 include(cmake/coverage.cmake)
-include(cmake/doxygen.cmake)
 include(cmake/osal.cmake)
 include(cmake/platform.cmake)
 include(cmake/sanitizers.cmake)
 include(cmake/utils.cmake)
 
 project(hal VERSION 1.0.0 LANGUAGES ASM C CXX)
-
-if (NOT CMAKE_BUILD_TYPE)
-    set(CMAKE_BUILD_TYPE Debug)
-endif ()
 
 if (USE_CONAN)
     conan_init_wrapper()
@@ -48,5 +43,3 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 add_subdirectory(lib)
 add_subdirectory(test)
-
-doxygen_addTarget(${CMAKE_CURRENT_SOURCE_DIR}/lib README.md)

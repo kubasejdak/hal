@@ -2,7 +2,7 @@ pages:
   stage: deploy
   rules:
     - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE != "pipeline"
-  image: ${DOCKER_IMAGE_GCC}
+  image: ${DOCKER_IMAGE_DOXYGEN}
   tags:
     - cet_build
   needs:
@@ -10,16 +10,13 @@ pages:
   artifacts:
     paths:
       - public
+  before_script:
+    - mkdir public
   script:
     # Copy coverage report.
-    - mkdir -p public/coverage
-    - mv Coverage_Total/html/* public/coverage
+    - mv Coverage_Total/html public/coverage
 
     # Generate documentation.
-    - mkdir -p public/docs
-    - mkdir ${CI_JOB_NAME}
-    - cd ${CI_JOB_NAME}
-
-    - cmake .. --preset middleware-linux-gcc-debug
-    - make doxygen
-    - mv docs/* ../public/docs
+    - tools/doxygen.sh -i lib -i README.md -m README.md
+    - doxygen
+    - mv docs/html public/docs
